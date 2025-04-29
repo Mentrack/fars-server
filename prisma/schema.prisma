@@ -30,6 +30,7 @@ model User {
   username    String      @unique
   email       String      @unique
   password    String
+  avatarUrl   String     @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
   role        UserRole    @default(STAFF)
   permissions Permission[] @relation("UserPermissions")
   isActive   Boolean     @default(true)
