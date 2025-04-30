@@ -94,19 +94,9 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    try {
-      const user = await this.databaseService.user.findUnique({
-        where: { email },
-      });
-
-      if (!user) {
-        throw new NotFoundException(`User not found`);
-      }
-
-      return user;
-    } catch (error) {
-      throw new BadRequestException(`Valid email required`);
-    }
+    return await this.databaseService.user.findUnique({
+      where: { email },
+    });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
