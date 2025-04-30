@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -7,9 +8,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { Role } from './enum/role.enum';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -17,6 +19,9 @@ export class UsersService {
       // Prepare the data object
       const { permissions, ...userData } = createUserDto;
       const data: any = { ...userData };
+
+      // Hash the password
+      data.password = await bcrypt.hash(userData.password, 10);
 
       // If permissions are provided, handle the connection
       if (permissions && permissions.length > 0) {
@@ -39,6 +44,14 @@ export class UsersService {
         data,
       });
     } catch (error) {
+      // Handle specific error codes from Prisma
+      if (error.code === 'P2002') {
+        throw new ConflictException('User already exists');
+      }
+      if (error.code === 'P2016') {
+        throw new NotFoundException('Permission not found');
+      }
+      // Handle other errors
       throw new BadRequestException(`Failed to create user`);
     }
   }
@@ -102,6 +115,11 @@ export class UsersService {
       const { permissions, ...userData } = updateUserDto;
       const data: any = { ...userData };
 
+      // Hash the password if it is provided
+      if (userData.password) {
+        data.password = await bcrypt.hash(userData.password, 10);
+      }
+
       if (permissions && permissions.length > 0) {
         // You can find by ID or name, here we assume `name`:
         const foundPermissions = await this.databaseService.permission.findMany(
@@ -122,10 +140,17 @@ export class UsersService {
         data,
       });
     } catch (error: any) {
+      // Handle specific error codes from Prisma
+      if (error.code === 'P2002') {
+        throw new ConflictException('User already exists');
+      }
+      if (error.code === 'P2016') {
+        throw new NotFoundException('Permission not found');
+      }
       if (error.code === 'P2025') {
         throw new NotFoundException(`User not found`);
       }
-
+      // Handle other errors
       throw new BadRequestException(`Failed to update user`);
     }
   }
@@ -136,7 +161,12 @@ export class UsersService {
         where: { id },
       });
     } catch (error) {
-      throw new BadRequestException(`User not found.`);
+      // Handle specific error codes from Prisma
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`User not found`);
+      }
+      // Handle other errors
+      throw new BadRequestException(`Failed to delete user`);
     }
   }
 }

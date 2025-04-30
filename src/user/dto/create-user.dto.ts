@@ -1,15 +1,13 @@
 import {
   IsArray,
   IsBoolean,
-  IsDate,
   IsEmail,
   IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Role } from '../enum/role.enum';
-import { Prisma } from 'generated/prisma';
+import { Role } from '../../user/enum/role.enum';
 
 export class CreateUserDto {
   @IsString()
@@ -48,12 +46,4 @@ export class CreateUserDto {
   @IsBoolean()
   @IsOptional()
   isActive: boolean;
-
-  @IsDate()
-  @IsOptional()
-  createdAt: Date;
-
-  @IsDate()
-  @IsOptional()
-  updatedAt: Date;
 }
