@@ -8,7 +8,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { Role } from './enum/role.enum';
-import * as bcrypt from 'bcrypt';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UserService {
@@ -21,7 +21,7 @@ export class UserService {
       const data: any = { ...userData };
 
       // Hash the password
-      data.password = await bcrypt.hash(userData.password, 10);
+      data.password = await argon2.hash(userData.password);
 
       // If permissions are provided, handle the connection
       if (permissions && permissions.length > 0) {
@@ -86,10 +86,7 @@ export class UserService {
       throw new NotFoundException(`User not found`);
     }
 
-    // exclude password from the response
-    const { password, ...userWithoutPassword } = user;
-
-    return userWithoutPassword;
+    return user;
   }
 
   async findByEmail(email: string) {
@@ -106,7 +103,7 @@ export class UserService {
 
       // Hash the password if it is provided
       if (userData.password) {
-        data.password = await bcrypt.hash(userData.password, 10);
+        data.password = await argon2.hash(userData.password);
       }
 
       if (permissions && permissions.length > 0) {
@@ -142,6 +139,13 @@ export class UserService {
       // Handle other errors
       throw new BadRequestException(`Failed to update user`);
     }
+  }
+
+  async updateRefreshToken(id: string, refreshToken: string | null) {
+    return await this.databaseService.user.update({
+      where: { id },
+      data: { refreshToken },
+    });
   }
 
   async remove(id: string) {

@@ -1,10 +1,10 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
 import { UserService } from 'src/user/user.service';
 import { AuthJwtPayload } from './types/auth-jwtPayload';
 import refreshJwtConfig from './config/refresh-jwt.config';
 import { ConfigType } from '@nestjs/config';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +23,7 @@ export class AuthService {
     if (!user) throw new UnauthorizedException('User not found');
 
     // Check if the password is correct
-    const isPasswordValid = await compare(password, user.password);
+    const isPasswordValid = await argon2.verify(password, user.password);
     if (!isPasswordValid)
       throw new UnauthorizedException('Invalid credentials');
 
@@ -31,28 +31,74 @@ export class AuthService {
     return { id: user.id };
   }
 
+  async validateRefreshToken(userId: string, refreshToken: string) {
+    // Check if the user exists
+    const user = await this.userService.findOne(userId);
+
+    if (!user || !user.refreshToken) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    // Check if the refresh token is valid
+    const isRefreshTokenValid = await argon2.verify(
+      user.refreshToken,
+      refreshToken,
+    );
+
+    if (!isRefreshTokenValid) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    // If everything is fine, return the user ID
+    return { id: user.id };
+  }
+
   async login(userId: string) {
     // Generate a JWT token for the user
-    const payload: AuthJwtPayload = { sub: userId };
-    const accessToken = await this.jwtService.signAsync(payload);
-    const refreshToken = await this.jwtService.signAsync(
-      payload,
-      this.refreshJwtConfiguration,
-    );
+    const { accessToken, refreshToken } = await this.generateToken(userId);
+    const hashedRefreshToken = await argon2.hash(refreshToken);
+    // Save the hashed refresh token to the database
+    await this.userService.updateRefreshToken(userId, hashedRefreshToken);
 
     return { id: userId, accessToken, refreshToken };
   }
 
-  async refreshToken(userId: string) {
+  async generateToken(userId: string) {
     // Generate a JWT token for the user
     const payload: AuthJwtPayload = { sub: userId };
-    const accessToken = await this.jwtService.signAsync(payload);
 
-    return { id: userId, accessToken };
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload),
+      this.jwtService.signAsync(payload, this.refreshJwtConfiguration),
+    ]);
+
+    return { accessToken, refreshToken };
+  }
+
+  async refreshToken(userId: string) {
+    // Generate a JWT token for the user
+    const { accessToken, refreshToken } = await this.generateToken(userId);
+    const hashedRefreshToken = await argon2.hash(refreshToken);
+
+    // Save the hashed refresh token to the database
+    await this.userService.updateRefreshToken(userId, hashedRefreshToken);
+
+    // refresh token rotation
+    return { id: userId, accessToken, refreshToken };
   }
 
   async profile(userId: string) {
     // Fetch the user profile based on the user ID
-    return await this.userService.findOne(userId);
+    const { id, password, refreshToken, ...userProfile } =
+      await this.userService.findOne(userId);
+
+    return userProfile;
+  }
+
+  async logout(userId: string) {
+    // Remove the refresh token from the database
+    await this.userService.updateRefreshToken(userId, null);
+
+    return { message: 'Logged out successfully' };
   }
 }
