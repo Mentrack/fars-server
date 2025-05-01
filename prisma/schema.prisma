@@ -34,6 +34,7 @@ model User {
   role        UserRole    @default(STAFF)
   permissions Permission[] @relation("UserPermissions")
   isActive   Boolean     @default(true)
+  refreshToken String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 

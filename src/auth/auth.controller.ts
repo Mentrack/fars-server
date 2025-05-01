@@ -35,4 +35,11 @@ export class AuthController {
   async refresh(@Request() req: any) {
     return await this.authService.refreshToken(req.user.id);
   }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  async logout(@Request() req: any) {
+    return await this.authService.logout(req.user.id);
+  }
 }
