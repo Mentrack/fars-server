@@ -8,6 +8,7 @@ import * as argon2 from 'argon2';
 import { omit } from 'src/utils/omit.util';
 import { CurrentUser } from './types/current-user';
 import { Role } from './enum/role.enum';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -74,6 +75,27 @@ export class AuthService {
     await this.userService.updateRefreshToken(userId, hashedRefreshToken);
 
     return { id: userId, accessToken, refreshToken };
+  }
+
+  async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
+    // Check if the user exists
+    const user = await this.userService.findOne(userId);
+    if (!user) throw new UnauthorizedException('User not found');
+
+    // Check if the old password is correct
+    const isOldPasswordValid = await argon2.verify(
+      user.password,
+      changePasswordDto.oldPassword,
+    );
+
+    if (!isOldPasswordValid)
+      throw new UnauthorizedException('Invalid credentials');
+
+    // Hash the new password and update it in the database
+    const hashedNewPassword = await argon2.hash(changePasswordDto.newPassword);
+    await this.userService.updatePassword(userId, hashedNewPassword);
+
+    return { message: 'Password changed successfully' };
   }
 
   async generateToken(userId: string) {

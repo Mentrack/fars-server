@@ -9,6 +9,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { Role } from './enum/role.enum';
 import * as argon2 from 'argon2';
+import { omit } from 'src/utils/omit.util';
 
 @Injectable()
 export class UserService {
@@ -106,7 +107,7 @@ export class UserService {
 
       // Hash the password if it is provided
       if (userData.password) {
-        data.password = await argon2.hash(userData.password);
+        delete data.password;
       }
 
       if (permissions && permissions.length > 0) {
@@ -124,10 +125,12 @@ export class UserService {
       }
 
       // Update the user
-      return await this.databaseService.user.update({
+      const updatedUser = await this.databaseService.user.update({
         where: { id },
         data,
       });
+
+      return omit(updatedUser, ['id', 'password', 'refreshToken']);
     } catch (error) {
       // Handle specific error codes from Prisma
       if (error.code === 'P2002') {
@@ -148,6 +151,12 @@ export class UserService {
     return await this.databaseService.user.update({
       where: { id },
       data: { refreshToken },
+    });
+  }
+  async updatePassword(id: string, password: string) {
+    return await this.databaseService.user.update({
+      where: { id },
+      data: { password },
     });
   }
 
