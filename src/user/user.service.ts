@@ -73,7 +73,10 @@ export class UserService {
       }
       return await this.databaseService.user.findMany({});
     } catch (error) {
-      throw new BadRequestException(`Valid role required`);
+      // Handle specific error codes from Prisma
+      if (error.code === 'P2025') {
+        throw new NotFoundException('No users found');
+      }
     }
   }
 
@@ -125,7 +128,7 @@ export class UserService {
         where: { id },
         data,
       });
-    } catch (error: any) {
+    } catch (error) {
       // Handle specific error codes from Prisma
       if (error.code === 'P2002') {
         throw new ConflictException('User already exists');
