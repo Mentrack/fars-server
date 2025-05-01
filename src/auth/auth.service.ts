@@ -5,6 +5,7 @@ import { AuthJwtPayload } from './types/auth-jwtPayload';
 import refreshJwtConfig from './config/refresh-jwt.config';
 import { ConfigType } from '@nestjs/config';
 import * as argon2 from 'argon2';
+import { omit } from 'src/utils/omit.util';
 
 @Injectable()
 export class AuthService {
@@ -89,10 +90,10 @@ export class AuthService {
 
   async profile(userId: string) {
     // Fetch the user profile based on the user ID
-    const { id, password, refreshToken, ...userProfile } =
-      await this.userService.findOne(userId);
+    const user = await this.userService.findOne(userId);
+    // Exclude sensitive information
 
-    return userProfile;
+    return omit(user, ['id', 'password', 'refreshToken']);
   }
 
   async logout(userId: string) {
