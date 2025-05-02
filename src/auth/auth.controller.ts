@@ -17,6 +17,7 @@ import { RequestWithUser } from './types/request-with-user';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -31,6 +32,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(RefreshAuthGuard)
+  @ApiBearerAuth()
   @Post('refresh')
   async refresh(@Request() req: RequestWithUser) {
     return await this.authService.refreshToken(req.user.id);
@@ -44,18 +46,21 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Post('logout')
   async logout(@Request() req: RequestWithUser) {
     return await this.authService.logout(req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Get('profile')
   async profile(@Request() req: RequestWithUser) {
     return await this.authService.profile(req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Patch('change-password')
   async changePassword(
     @Request() req: RequestWithUser,
