@@ -12,8 +12,10 @@ export class MailService {
     private readonly mailerConfiguration: ConfigType<typeof mailerConfig>,
   ) {
     this.transporter = nodemailer.createTransport({
+      service: mailerConfiguration.service,
       host: mailerConfiguration.host,
       port: mailerConfiguration.port,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: mailerConfiguration.user,
         pass: mailerConfiguration.pass,
