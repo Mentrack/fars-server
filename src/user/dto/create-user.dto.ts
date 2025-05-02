@@ -47,7 +47,7 @@ export class CreateUserDto {
   password: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   refreshToken: string;
 
   @IsEnum(Role, { message: 'Valid role required' })

@@ -41,9 +41,12 @@ export class UserService {
       }
 
       // Create the user
-      return await this.databaseService.user.create({
+      const newUser = await this.databaseService.user.create({
         data,
       });
+
+      // Return the user without sensitive information
+      return omit(newUser, ['id', 'password', 'refreshToken']);
     } catch (error) {
       // Handle specific error codes from Prisma
       if (error.code === 'P2002') {
