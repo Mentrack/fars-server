@@ -20,10 +20,13 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
 import { RequestWithUser } from 'src/auth/types/request-with-user';
 
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @UseGuards(RolesGuard)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
@@ -46,7 +49,6 @@ export class UserController {
 
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @UseGuards(RolesGuard)
-  @UseGuards(JwtAuthGuard)
   @Delete()
   remove(@Request() req: RequestWithUser) {
     return this.userService.remove(req.user.id);
