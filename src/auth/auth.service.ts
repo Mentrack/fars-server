@@ -8,12 +8,20 @@ import * as argon2 from 'argon2';
 import { omit } from 'src/utils/omit.util';
 import { CurrentUser } from './types/current-user';
 import { Role } from './enum/role.enum';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { nanoid } from 'nanoid';
+import { TokenService } from 'src/token/token.service';
+import { MailService } from 'src/mail/mail.service';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
+    private readonly tokenService: TokenService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
     @Inject(refreshJwtConfig.KEY)
     private readonly refreshJwtConfiguration: ConfigType<
       typeof refreshJwtConfig
@@ -26,7 +34,7 @@ export class AuthService {
     if (!user) throw new UnauthorizedException('User not found');
 
     // Check if the password is correct
-    const isPasswordValid = await argon2.verify(password, user.password);
+    const isPasswordValid = await argon2.verify(user.password, password);
     if (!isPasswordValid)
       throw new UnauthorizedException('Invalid credentials');
 
@@ -74,6 +82,69 @@ export class AuthService {
     await this.userService.updateRefreshToken(userId, hashedRefreshToken);
 
     return { id: userId, accessToken, refreshToken };
+  }
+
+  async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
+    // Check if the user exists
+    const user = await this.userService.findOne(userId);
+    if (!user) throw new UnauthorizedException('User not found');
+
+    // Check if the old password is correct
+    const isOldPasswordValid = await argon2.verify(
+      user.password,
+      changePasswordDto.oldPassword,
+    );
+
+    if (!isOldPasswordValid)
+      throw new UnauthorizedException('Invalid credentials');
+
+    // Hash the new password and update it in the database
+    const hashedNewPassword = await argon2.hash(changePasswordDto.newPassword);
+    await this.userService.updatePassword(userId, hashedNewPassword);
+
+    return { message: 'Password changed successfully' };
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    // Check if the user exists
+    const user = await this.userService.findByEmail(forgotPasswordDto.email);
+    if (!user) throw new UnauthorizedException('User not found');
+
+    const expiresIn = new Date();
+    expiresIn.setHours(expiresIn.getHours() + 1); // Set expiration time to 1 hour
+
+    const resetToken = nanoid(64);
+
+    // Save the reset token to the database
+    await this.tokenService.createToken({
+      userId: user.id,
+      token: resetToken,
+      expiresIn,
+    });
+
+    // Send the token to the user's email
+    await this.mailService.sendResetPasswordEmail(
+      forgotPasswordDto.email,
+      resetToken,
+    );
+
+    return { message: 'If this user exists, you will recieve and email.' };
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const { resetToken, password } = resetPasswordDto;
+    // Check if the token exists
+
+    const token = await this.tokenService.validateToken(resetToken);
+
+    // Hash the new password and update it in the database
+    const hashedNewPassword = await argon2.hash(password);
+    await this.userService.updatePassword(token.userId, hashedNewPassword);
+
+    // Delete the token from the database
+    await this.tokenService.deleteToken(resetToken);
+
+    return { message: 'Password reset successfully' };
   }
 
   async generateToken(userId: string) {
