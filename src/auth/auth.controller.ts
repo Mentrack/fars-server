@@ -17,29 +17,23 @@ import { RequestWithUser } from './types/request-with-user';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import {
-  ApiBadRequestResponse,
-  ApiBearerAuth,
-  ApiOkResponse,
-  ApiOperation,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
 import { RefreshAccessTokenResponseDto } from './dto/refresh-token.dto';
 import { CreateUserResponseDto } from 'src/user/dto/create-user.dto';
+import { Public } from './decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @ApiOperation({ summary: 'Login user' })
   @ApiOkResponse({
     description: 'User logged in successfully',
     type: LoginResponseDto,
-  })
-  @ApiBadRequestResponse({
-    description: 'Invalid credentials',
   })
   @Post('login')
   async login(@Request() req: RequestWithUser, @Body() body: LoginRequestDto) {
@@ -59,6 +53,7 @@ export class AuthController {
     return await this.authService.refreshToken(req.user.id);
   }
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('forgot-password')
   @ApiOperation({ summary: 'Forgot password' })
@@ -111,6 +106,7 @@ export class AuthController {
     );
   }
 
+  @Public()
   @ApiOperation({ summary: 'Reset password' })
   @ApiOkResponse({
     description: 'Password reset successfully',
