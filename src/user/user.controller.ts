@@ -16,8 +16,6 @@ import { CreateUserDto, CreateUserResponseDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Role } from './enum/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -28,21 +26,16 @@ import {
 } from '@nestjs/swagger';
 import { GetUsersQueryDto } from './dto/get-users-query.dto';
 
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
-  @UseGuards(RolesGuard)
   @ApiOperation({ summary: 'Create a new user' })
   @ApiCreatedResponse({
     description: 'User created successfully',
     type: CreateUserResponseDto,
-  })
-  @ApiBadRequestResponse({
-    description: 'Create user failed',
   })
   @Post('/')
   create(@Body() createUserDto: CreateUserDto) {
@@ -53,9 +46,6 @@ export class UserController {
   @ApiOkResponse({
     description: 'Fetch all users successfully',
     type: [CreateUserResponseDto],
-  })
-  @ApiBadRequestResponse({
-    description: 'Fetch users failed',
   })
   @Get('/')
   findAll(@Query() query: GetUsersQueryDto) {
@@ -68,9 +58,6 @@ export class UserController {
     description: 'Fetch user successfully',
     type: CreateUserResponseDto,
   })
-  @ApiBadRequestResponse({
-    description: 'Fetch user failed',
-  })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
@@ -81,9 +68,6 @@ export class UserController {
     description: 'User updated successfully',
     type: CreateUserResponseDto,
   })
-  @ApiBadRequestResponse({
-    description: 'Update user failed',
-  })
   @ApiParam({ name: 'id', type: 'string' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -91,14 +75,10 @@ export class UserController {
   }
 
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
-  @UseGuards(RolesGuard)
   @ApiOperation({ summary: 'Delete a user by ID' })
   @ApiOkResponse({
     description: 'User deleted successfully',
     type: CreateUserResponseDto,
-  })
-  @ApiBadRequestResponse({
-    description: 'Delete user failed',
   })
   @ApiParam({ name: 'id', type: 'string' })
   @Delete(':id')
