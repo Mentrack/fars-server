@@ -124,12 +124,6 @@ export class CreateUserResponseDto {
   })
   avatarUrl: string;
 
-  @IsString()
-  @ApiProperty({
-    example: 'P@ssw0rd123',
-  })
-  password: string;
-
   @IsEnum(Role, { message: 'Valid role required' })
   @ApiPropertyOptional({
     example: Role.STAFF,

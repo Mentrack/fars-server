@@ -24,9 +24,9 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
 } from '@nestjs/swagger';
 import { GetUsersQueryDto } from './dto/get-users-query.dto';
-import { UserParamDto } from './dto/user-param.dto';
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -44,12 +44,11 @@ export class UserController {
   @ApiBadRequestResponse({
     description: 'Create user failed',
   })
-  @Post()
+  @Post('/')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
-  @Get()
   @ApiOperation({ summary: 'Get all users' })
   @ApiOkResponse({
     description: 'Fetch all users successfully',
@@ -58,12 +57,13 @@ export class UserController {
   @ApiBadRequestResponse({
     description: 'Fetch users failed',
   })
+  @Get('/')
   findAll(@Query() query: GetUsersQueryDto) {
     return this.userService.findAll(query.role);
   }
 
-  @Get(':id')
   @ApiOperation({ summary: 'Get a user by ID' })
+  @ApiParam({ name: 'id', type: 'string' })
   @ApiOkResponse({
     description: 'Fetch user successfully',
     type: CreateUserResponseDto,
@@ -71,11 +71,11 @@ export class UserController {
   @ApiBadRequestResponse({
     description: 'Fetch user failed',
   })
-  findOne(@Param() param: UserParamDto) {
-    return this.userService.findOne(param.id);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id);
   }
 
-  @Patch(':id')
   @ApiOperation({ summary: 'Update a user by ID' })
   @ApiOkResponse({
     description: 'User updated successfully',
@@ -84,8 +84,10 @@ export class UserController {
   @ApiBadRequestResponse({
     description: 'Update user failed',
   })
-  update(@Param() param: UserParamDto, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(param.id, updateUserDto);
+  @ApiParam({ name: 'id', type: 'string' })
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
@@ -98,8 +100,9 @@ export class UserController {
   @ApiBadRequestResponse({
     description: 'Delete user failed',
   })
-  @Delete('id')
-  remove(@Param() param: UserParamDto) {
-    return this.userService.remove(param.id);
+  @ApiParam({ name: 'id', type: 'string' })
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.remove(id);
   }
 }

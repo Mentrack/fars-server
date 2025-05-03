@@ -32,6 +32,7 @@ export class TokenService {
     // Check if the token is expired
     const currentTime = new Date();
     if (currentTime > token.expiresIn) {
+      await this.deleteToken(resetToken);
       throw new UnauthorizedException('Token expired');
     }
 
