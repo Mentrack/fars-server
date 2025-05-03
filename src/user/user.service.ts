@@ -109,9 +109,9 @@ export class UserService {
       const data: any = { ...userData };
 
       // Hash the password if it is provided
-      if (userData.password) {
-        delete data.password;
-      }
+      // if (userData.password) {
+      //   delete data.password;
+      // }
 
       if (permissions && permissions.length > 0) {
         // You can find by ID or name, here we assume `name`:
