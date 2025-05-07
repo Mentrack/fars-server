@@ -6,10 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  ParseUUIDPipe,
   Query,
-  UseGuards,
-  Request,
+  ParseUUIDPipe,
+  Ip,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, CreateUserResponseDto } from './dto/create-user.dto';
@@ -17,19 +16,19 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Role } from './enum/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import {
-  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
 } from '@nestjs/swagger';
-import { GetUsersQueryDto } from './dto/get-users-query.dto';
+import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
 @ApiBearerAuth()
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+  private readonly logger = new MyLoggerService(UserController.name);
 
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Create a new user' })
@@ -48,8 +47,9 @@ export class UserController {
     type: [CreateUserResponseDto],
   })
   @Get('/')
-  findAll(@Query() query: GetUsersQueryDto) {
-    return this.userService.findAll(query.role);
+  findAll(@Ip() ip: string, @Query('role') role?: Role) {
+    this.logger.log(`Request for All Users\t${ip}`, UserController.name);
+    return this.userService.findAll(role);
   }
 
   @ApiOperation({ summary: 'Get a user by ID' })
@@ -59,7 +59,7 @@ export class UserController {
     type: CreateUserResponseDto,
   })
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.findOne(id);
   }
 
@@ -70,7 +70,10 @@ export class UserController {
   })
   @ApiParam({ name: 'id', type: 'string' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.userService.update(id, updateUserDto);
   }
 
@@ -82,7 +85,7 @@ export class UserController {
   })
   @ApiParam({ name: 'id', type: 'string' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.remove(id);
   }
 }
