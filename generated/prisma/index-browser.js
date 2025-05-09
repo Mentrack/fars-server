@@ -151,6 +151,95 @@ exports.Prisma.TokenScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TransactionClassificationScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  category: 'category',
+  label: 'label',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BankTransactionScalarFieldEnum = {
+  id: 'id',
+  bankAccountId: 'bankAccountId',
+  uploadedById: 'uploadedById',
+  transactionDate: 'transactionDate',
+  valueDate: 'valueDate',
+  amount: 'amount',
+  type: 'type',
+  description: 'description',
+  reference: 'reference',
+  chequeNo: 'chequeNo',
+  tellerNo: 'tellerNo',
+  currency: 'currency',
+  classificationId: 'classificationId',
+  user: 'user',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BankAccountScalarFieldEnum = {
+  id: 'id',
+  accountNumber: 'accountNumber',
+  accountName: 'accountName',
+  accountType: 'accountType',
+  currency: 'currency',
+  clientId: 'clientId',
+  contractId: 'contractId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ClientScalarFieldEnum = {
+  id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  companyName: 'companyName',
+  email: 'email',
+  address: 'address',
+  phone: 'phone',
+  country: 'country',
+  state: 'state',
+  city: 'city',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AccountContractScalarFieldEnum = {
+  id: 'id',
+  bankAccountId: 'bankAccountId',
+  returnChargeRate: 'returnChargeRate',
+  returnChargeLimit: 'returnChargeLimit',
+  cotCovenantRate: 'cotCovenantRate',
+  cotOffCoverRate: 'cotOffCoverRate',
+  cotOICRate: 'cotOICRate',
+  turnoverLimit: 'turnoverLimit',
+  cotCovenantFrequency: 'cotCovenantFrequency',
+  chargeCOTOnShortfall: 'chargeCOTOnShortfall',
+  creditInterestRate: 'creditInterestRate',
+  debitRate: 'debitRate',
+  excessRate: 'excessRate',
+  excessRateType: 'excessRateType',
+  vatRate: 'vatRate',
+  whtRate: 'whtRate',
+  rateType: 'rateType',
+  effectiveFrom: 'effectiveFrom',
+  effectiveTo: 'effectiveTo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StaffAccountAssignmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  accountId: 'accountId',
+  assignedById: 'assignedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -171,10 +260,36 @@ exports.UserRole = exports.$Enums.UserRole = {
   STAFF: 'STAFF'
 };
 
+exports.ClassificationCode = exports.$Enums.ClassificationCode = {
+  CD: 'CD',
+  LCD: 'LCD',
+  UCD: 'UCD',
+  LD: 'LD',
+  RET: 'RET',
+  REV: 'REV',
+  INT: 'INT',
+  CW: 'CW',
+  IT: 'IT',
+  ET: 'ET',
+  LR: 'LR',
+  LNT: 'LNT',
+  CO: 'CO',
+  FEE: 'FEE',
+  MC: 'MC',
+  CAMF: 'CAMF',
+  VAT: 'VAT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Permission: 'Permission',
-  Token: 'Token'
+  Token: 'Token',
+  TransactionClassification: 'TransactionClassification',
+  BankTransaction: 'BankTransaction',
+  BankAccount: 'BankAccount',
+  Client: 'Client',
+  AccountContract: 'AccountContract',
+  StaffAccountAssignment: 'StaffAccountAssignment'
 };
 
 /**

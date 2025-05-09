@@ -40,15 +40,16 @@ export class AuthController {
     return await this.authService.login(req.user.id);
   }
 
+  @Public()
   @HttpCode(HttpStatus.OK)
-  @UseGuards(RefreshAuthGuard)
   @ApiBearerAuth()
-  @Post('refresh')
   @ApiOperation({ summary: 'Refresh access token' })
   @ApiOkResponse({
     description: 'Access token refreshed successfully',
     type: RefreshAccessTokenResponseDto,
   })
+  @UseGuards(RefreshAuthGuard)
+  @Post('refresh')
   async refresh(@Request() req: RequestWithUser) {
     return await this.authService.refreshToken(req.user.id);
   }
@@ -65,7 +66,6 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout user' })
   @ApiOkResponse({
@@ -89,7 +89,6 @@ export class AuthController {
     return await this.authService.profile(req.user.id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get user profile' })
   @ApiOkResponse({

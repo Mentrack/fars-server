@@ -10,6 +10,7 @@ import { MailModule } from './mail/mail.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { MyLoggerModule } from './my-logger/my-logger.module';
+import { ClientModule } from './client/client.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { MyLoggerModule } from './my-logger/my-logger.module';
       },
     ]),
     MyLoggerModule,
+    ClientModule,
   ],
   controllers: [AppController],
   providers: [
