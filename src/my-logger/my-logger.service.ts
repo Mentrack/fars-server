@@ -30,12 +30,12 @@ export class MyLoggerService extends ConsoleLogger {
   log(message: any, context?: string) {
     // Custom logic before logging
     const entry = `${context}\t${message}`;
-    super.log(message, context);
+    super.log(entry, context);
   }
 
   error(message: any, stackOrContext?: string) {
     // Custom logic before logging
     const entry = `${stackOrContext}\t${message}`;
-    super.error(message, stackOrContext);
+    super.error(entry, stackOrContext);
   }
 }

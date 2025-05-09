@@ -14,6 +14,7 @@ import { MailModule } from 'src/mail/mail.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
 import { RolesGuard } from './guards/roles/roles.guard';
+import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RolesGuard } from './guards/roles/roles.guard';
     LocalStrategy,
     JwtStrategy,
     RefreshJwtStrategy,
+    MyLoggerService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

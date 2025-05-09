@@ -187,7 +187,6 @@ exports.Prisma.BankAccountScalarFieldEnum = {
   accountType: 'accountType',
   currency: 'currency',
   clientId: 'clientId',
-  contractId: 'contractId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -278,6 +277,16 @@ exports.ClassificationCode = exports.$Enums.ClassificationCode = {
   MC: 'MC',
   CAMF: 'CAMF',
   VAT: 'VAT'
+};
+
+exports.TransactionType = exports.$Enums.TransactionType = {
+  CREDIT: 'CREDIT',
+  DEBIT: 'DEBIT'
+};
+
+exports.AccountType = exports.$Enums.AccountType = {
+  CURRENT: 'CURRENT',
+  SAVINGS: 'SAVINGS'
 };
 
 exports.Prisma.ModelName = {
