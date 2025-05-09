@@ -67,6 +67,22 @@ export class UserService {
           where: {
             role,
           },
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            username: true,
+            email: true,
+            avatarUrl: true,
+            role: true,
+            permissions: true,
+            isActive: true,
+            createdAt: true,
+            updatedAt: true,
+            // Exclude sensitive fields
+            password: false,
+            refreshToken: false,
+          },
         });
 
         if (users.length === 0) {
@@ -75,7 +91,24 @@ export class UserService {
 
         return users;
       }
-      return await this.databaseService.user.findMany({});
+      return await this.databaseService.user.findMany({
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          username: true,
+          email: true,
+          avatarUrl: true,
+          role: true,
+          permissions: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
+          // Exclude sensitive fields
+          password: false,
+          refreshToken: false,
+        },
+      });
     } catch (error) {
       // Handle specific error codes from Prisma
       if (error.code === 'P2025') {
