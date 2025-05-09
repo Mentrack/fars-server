@@ -119,14 +119,19 @@ model TransactionClassification {
   @@map("transaction_classifications")
 }
 
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+
 model BankTransaction {
-  id               String   @id @default(uuid())
+  id               String          @id @default(uuid())
   bankAccountId    String
   uploadedById     String
   transactionDate  DateTime
   valueDate        DateTime
   amount           Float
-  type             String // 'credit' or 'debit'
+  type             TransactionType // 'credit' or 'debit'
   description      String
   reference        String?
   chequeNo         String?
@@ -134,8 +139,8 @@ model BankTransaction {
   currency         String
   classificationId String
   user             String?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
 
   bankAccount    BankAccount               @relation(fields: [bankAccountId], references: [id])
   uploadedBy     User                      @relation(fields: [uploadedById], references: [id])
@@ -145,15 +150,19 @@ model BankTransaction {
   @@map("bank_transactions")
 }
 
+enum AccountType {
+  CURRENT
+  SAVINGS
+}
+
 model BankAccount {
   id               String                   @id @default(uuid())
   accountNumber    String                   @unique
   accountName      String
-  accountType      String
+  accountType      AccountType
   currency         String
   clientId         String
-  contract         AccountContract?
-  contractId       String?                  @unique
+  contract         AccountContract?         @relation("BankAccountToContract")
   staffAssignments StaffAccountAssignment[]
   transactions     BankTransaction[]
   createdAt        DateTime                 @default(now())
@@ -186,27 +195,27 @@ model Client {
 model AccountContract {
   id                   String    @id @default(uuid())
   bankAccountId        String    @unique
-  returnChargeRate     Float
-  returnChargeLimit    Float
-  cotCovenantRate      Float
-  cotOffCoverRate      Float
-  cotOICRate           Float
-  turnoverLimit        Float
-  cotCovenantFrequency String
-  chargeCOTOnShortfall Boolean
-  creditInterestRate   Float
-  debitRate            Float
-  excessRate           Float
-  excessRateType       String
-  vatRate              Float
-  whtRate              Float
-  rateType             String
-  effectiveFrom        DateTime
+  returnChargeRate     Float?
+  returnChargeLimit    Float?
+  cotCovenantRate      Float?
+  cotOffCoverRate      Float?
+  cotOICRate           Float?
+  turnoverLimit        Float?
+  cotCovenantFrequency String?
+  chargeCOTOnShortfall Boolean?
+  creditInterestRate   Float?
+  debitRate            Float?
+  excessRate           Float?
+  excessRateType       String?
+  vatRate              Float?
+  whtRate              Float?
+  rateType             String?
+  effectiveFrom        DateTime?
   effectiveTo          DateTime?
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 
-  bankAccount BankAccount @relation(fields: [bankAccountId], references: [id])
+  bankAccount BankAccount @relation("BankAccountToContract", fields: [bankAccountId], references: [id], onDelete: Cascade)
 
   @@map("account_contracts")
 }

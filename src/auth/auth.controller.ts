@@ -22,10 +22,14 @@ import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
 import { RefreshAccessTokenResponseDto } from './dto/refresh-token.dto';
 import { CreateUserResponseDto } from 'src/user/dto/create-user.dto';
 import { Public } from './decorators/public.decorator';
+import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly myLoggerService: MyLoggerService,
+  ) {}
 
   @Public()
   @HttpCode(HttpStatus.OK)
@@ -37,6 +41,10 @@ export class AuthController {
   })
   @Post('login')
   async login(@Request() req: RequestWithUser, @Body() body: LoginRequestDto) {
+    this.myLoggerService.log(
+      `Login attempt: ${body.email}`,
+      AuthController.name,
+    );
     return await this.authService.login(req.user.id);
   }
 

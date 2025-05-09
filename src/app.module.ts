@@ -11,6 +11,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { MyLoggerModule } from './my-logger/my-logger.module';
 import { ClientModule } from './client/client.module';
+import { BankAccountModule } from './bank-account/bank-account.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ClientModule } from './client/client.module';
     ]),
     MyLoggerModule,
     ClientModule,
+    BankAccountModule,
   ],
   controllers: [AppController],
   providers: [

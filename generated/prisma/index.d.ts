@@ -94,6 +94,22 @@ export const ClassificationCode: {
 
 export type ClassificationCode = (typeof ClassificationCode)[keyof typeof ClassificationCode]
 
+
+export const TransactionType: {
+  CREDIT: 'CREDIT',
+  DEBIT: 'DEBIT'
+};
+
+export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
+export const AccountType: {
+  CURRENT: 'CURRENT',
+  SAVINGS: 'SAVINGS'
+};
+
+export type AccountType = (typeof AccountType)[keyof typeof AccountType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -103,6 +119,14 @@ export const UserRole: typeof $Enums.UserRole
 export type ClassificationCode = $Enums.ClassificationCode
 
 export const ClassificationCode: typeof $Enums.ClassificationCode
+
+export type TransactionType = $Enums.TransactionType
+
+export const TransactionType: typeof $Enums.TransactionType
+
+export type AccountType = $Enums.AccountType
+
+export const AccountType: typeof $Enums.AccountType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -6501,7 +6525,7 @@ export namespace Prisma {
     transactionDate: Date | null
     valueDate: Date | null
     amount: number | null
-    type: string | null
+    type: $Enums.TransactionType | null
     description: string | null
     reference: string | null
     chequeNo: string | null
@@ -6520,7 +6544,7 @@ export namespace Prisma {
     transactionDate: Date | null
     valueDate: Date | null
     amount: number | null
-    type: string | null
+    type: $Enums.TransactionType | null
     description: string | null
     reference: string | null
     chequeNo: string | null
@@ -6712,7 +6736,7 @@ export namespace Prisma {
     transactionDate: Date
     valueDate: Date
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference: string | null
     chequeNo: string | null
@@ -6864,7 +6888,7 @@ export namespace Prisma {
       transactionDate: Date
       valueDate: Date
       amount: number
-      type: string
+      type: $Enums.TransactionType
       description: string
       reference: string | null
       chequeNo: string | null
@@ -7307,7 +7331,7 @@ export namespace Prisma {
     readonly transactionDate: FieldRef<"BankTransaction", 'DateTime'>
     readonly valueDate: FieldRef<"BankTransaction", 'DateTime'>
     readonly amount: FieldRef<"BankTransaction", 'Float'>
-    readonly type: FieldRef<"BankTransaction", 'String'>
+    readonly type: FieldRef<"BankTransaction", 'TransactionType'>
     readonly description: FieldRef<"BankTransaction", 'String'>
     readonly reference: FieldRef<"BankTransaction", 'String'>
     readonly chequeNo: FieldRef<"BankTransaction", 'String'>
@@ -7769,10 +7793,9 @@ export namespace Prisma {
     id: string | null
     accountNumber: string | null
     accountName: string | null
-    accountType: string | null
+    accountType: $Enums.AccountType | null
     currency: string | null
     clientId: string | null
-    contractId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7781,10 +7804,9 @@ export namespace Prisma {
     id: string | null
     accountNumber: string | null
     accountName: string | null
-    accountType: string | null
+    accountType: $Enums.AccountType | null
     currency: string | null
     clientId: string | null
-    contractId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7796,7 +7818,6 @@ export namespace Prisma {
     accountType: number
     currency: number
     clientId: number
-    contractId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7810,7 +7831,6 @@ export namespace Prisma {
     accountType?: true
     currency?: true
     clientId?: true
-    contractId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7822,7 +7842,6 @@ export namespace Prisma {
     accountType?: true
     currency?: true
     clientId?: true
-    contractId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7834,7 +7853,6 @@ export namespace Prisma {
     accountType?: true
     currency?: true
     clientId?: true
-    contractId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7916,10 +7934,9 @@ export namespace Prisma {
     id: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
     clientId: string
-    contractId: string | null
     createdAt: Date
     updatedAt: Date
     _count: BankAccountCountAggregateOutputType | null
@@ -7948,7 +7965,6 @@ export namespace Prisma {
     accountType?: boolean
     currency?: boolean
     clientId?: boolean
-    contractId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     contract?: boolean | BankAccount$contractArgs<ExtArgs>
@@ -7965,7 +7981,6 @@ export namespace Prisma {
     accountType?: boolean
     currency?: boolean
     clientId?: boolean
-    contractId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
@@ -7978,7 +7993,6 @@ export namespace Prisma {
     accountType?: boolean
     currency?: boolean
     clientId?: boolean
-    contractId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
@@ -7991,12 +8005,11 @@ export namespace Prisma {
     accountType?: boolean
     currency?: boolean
     clientId?: boolean
-    contractId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "contractId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
+  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
   export type BankAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contract?: boolean | BankAccount$contractArgs<ExtArgs>
     staffAssignments?: boolean | BankAccount$staffAssignmentsArgs<ExtArgs>
@@ -8023,10 +8036,9 @@ export namespace Prisma {
       id: string
       accountNumber: string
       accountName: string
-      accountType: string
+      accountType: $Enums.AccountType
       currency: string
       clientId: string
-      contractId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["bankAccount"]>
@@ -8459,10 +8471,9 @@ export namespace Prisma {
     readonly id: FieldRef<"BankAccount", 'String'>
     readonly accountNumber: FieldRef<"BankAccount", 'String'>
     readonly accountName: FieldRef<"BankAccount", 'String'>
-    readonly accountType: FieldRef<"BankAccount", 'String'>
+    readonly accountType: FieldRef<"BankAccount", 'AccountType'>
     readonly currency: FieldRef<"BankAccount", 'String'>
     readonly clientId: FieldRef<"BankAccount", 'String'>
-    readonly contractId: FieldRef<"BankAccount", 'String'>
     readonly createdAt: FieldRef<"BankAccount", 'DateTime'>
     readonly updatedAt: FieldRef<"BankAccount", 'DateTime'>
   }
@@ -10411,22 +10422,22 @@ export namespace Prisma {
   export type AccountContractGroupByOutputType = {
     id: string
     bankAccountId: string
-    returnChargeRate: number
-    returnChargeLimit: number
-    cotCovenantRate: number
-    cotOffCoverRate: number
-    cotOICRate: number
-    turnoverLimit: number
-    cotCovenantFrequency: string
-    chargeCOTOnShortfall: boolean
-    creditInterestRate: number
-    debitRate: number
-    excessRate: number
-    excessRateType: string
-    vatRate: number
-    whtRate: number
-    rateType: string
-    effectiveFrom: Date
+    returnChargeRate: number | null
+    returnChargeLimit: number | null
+    cotCovenantRate: number | null
+    cotOffCoverRate: number | null
+    cotOICRate: number | null
+    turnoverLimit: number | null
+    cotCovenantFrequency: string | null
+    chargeCOTOnShortfall: boolean | null
+    creditInterestRate: number | null
+    debitRate: number | null
+    excessRate: number | null
+    excessRateType: string | null
+    vatRate: number | null
+    whtRate: number | null
+    rateType: string | null
+    effectiveFrom: Date | null
     effectiveTo: Date | null
     createdAt: Date
     updatedAt: Date
@@ -10569,22 +10580,22 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       bankAccountId: string
-      returnChargeRate: number
-      returnChargeLimit: number
-      cotCovenantRate: number
-      cotOffCoverRate: number
-      cotOICRate: number
-      turnoverLimit: number
-      cotCovenantFrequency: string
-      chargeCOTOnShortfall: boolean
-      creditInterestRate: number
-      debitRate: number
-      excessRate: number
-      excessRateType: string
-      vatRate: number
-      whtRate: number
-      rateType: string
-      effectiveFrom: Date
+      returnChargeRate: number | null
+      returnChargeLimit: number | null
+      cotCovenantRate: number | null
+      cotOffCoverRate: number | null
+      cotOICRate: number | null
+      turnoverLimit: number | null
+      cotCovenantFrequency: string | null
+      chargeCOTOnShortfall: boolean | null
+      creditInterestRate: number | null
+      debitRate: number | null
+      excessRate: number | null
+      excessRateType: string | null
+      vatRate: number | null
+      whtRate: number | null
+      rateType: string | null
+      effectiveFrom: Date | null
       effectiveTo: Date | null
       createdAt: Date
       updatedAt: Date
@@ -12660,7 +12671,6 @@ export namespace Prisma {
     accountType: 'accountType',
     currency: 'currency',
     clientId: 'clientId',
-    contractId: 'contractId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12828,6 +12838,34 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionType'
+   */
+  export type EnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionType[]'
+   */
+  export type ListEnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccountType'
+   */
+  export type EnumAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccountType[]'
+   */
+  export type ListEnumAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountType[]'>
     
 
 
@@ -13141,7 +13179,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFilter<"BankTransaction"> | Date | string
     valueDate?: DateTimeFilter<"BankTransaction"> | Date | string
     amount?: FloatFilter<"BankTransaction"> | number
-    type?: StringFilter<"BankTransaction"> | string
+    type?: EnumTransactionTypeFilter<"BankTransaction"> | $Enums.TransactionType
     description?: StringFilter<"BankTransaction"> | string
     reference?: StringNullableFilter<"BankTransaction"> | string | null
     chequeNo?: StringNullableFilter<"BankTransaction"> | string | null
@@ -13190,7 +13228,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFilter<"BankTransaction"> | Date | string
     valueDate?: DateTimeFilter<"BankTransaction"> | Date | string
     amount?: FloatFilter<"BankTransaction"> | number
-    type?: StringFilter<"BankTransaction"> | string
+    type?: EnumTransactionTypeFilter<"BankTransaction"> | $Enums.TransactionType
     description?: StringFilter<"BankTransaction"> | string
     reference?: StringNullableFilter<"BankTransaction"> | string | null
     chequeNo?: StringNullableFilter<"BankTransaction"> | string | null
@@ -13240,7 +13278,7 @@ export namespace Prisma {
     transactionDate?: DateTimeWithAggregatesFilter<"BankTransaction"> | Date | string
     valueDate?: DateTimeWithAggregatesFilter<"BankTransaction"> | Date | string
     amount?: FloatWithAggregatesFilter<"BankTransaction"> | number
-    type?: StringWithAggregatesFilter<"BankTransaction"> | string
+    type?: EnumTransactionTypeWithAggregatesFilter<"BankTransaction"> | $Enums.TransactionType
     description?: StringWithAggregatesFilter<"BankTransaction"> | string
     reference?: StringNullableWithAggregatesFilter<"BankTransaction"> | string | null
     chequeNo?: StringNullableWithAggregatesFilter<"BankTransaction"> | string | null
@@ -13259,10 +13297,9 @@ export namespace Prisma {
     id?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
     accountName?: StringFilter<"BankAccount"> | string
-    accountType?: StringFilter<"BankAccount"> | string
+    accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
     currency?: StringFilter<"BankAccount"> | string
     clientId?: StringFilter<"BankAccount"> | string
-    contractId?: StringNullableFilter<"BankAccount"> | string | null
     createdAt?: DateTimeFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
     contract?: XOR<AccountContractNullableScalarRelationFilter, AccountContractWhereInput> | null
@@ -13278,7 +13315,6 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
-    contractId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     contract?: AccountContractOrderByWithRelationInput
@@ -13290,12 +13326,11 @@ export namespace Prisma {
   export type BankAccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     accountNumber?: string
-    contractId?: string
     AND?: BankAccountWhereInput | BankAccountWhereInput[]
     OR?: BankAccountWhereInput[]
     NOT?: BankAccountWhereInput | BankAccountWhereInput[]
     accountName?: StringFilter<"BankAccount"> | string
-    accountType?: StringFilter<"BankAccount"> | string
+    accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
     currency?: StringFilter<"BankAccount"> | string
     clientId?: StringFilter<"BankAccount"> | string
     createdAt?: DateTimeFilter<"BankAccount"> | Date | string
@@ -13304,7 +13339,7 @@ export namespace Prisma {
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     transactions?: BankTransactionListRelationFilter
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
-  }, "id" | "accountNumber" | "contractId">
+  }, "id" | "accountNumber">
 
   export type BankAccountOrderByWithAggregationInput = {
     id?: SortOrder
@@ -13313,7 +13348,6 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
-    contractId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BankAccountCountOrderByAggregateInput
@@ -13328,10 +13362,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"BankAccount"> | string
     accountNumber?: StringWithAggregatesFilter<"BankAccount"> | string
     accountName?: StringWithAggregatesFilter<"BankAccount"> | string
-    accountType?: StringWithAggregatesFilter<"BankAccount"> | string
+    accountType?: EnumAccountTypeWithAggregatesFilter<"BankAccount"> | $Enums.AccountType
     currency?: StringWithAggregatesFilter<"BankAccount"> | string
     clientId?: StringWithAggregatesFilter<"BankAccount"> | string
-    contractId?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
   }
@@ -13432,22 +13465,22 @@ export namespace Prisma {
     NOT?: AccountContractWhereInput | AccountContractWhereInput[]
     id?: StringFilter<"AccountContract"> | string
     bankAccountId?: StringFilter<"AccountContract"> | string
-    returnChargeRate?: FloatFilter<"AccountContract"> | number
-    returnChargeLimit?: FloatFilter<"AccountContract"> | number
-    cotCovenantRate?: FloatFilter<"AccountContract"> | number
-    cotOffCoverRate?: FloatFilter<"AccountContract"> | number
-    cotOICRate?: FloatFilter<"AccountContract"> | number
-    turnoverLimit?: FloatFilter<"AccountContract"> | number
-    cotCovenantFrequency?: StringFilter<"AccountContract"> | string
-    chargeCOTOnShortfall?: BoolFilter<"AccountContract"> | boolean
-    creditInterestRate?: FloatFilter<"AccountContract"> | number
-    debitRate?: FloatFilter<"AccountContract"> | number
-    excessRate?: FloatFilter<"AccountContract"> | number
-    excessRateType?: StringFilter<"AccountContract"> | string
-    vatRate?: FloatFilter<"AccountContract"> | number
-    whtRate?: FloatFilter<"AccountContract"> | number
-    rateType?: StringFilter<"AccountContract"> | string
-    effectiveFrom?: DateTimeFilter<"AccountContract"> | Date | string
+    returnChargeRate?: FloatNullableFilter<"AccountContract"> | number | null
+    returnChargeLimit?: FloatNullableFilter<"AccountContract"> | number | null
+    cotCovenantRate?: FloatNullableFilter<"AccountContract"> | number | null
+    cotOffCoverRate?: FloatNullableFilter<"AccountContract"> | number | null
+    cotOICRate?: FloatNullableFilter<"AccountContract"> | number | null
+    turnoverLimit?: FloatNullableFilter<"AccountContract"> | number | null
+    cotCovenantFrequency?: StringNullableFilter<"AccountContract"> | string | null
+    chargeCOTOnShortfall?: BoolNullableFilter<"AccountContract"> | boolean | null
+    creditInterestRate?: FloatNullableFilter<"AccountContract"> | number | null
+    debitRate?: FloatNullableFilter<"AccountContract"> | number | null
+    excessRate?: FloatNullableFilter<"AccountContract"> | number | null
+    excessRateType?: StringNullableFilter<"AccountContract"> | string | null
+    vatRate?: FloatNullableFilter<"AccountContract"> | number | null
+    whtRate?: FloatNullableFilter<"AccountContract"> | number | null
+    rateType?: StringNullableFilter<"AccountContract"> | string | null
+    effectiveFrom?: DateTimeNullableFilter<"AccountContract"> | Date | string | null
     effectiveTo?: DateTimeNullableFilter<"AccountContract"> | Date | string | null
     createdAt?: DateTimeFilter<"AccountContract"> | Date | string
     updatedAt?: DateTimeFilter<"AccountContract"> | Date | string
@@ -13457,22 +13490,22 @@ export namespace Prisma {
   export type AccountContractOrderByWithRelationInput = {
     id?: SortOrder
     bankAccountId?: SortOrder
-    returnChargeRate?: SortOrder
-    returnChargeLimit?: SortOrder
-    cotCovenantRate?: SortOrder
-    cotOffCoverRate?: SortOrder
-    cotOICRate?: SortOrder
-    turnoverLimit?: SortOrder
-    cotCovenantFrequency?: SortOrder
-    chargeCOTOnShortfall?: SortOrder
-    creditInterestRate?: SortOrder
-    debitRate?: SortOrder
-    excessRate?: SortOrder
-    excessRateType?: SortOrder
-    vatRate?: SortOrder
-    whtRate?: SortOrder
-    rateType?: SortOrder
-    effectiveFrom?: SortOrder
+    returnChargeRate?: SortOrderInput | SortOrder
+    returnChargeLimit?: SortOrderInput | SortOrder
+    cotCovenantRate?: SortOrderInput | SortOrder
+    cotOffCoverRate?: SortOrderInput | SortOrder
+    cotOICRate?: SortOrderInput | SortOrder
+    turnoverLimit?: SortOrderInput | SortOrder
+    cotCovenantFrequency?: SortOrderInput | SortOrder
+    chargeCOTOnShortfall?: SortOrderInput | SortOrder
+    creditInterestRate?: SortOrderInput | SortOrder
+    debitRate?: SortOrderInput | SortOrder
+    excessRate?: SortOrderInput | SortOrder
+    excessRateType?: SortOrderInput | SortOrder
+    vatRate?: SortOrderInput | SortOrder
+    whtRate?: SortOrderInput | SortOrder
+    rateType?: SortOrderInput | SortOrder
+    effectiveFrom?: SortOrderInput | SortOrder
     effectiveTo?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13485,22 +13518,22 @@ export namespace Prisma {
     AND?: AccountContractWhereInput | AccountContractWhereInput[]
     OR?: AccountContractWhereInput[]
     NOT?: AccountContractWhereInput | AccountContractWhereInput[]
-    returnChargeRate?: FloatFilter<"AccountContract"> | number
-    returnChargeLimit?: FloatFilter<"AccountContract"> | number
-    cotCovenantRate?: FloatFilter<"AccountContract"> | number
-    cotOffCoverRate?: FloatFilter<"AccountContract"> | number
-    cotOICRate?: FloatFilter<"AccountContract"> | number
-    turnoverLimit?: FloatFilter<"AccountContract"> | number
-    cotCovenantFrequency?: StringFilter<"AccountContract"> | string
-    chargeCOTOnShortfall?: BoolFilter<"AccountContract"> | boolean
-    creditInterestRate?: FloatFilter<"AccountContract"> | number
-    debitRate?: FloatFilter<"AccountContract"> | number
-    excessRate?: FloatFilter<"AccountContract"> | number
-    excessRateType?: StringFilter<"AccountContract"> | string
-    vatRate?: FloatFilter<"AccountContract"> | number
-    whtRate?: FloatFilter<"AccountContract"> | number
-    rateType?: StringFilter<"AccountContract"> | string
-    effectiveFrom?: DateTimeFilter<"AccountContract"> | Date | string
+    returnChargeRate?: FloatNullableFilter<"AccountContract"> | number | null
+    returnChargeLimit?: FloatNullableFilter<"AccountContract"> | number | null
+    cotCovenantRate?: FloatNullableFilter<"AccountContract"> | number | null
+    cotOffCoverRate?: FloatNullableFilter<"AccountContract"> | number | null
+    cotOICRate?: FloatNullableFilter<"AccountContract"> | number | null
+    turnoverLimit?: FloatNullableFilter<"AccountContract"> | number | null
+    cotCovenantFrequency?: StringNullableFilter<"AccountContract"> | string | null
+    chargeCOTOnShortfall?: BoolNullableFilter<"AccountContract"> | boolean | null
+    creditInterestRate?: FloatNullableFilter<"AccountContract"> | number | null
+    debitRate?: FloatNullableFilter<"AccountContract"> | number | null
+    excessRate?: FloatNullableFilter<"AccountContract"> | number | null
+    excessRateType?: StringNullableFilter<"AccountContract"> | string | null
+    vatRate?: FloatNullableFilter<"AccountContract"> | number | null
+    whtRate?: FloatNullableFilter<"AccountContract"> | number | null
+    rateType?: StringNullableFilter<"AccountContract"> | string | null
+    effectiveFrom?: DateTimeNullableFilter<"AccountContract"> | Date | string | null
     effectiveTo?: DateTimeNullableFilter<"AccountContract"> | Date | string | null
     createdAt?: DateTimeFilter<"AccountContract"> | Date | string
     updatedAt?: DateTimeFilter<"AccountContract"> | Date | string
@@ -13510,22 +13543,22 @@ export namespace Prisma {
   export type AccountContractOrderByWithAggregationInput = {
     id?: SortOrder
     bankAccountId?: SortOrder
-    returnChargeRate?: SortOrder
-    returnChargeLimit?: SortOrder
-    cotCovenantRate?: SortOrder
-    cotOffCoverRate?: SortOrder
-    cotOICRate?: SortOrder
-    turnoverLimit?: SortOrder
-    cotCovenantFrequency?: SortOrder
-    chargeCOTOnShortfall?: SortOrder
-    creditInterestRate?: SortOrder
-    debitRate?: SortOrder
-    excessRate?: SortOrder
-    excessRateType?: SortOrder
-    vatRate?: SortOrder
-    whtRate?: SortOrder
-    rateType?: SortOrder
-    effectiveFrom?: SortOrder
+    returnChargeRate?: SortOrderInput | SortOrder
+    returnChargeLimit?: SortOrderInput | SortOrder
+    cotCovenantRate?: SortOrderInput | SortOrder
+    cotOffCoverRate?: SortOrderInput | SortOrder
+    cotOICRate?: SortOrderInput | SortOrder
+    turnoverLimit?: SortOrderInput | SortOrder
+    cotCovenantFrequency?: SortOrderInput | SortOrder
+    chargeCOTOnShortfall?: SortOrderInput | SortOrder
+    creditInterestRate?: SortOrderInput | SortOrder
+    debitRate?: SortOrderInput | SortOrder
+    excessRate?: SortOrderInput | SortOrder
+    excessRateType?: SortOrderInput | SortOrder
+    vatRate?: SortOrderInput | SortOrder
+    whtRate?: SortOrderInput | SortOrder
+    rateType?: SortOrderInput | SortOrder
+    effectiveFrom?: SortOrderInput | SortOrder
     effectiveTo?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13542,22 +13575,22 @@ export namespace Prisma {
     NOT?: AccountContractScalarWhereWithAggregatesInput | AccountContractScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AccountContract"> | string
     bankAccountId?: StringWithAggregatesFilter<"AccountContract"> | string
-    returnChargeRate?: FloatWithAggregatesFilter<"AccountContract"> | number
-    returnChargeLimit?: FloatWithAggregatesFilter<"AccountContract"> | number
-    cotCovenantRate?: FloatWithAggregatesFilter<"AccountContract"> | number
-    cotOffCoverRate?: FloatWithAggregatesFilter<"AccountContract"> | number
-    cotOICRate?: FloatWithAggregatesFilter<"AccountContract"> | number
-    turnoverLimit?: FloatWithAggregatesFilter<"AccountContract"> | number
-    cotCovenantFrequency?: StringWithAggregatesFilter<"AccountContract"> | string
-    chargeCOTOnShortfall?: BoolWithAggregatesFilter<"AccountContract"> | boolean
-    creditInterestRate?: FloatWithAggregatesFilter<"AccountContract"> | number
-    debitRate?: FloatWithAggregatesFilter<"AccountContract"> | number
-    excessRate?: FloatWithAggregatesFilter<"AccountContract"> | number
-    excessRateType?: StringWithAggregatesFilter<"AccountContract"> | string
-    vatRate?: FloatWithAggregatesFilter<"AccountContract"> | number
-    whtRate?: FloatWithAggregatesFilter<"AccountContract"> | number
-    rateType?: StringWithAggregatesFilter<"AccountContract"> | string
-    effectiveFrom?: DateTimeWithAggregatesFilter<"AccountContract"> | Date | string
+    returnChargeRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    returnChargeLimit?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    cotCovenantRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    cotOffCoverRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    cotOICRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    turnoverLimit?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    cotCovenantFrequency?: StringNullableWithAggregatesFilter<"AccountContract"> | string | null
+    chargeCOTOnShortfall?: BoolNullableWithAggregatesFilter<"AccountContract"> | boolean | null
+    creditInterestRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    debitRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    excessRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    excessRateType?: StringNullableWithAggregatesFilter<"AccountContract"> | string | null
+    vatRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    whtRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
+    rateType?: StringNullableWithAggregatesFilter<"AccountContract"> | string | null
+    effectiveFrom?: DateTimeNullableWithAggregatesFilter<"AccountContract"> | Date | string | null
     effectiveTo?: DateTimeNullableWithAggregatesFilter<"AccountContract"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AccountContract"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AccountContract"> | Date | string
@@ -13960,7 +13993,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -13982,7 +14015,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -14000,7 +14033,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14022,7 +14055,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14042,7 +14075,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -14059,7 +14092,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14077,7 +14110,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14093,9 +14126,8 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     contract?: AccountContractCreateNestedOneWithoutBankAccountInput
@@ -14108,10 +14140,9 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
     clientId: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     contract?: AccountContractUncheckedCreateNestedOneWithoutBankAccountInput
@@ -14123,9 +14154,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contract?: AccountContractUpdateOneWithoutBankAccountNestedInput
@@ -14138,10 +14168,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contract?: AccountContractUncheckedUpdateOneWithoutBankAccountNestedInput
@@ -14153,10 +14182,9 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
     clientId: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14165,9 +14193,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14176,10 +14203,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14295,22 +14321,22 @@ export namespace Prisma {
 
   export type AccountContractCreateInput = {
     id?: string
-    returnChargeRate: number
-    returnChargeLimit: number
-    cotCovenantRate: number
-    cotOffCoverRate: number
-    cotOICRate: number
-    turnoverLimit: number
-    cotCovenantFrequency: string
-    chargeCOTOnShortfall: boolean
-    creditInterestRate: number
-    debitRate: number
-    excessRate: number
-    excessRateType: string
-    vatRate: number
-    whtRate: number
-    rateType: string
-    effectiveFrom: Date | string
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    creditInterestRate?: number | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    effectiveFrom?: Date | string | null
     effectiveTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14320,22 +14346,22 @@ export namespace Prisma {
   export type AccountContractUncheckedCreateInput = {
     id?: string
     bankAccountId: string
-    returnChargeRate: number
-    returnChargeLimit: number
-    cotCovenantRate: number
-    cotOffCoverRate: number
-    cotOICRate: number
-    turnoverLimit: number
-    cotCovenantFrequency: string
-    chargeCOTOnShortfall: boolean
-    creditInterestRate: number
-    debitRate: number
-    excessRate: number
-    excessRateType: string
-    vatRate: number
-    whtRate: number
-    rateType: string
-    effectiveFrom: Date | string
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    creditInterestRate?: number | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    effectiveFrom?: Date | string | null
     effectiveTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14343,22 +14369,22 @@ export namespace Prisma {
 
   export type AccountContractUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    returnChargeRate?: FloatFieldUpdateOperationsInput | number
-    returnChargeLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantRate?: FloatFieldUpdateOperationsInput | number
-    cotOffCoverRate?: FloatFieldUpdateOperationsInput | number
-    cotOICRate?: FloatFieldUpdateOperationsInput | number
-    turnoverLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantFrequency?: StringFieldUpdateOperationsInput | string
-    chargeCOTOnShortfall?: BoolFieldUpdateOperationsInput | boolean
-    creditInterestRate?: FloatFieldUpdateOperationsInput | number
-    debitRate?: FloatFieldUpdateOperationsInput | number
-    excessRate?: FloatFieldUpdateOperationsInput | number
-    excessRateType?: StringFieldUpdateOperationsInput | string
-    vatRate?: FloatFieldUpdateOperationsInput | number
-    whtRate?: FloatFieldUpdateOperationsInput | number
-    rateType?: StringFieldUpdateOperationsInput | string
-    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    creditInterestRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14368,22 +14394,22 @@ export namespace Prisma {
   export type AccountContractUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     bankAccountId?: StringFieldUpdateOperationsInput | string
-    returnChargeRate?: FloatFieldUpdateOperationsInput | number
-    returnChargeLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantRate?: FloatFieldUpdateOperationsInput | number
-    cotOffCoverRate?: FloatFieldUpdateOperationsInput | number
-    cotOICRate?: FloatFieldUpdateOperationsInput | number
-    turnoverLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantFrequency?: StringFieldUpdateOperationsInput | string
-    chargeCOTOnShortfall?: BoolFieldUpdateOperationsInput | boolean
-    creditInterestRate?: FloatFieldUpdateOperationsInput | number
-    debitRate?: FloatFieldUpdateOperationsInput | number
-    excessRate?: FloatFieldUpdateOperationsInput | number
-    excessRateType?: StringFieldUpdateOperationsInput | string
-    vatRate?: FloatFieldUpdateOperationsInput | number
-    whtRate?: FloatFieldUpdateOperationsInput | number
-    rateType?: StringFieldUpdateOperationsInput | string
-    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    creditInterestRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14392,22 +14418,22 @@ export namespace Prisma {
   export type AccountContractCreateManyInput = {
     id?: string
     bankAccountId: string
-    returnChargeRate: number
-    returnChargeLimit: number
-    cotCovenantRate: number
-    cotOffCoverRate: number
-    cotOICRate: number
-    turnoverLimit: number
-    cotCovenantFrequency: string
-    chargeCOTOnShortfall: boolean
-    creditInterestRate: number
-    debitRate: number
-    excessRate: number
-    excessRateType: string
-    vatRate: number
-    whtRate: number
-    rateType: string
-    effectiveFrom: Date | string
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    creditInterestRate?: number | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    effectiveFrom?: Date | string | null
     effectiveTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14415,22 +14441,22 @@ export namespace Prisma {
 
   export type AccountContractUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    returnChargeRate?: FloatFieldUpdateOperationsInput | number
-    returnChargeLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantRate?: FloatFieldUpdateOperationsInput | number
-    cotOffCoverRate?: FloatFieldUpdateOperationsInput | number
-    cotOICRate?: FloatFieldUpdateOperationsInput | number
-    turnoverLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantFrequency?: StringFieldUpdateOperationsInput | string
-    chargeCOTOnShortfall?: BoolFieldUpdateOperationsInput | boolean
-    creditInterestRate?: FloatFieldUpdateOperationsInput | number
-    debitRate?: FloatFieldUpdateOperationsInput | number
-    excessRate?: FloatFieldUpdateOperationsInput | number
-    excessRateType?: StringFieldUpdateOperationsInput | string
-    vatRate?: FloatFieldUpdateOperationsInput | number
-    whtRate?: FloatFieldUpdateOperationsInput | number
-    rateType?: StringFieldUpdateOperationsInput | string
-    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    creditInterestRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14439,22 +14465,22 @@ export namespace Prisma {
   export type AccountContractUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     bankAccountId?: StringFieldUpdateOperationsInput | string
-    returnChargeRate?: FloatFieldUpdateOperationsInput | number
-    returnChargeLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantRate?: FloatFieldUpdateOperationsInput | number
-    cotOffCoverRate?: FloatFieldUpdateOperationsInput | number
-    cotOICRate?: FloatFieldUpdateOperationsInput | number
-    turnoverLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantFrequency?: StringFieldUpdateOperationsInput | string
-    chargeCOTOnShortfall?: BoolFieldUpdateOperationsInput | boolean
-    creditInterestRate?: FloatFieldUpdateOperationsInput | number
-    debitRate?: FloatFieldUpdateOperationsInput | number
-    excessRate?: FloatFieldUpdateOperationsInput | number
-    excessRateType?: StringFieldUpdateOperationsInput | string
-    vatRate?: FloatFieldUpdateOperationsInput | number
-    whtRate?: FloatFieldUpdateOperationsInput | number
-    rateType?: StringFieldUpdateOperationsInput | string
-    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    creditInterestRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14856,6 +14882,13 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type EnumTransactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
+  }
+
   export type BankAccountScalarRelationFilter = {
     is?: BankAccountWhereInput
     isNot?: BankAccountWhereInput
@@ -14947,6 +14980,23 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type EnumTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.TransactionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
+  }
+
+  export type EnumAccountTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountTypeFilter<$PrismaModel> | $Enums.AccountType
+  }
+
   export type AccountContractNullableScalarRelationFilter = {
     is?: AccountContractWhereInput | null
     isNot?: AccountContractWhereInput | null
@@ -14964,7 +15014,6 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
-    contractId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14976,7 +15025,6 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
-    contractId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14988,9 +15036,18 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
-    contractId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumAccountTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountTypeWithAggregatesFilter<$PrismaModel> | $Enums.AccountType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccountTypeFilter<$PrismaModel>
+    _max?: NestedEnumAccountTypeFilter<$PrismaModel>
   }
 
   export type BankAccountListRelationFilter = {
@@ -15046,6 +15103,22 @@ export namespace Prisma {
     city?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -15157,6 +15230,30 @@ export namespace Prisma {
     excessRate?: SortOrder
     vatRate?: SortOrder
     whtRate?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15643,6 +15740,10 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type EnumTransactionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.TransactionType
+  }
+
   export type BankAccountUpdateOneRequiredWithoutTransactionsNestedInput = {
     create?: XOR<BankAccountCreateWithoutTransactionsInput, BankAccountUncheckedCreateWithoutTransactionsInput>
     connectOrCreate?: BankAccountCreateOrConnectWithoutTransactionsInput
@@ -15737,6 +15838,10 @@ export namespace Prisma {
     connectOrCreate?: BankTransactionCreateOrConnectWithoutBankAccountInput | BankTransactionCreateOrConnectWithoutBankAccountInput[]
     createMany?: BankTransactionCreateManyBankAccountInputEnvelope
     connect?: BankTransactionWhereUniqueInput | BankTransactionWhereUniqueInput[]
+  }
+
+  export type EnumAccountTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AccountType
   }
 
   export type AccountContractUpdateOneWithoutBankAccountNestedInput = {
@@ -15869,6 +15974,18 @@ export namespace Prisma {
     create?: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput>
     connectOrCreate?: BankAccountCreateOrConnectWithoutContractInput
     connect?: BankAccountWhereUniqueInput
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -16130,6 +16247,13 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumTransactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -16146,6 +16270,49 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.TransactionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAccountTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountTypeFilter<$PrismaModel> | $Enums.AccountType
+  }
+
+  export type NestedEnumAccountTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountTypeWithAggregatesFilter<$PrismaModel> | $Enums.AccountType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccountTypeFilter<$PrismaModel>
+    _max?: NestedEnumAccountTypeFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -16155,6 +16322,30 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16202,7 +16393,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -16222,7 +16413,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -16297,7 +16488,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -16318,7 +16509,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -16435,7 +16626,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFilter<"BankTransaction"> | Date | string
     valueDate?: DateTimeFilter<"BankTransaction"> | Date | string
     amount?: FloatFilter<"BankTransaction"> | number
-    type?: StringFilter<"BankTransaction"> | string
+    type?: EnumTransactionTypeFilter<"BankTransaction"> | $Enums.TransactionType
     description?: StringFilter<"BankTransaction"> | string
     reference?: StringNullableFilter<"BankTransaction"> | string | null
     chequeNo?: StringNullableFilter<"BankTransaction"> | string | null
@@ -16735,7 +16926,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -16756,7 +16947,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -16798,9 +16989,8 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     contract?: AccountContractCreateNestedOneWithoutBankAccountInput
@@ -16812,10 +17002,9 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
     clientId: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     contract?: AccountContractUncheckedCreateNestedOneWithoutBankAccountInput
@@ -16961,9 +17150,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contract?: AccountContractUpdateOneWithoutBankAccountNestedInput
@@ -16975,10 +17163,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contract?: AccountContractUncheckedUpdateOneWithoutBankAccountNestedInput
@@ -17087,22 +17274,22 @@ export namespace Prisma {
 
   export type AccountContractCreateWithoutBankAccountInput = {
     id?: string
-    returnChargeRate: number
-    returnChargeLimit: number
-    cotCovenantRate: number
-    cotOffCoverRate: number
-    cotOICRate: number
-    turnoverLimit: number
-    cotCovenantFrequency: string
-    chargeCOTOnShortfall: boolean
-    creditInterestRate: number
-    debitRate: number
-    excessRate: number
-    excessRateType: string
-    vatRate: number
-    whtRate: number
-    rateType: string
-    effectiveFrom: Date | string
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    creditInterestRate?: number | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    effectiveFrom?: Date | string | null
     effectiveTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17110,22 +17297,22 @@ export namespace Prisma {
 
   export type AccountContractUncheckedCreateWithoutBankAccountInput = {
     id?: string
-    returnChargeRate: number
-    returnChargeLimit: number
-    cotCovenantRate: number
-    cotOffCoverRate: number
-    cotOICRate: number
-    turnoverLimit: number
-    cotCovenantFrequency: string
-    chargeCOTOnShortfall: boolean
-    creditInterestRate: number
-    debitRate: number
-    excessRate: number
-    excessRateType: string
-    vatRate: number
-    whtRate: number
-    rateType: string
-    effectiveFrom: Date | string
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    creditInterestRate?: number | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    effectiveFrom?: Date | string | null
     effectiveTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17169,7 +17356,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -17189,7 +17376,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -17260,22 +17447,22 @@ export namespace Prisma {
 
   export type AccountContractUpdateWithoutBankAccountInput = {
     id?: StringFieldUpdateOperationsInput | string
-    returnChargeRate?: FloatFieldUpdateOperationsInput | number
-    returnChargeLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantRate?: FloatFieldUpdateOperationsInput | number
-    cotOffCoverRate?: FloatFieldUpdateOperationsInput | number
-    cotOICRate?: FloatFieldUpdateOperationsInput | number
-    turnoverLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantFrequency?: StringFieldUpdateOperationsInput | string
-    chargeCOTOnShortfall?: BoolFieldUpdateOperationsInput | boolean
-    creditInterestRate?: FloatFieldUpdateOperationsInput | number
-    debitRate?: FloatFieldUpdateOperationsInput | number
-    excessRate?: FloatFieldUpdateOperationsInput | number
-    excessRateType?: StringFieldUpdateOperationsInput | string
-    vatRate?: FloatFieldUpdateOperationsInput | number
-    whtRate?: FloatFieldUpdateOperationsInput | number
-    rateType?: StringFieldUpdateOperationsInput | string
-    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    creditInterestRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17283,22 +17470,22 @@ export namespace Prisma {
 
   export type AccountContractUncheckedUpdateWithoutBankAccountInput = {
     id?: StringFieldUpdateOperationsInput | string
-    returnChargeRate?: FloatFieldUpdateOperationsInput | number
-    returnChargeLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantRate?: FloatFieldUpdateOperationsInput | number
-    cotOffCoverRate?: FloatFieldUpdateOperationsInput | number
-    cotOICRate?: FloatFieldUpdateOperationsInput | number
-    turnoverLimit?: FloatFieldUpdateOperationsInput | number
-    cotCovenantFrequency?: StringFieldUpdateOperationsInput | string
-    chargeCOTOnShortfall?: BoolFieldUpdateOperationsInput | boolean
-    creditInterestRate?: FloatFieldUpdateOperationsInput | number
-    debitRate?: FloatFieldUpdateOperationsInput | number
-    excessRate?: FloatFieldUpdateOperationsInput | number
-    excessRateType?: StringFieldUpdateOperationsInput | string
-    vatRate?: FloatFieldUpdateOperationsInput | number
-    whtRate?: FloatFieldUpdateOperationsInput | number
-    rateType?: StringFieldUpdateOperationsInput | string
-    effectiveFrom?: DateTimeFieldUpdateOperationsInput | Date | string
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    creditInterestRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17381,9 +17568,8 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     contract?: AccountContractCreateNestedOneWithoutBankAccountInput
@@ -17395,9 +17581,8 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     contract?: AccountContractUncheckedCreateNestedOneWithoutBankAccountInput
@@ -17438,10 +17623,9 @@ export namespace Prisma {
     id?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
     accountName?: StringFilter<"BankAccount"> | string
-    accountType?: StringFilter<"BankAccount"> | string
+    accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
     currency?: StringFilter<"BankAccount"> | string
     clientId?: StringFilter<"BankAccount"> | string
-    contractId?: StringNullableFilter<"BankAccount"> | string | null
     createdAt?: DateTimeFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
   }
@@ -17450,9 +17634,8 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
@@ -17464,10 +17647,9 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
     clientId: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutBankAccountInput
@@ -17494,9 +17676,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
@@ -17508,10 +17689,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutBankAccountNestedInput
@@ -17569,9 +17749,8 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     contract?: AccountContractCreateNestedOneWithoutBankAccountInput
@@ -17583,10 +17762,9 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
     clientId: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     contract?: AccountContractUncheckedCreateNestedOneWithoutBankAccountInput
@@ -17760,9 +17938,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contract?: AccountContractUpdateOneWithoutBankAccountNestedInput
@@ -17774,10 +17951,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contract?: AccountContractUncheckedUpdateOneWithoutBankAccountNestedInput
@@ -17867,7 +18043,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -17924,7 +18100,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17944,7 +18120,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17963,7 +18139,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18027,7 +18203,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18048,7 +18224,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18067,7 +18243,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18196,7 +18372,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -18212,7 +18388,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18233,7 +18409,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18252,7 +18428,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18334,7 +18510,7 @@ export namespace Prisma {
     transactionDate: Date | string
     valueDate: Date | string
     amount: number
-    type: string
+    type: $Enums.TransactionType
     description: string
     reference?: string | null
     chequeNo?: string | null
@@ -18377,7 +18553,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18397,7 +18573,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18416,7 +18592,7 @@ export namespace Prisma {
     transactionDate?: DateTimeFieldUpdateOperationsInput | Date | string
     valueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     amount?: FloatFieldUpdateOperationsInput | number
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     description?: StringFieldUpdateOperationsInput | string
     reference?: NullableStringFieldUpdateOperationsInput | string | null
     chequeNo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18432,9 +18608,8 @@ export namespace Prisma {
     id?: string
     accountNumber: string
     accountName: string
-    accountType: string
+    accountType: $Enums.AccountType
     currency: string
-    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18443,9 +18618,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contract?: AccountContractUpdateOneWithoutBankAccountNestedInput
@@ -18457,9 +18631,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contract?: AccountContractUncheckedUpdateOneWithoutBankAccountNestedInput
@@ -18471,9 +18644,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
-    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
