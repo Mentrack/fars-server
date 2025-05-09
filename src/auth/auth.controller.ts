@@ -98,7 +98,7 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get user profile' })
+  @ApiOperation({ summary: 'Change password' })
   @ApiOkResponse({
     description: 'User password changed successfully',
   })
@@ -114,7 +114,7 @@ export class AuthController {
   }
 
   @Public()
-  @ApiOperation({ summary: 'Reset password' })
+  @ApiOperation({ summary: 'Request reset password' })
   @ApiOkResponse({
     description: 'Password reset successfully',
   })
