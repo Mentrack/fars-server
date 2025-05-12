@@ -54,4 +54,12 @@ export class CreateClientResponseDto {
   @ApiPropertyOptional()
   @IsString()
   city: string;
+
+  @ApiProperty({
+    example:
+      'https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg',
+  })
+  @ApiPropertyOptional()
+  @IsString()
+  avatarUrl?: string;
 }
