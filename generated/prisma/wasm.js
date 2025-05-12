@@ -131,6 +131,9 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   isActive: 'isActive',
   refreshToken: 'refreshToken',
+  deactivatedAt: 'deactivatedAt',
+  deactivatedById: 'deactivatedById',
+  deactivationReason: 'deactivationReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -202,6 +205,7 @@ exports.Prisma.ClientScalarFieldEnum = {
   country: 'country',
   state: 'state',
   city: 'city',
+  avatarUrl: 'avatarUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

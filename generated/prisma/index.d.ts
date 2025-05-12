@@ -1673,6 +1673,7 @@ export namespace Prisma {
     uploadedTransactions: number
     staffAssignments: number
     assignedStaffAccounts: number
+    deactivatedUsers: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1683,6 +1684,7 @@ export namespace Prisma {
     uploadedTransactions?: boolean | UserCountOutputTypeCountUploadedTransactionsArgs
     staffAssignments?: boolean | UserCountOutputTypeCountStaffAssignmentsArgs
     assignedStaffAccounts?: boolean | UserCountOutputTypeCountAssignedStaffAccountsArgs
+    deactivatedUsers?: boolean | UserCountOutputTypeCountDeactivatedUsersArgs
   }
 
   // Custom InputTypes
@@ -1743,6 +1745,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAssignedStaffAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StaffAccountAssignmentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDeactivatedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
   }
 
 
@@ -1966,6 +1975,9 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     isActive: boolean | null
     refreshToken: string | null
+    deactivatedAt: Date | null
+    deactivatedById: string | null
+    deactivationReason: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1981,6 +1993,9 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     isActive: boolean | null
     refreshToken: string | null
+    deactivatedAt: Date | null
+    deactivatedById: string | null
+    deactivationReason: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1996,6 +2011,9 @@ export namespace Prisma {
     role: number
     isActive: number
     refreshToken: number
+    deactivatedAt: number
+    deactivatedById: number
+    deactivationReason: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2013,6 +2031,9 @@ export namespace Prisma {
     role?: true
     isActive?: true
     refreshToken?: true
+    deactivatedAt?: true
+    deactivatedById?: true
+    deactivationReason?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2028,6 +2049,9 @@ export namespace Prisma {
     role?: true
     isActive?: true
     refreshToken?: true
+    deactivatedAt?: true
+    deactivatedById?: true
+    deactivationReason?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2043,6 +2067,9 @@ export namespace Prisma {
     role?: true
     isActive?: true
     refreshToken?: true
+    deactivatedAt?: true
+    deactivatedById?: true
+    deactivationReason?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2131,6 +2158,9 @@ export namespace Prisma {
     role: $Enums.UserRole
     isActive: boolean
     refreshToken: string | null
+    deactivatedAt: Date | null
+    deactivatedById: string | null
+    deactivationReason: string | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -2163,6 +2193,9 @@ export namespace Prisma {
     role?: boolean
     isActive?: boolean
     refreshToken?: boolean
+    deactivatedAt?: boolean
+    deactivatedById?: boolean
+    deactivationReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tokens?: boolean | User$tokensArgs<ExtArgs>
@@ -2172,6 +2205,8 @@ export namespace Prisma {
     uploadedTransactions?: boolean | User$uploadedTransactionsArgs<ExtArgs>
     staffAssignments?: boolean | User$staffAssignmentsArgs<ExtArgs>
     assignedStaffAccounts?: boolean | User$assignedStaffAccountsArgs<ExtArgs>
+    deactivatedBy?: boolean | User$deactivatedByArgs<ExtArgs>
+    deactivatedUsers?: boolean | User$deactivatedUsersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2186,8 +2221,12 @@ export namespace Prisma {
     role?: boolean
     isActive?: boolean
     refreshToken?: boolean
+    deactivatedAt?: boolean
+    deactivatedById?: boolean
+    deactivationReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deactivatedBy?: boolean | User$deactivatedByArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2201,8 +2240,12 @@ export namespace Prisma {
     role?: boolean
     isActive?: boolean
     refreshToken?: boolean
+    deactivatedAt?: boolean
+    deactivatedById?: boolean
+    deactivationReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deactivatedBy?: boolean | User$deactivatedByArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2216,11 +2259,14 @@ export namespace Prisma {
     role?: boolean
     isActive?: boolean
     refreshToken?: boolean
+    deactivatedAt?: boolean
+    deactivatedById?: boolean
+    deactivationReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "username" | "email" | "password" | "avatarUrl" | "role" | "isActive" | "refreshToken" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "username" | "email" | "password" | "avatarUrl" | "role" | "isActive" | "refreshToken" | "deactivatedAt" | "deactivatedById" | "deactivationReason" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tokens?: boolean | User$tokensArgs<ExtArgs>
     BankTransaction?: boolean | User$BankTransactionArgs<ExtArgs>
@@ -2229,10 +2275,16 @@ export namespace Prisma {
     uploadedTransactions?: boolean | User$uploadedTransactionsArgs<ExtArgs>
     staffAssignments?: boolean | User$staffAssignmentsArgs<ExtArgs>
     assignedStaffAccounts?: boolean | User$assignedStaffAccountsArgs<ExtArgs>
+    deactivatedBy?: boolean | User$deactivatedByArgs<ExtArgs>
+    deactivatedUsers?: boolean | User$deactivatedUsersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    deactivatedBy?: boolean | User$deactivatedByArgs<ExtArgs>
+  }
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    deactivatedBy?: boolean | User$deactivatedByArgs<ExtArgs>
+  }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -2244,6 +2296,8 @@ export namespace Prisma {
       uploadedTransactions: Prisma.$BankTransactionPayload<ExtArgs>[]
       staffAssignments: Prisma.$StaffAccountAssignmentPayload<ExtArgs>[]
       assignedStaffAccounts: Prisma.$StaffAccountAssignmentPayload<ExtArgs>[]
+      deactivatedBy: Prisma.$UserPayload<ExtArgs> | null
+      deactivatedUsers: Prisma.$UserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2256,6 +2310,9 @@ export namespace Prisma {
       role: $Enums.UserRole
       isActive: boolean
       refreshToken: string | null
+      deactivatedAt: Date | null
+      deactivatedById: string | null
+      deactivationReason: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -2659,6 +2716,8 @@ export namespace Prisma {
     uploadedTransactions<T extends User$uploadedTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     staffAssignments<T extends User$staffAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$staffAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffAccountAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assignedStaffAccounts<T extends User$assignedStaffAccountsArgs<ExtArgs> = {}>(args?: Subset<T, User$assignedStaffAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffAccountAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    deactivatedBy<T extends User$deactivatedByArgs<ExtArgs> = {}>(args?: Subset<T, User$deactivatedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    deactivatedUsers<T extends User$deactivatedUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$deactivatedUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2698,6 +2757,9 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'UserRole'>
     readonly isActive: FieldRef<"User", 'Boolean'>
     readonly refreshToken: FieldRef<"User", 'String'>
+    readonly deactivatedAt: FieldRef<"User", 'DateTime'>
+    readonly deactivatedById: FieldRef<"User", 'String'>
+    readonly deactivationReason: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -2949,6 +3011,10 @@ export namespace Prisma {
      */
     data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3019,6 +3085,10 @@ export namespace Prisma {
      * Limit how many Users to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3253,6 +3323,49 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StaffAccountAssignmentScalarFieldEnum | StaffAccountAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * User.deactivatedBy
+   */
+  export type User$deactivatedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * User.deactivatedUsers
+   */
+  export type User$deactivatedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
@@ -8978,6 +9091,7 @@ export namespace Prisma {
     country: string | null
     state: string | null
     city: string | null
+    avatarUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8993,6 +9107,7 @@ export namespace Prisma {
     country: string | null
     state: string | null
     city: string | null
+    avatarUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9008,6 +9123,7 @@ export namespace Prisma {
     country: number
     state: number
     city: number
+    avatarUrl: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -9025,6 +9141,7 @@ export namespace Prisma {
     country?: true
     state?: true
     city?: true
+    avatarUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9040,6 +9157,7 @@ export namespace Prisma {
     country?: true
     state?: true
     city?: true
+    avatarUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9055,6 +9173,7 @@ export namespace Prisma {
     country?: true
     state?: true
     city?: true
+    avatarUrl?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -9143,6 +9262,7 @@ export namespace Prisma {
     country: string | null
     state: string | null
     city: string | null
+    avatarUrl: string
     createdAt: Date
     updatedAt: Date
     _count: ClientCountAggregateOutputType | null
@@ -9175,6 +9295,7 @@ export namespace Prisma {
     country?: boolean
     state?: boolean
     city?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     accounts?: boolean | Client$accountsArgs<ExtArgs>
@@ -9192,6 +9313,7 @@ export namespace Prisma {
     country?: boolean
     state?: boolean
     city?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["client"]>
@@ -9207,6 +9329,7 @@ export namespace Prisma {
     country?: boolean
     state?: boolean
     city?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["client"]>
@@ -9222,11 +9345,12 @@ export namespace Prisma {
     country?: boolean
     state?: boolean
     city?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ClientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "companyName" | "email" | "address" | "phone" | "country" | "state" | "city" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
+  export type ClientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "companyName" | "email" | "address" | "phone" | "country" | "state" | "city" | "avatarUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
   export type ClientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | Client$accountsArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
@@ -9250,6 +9374,7 @@ export namespace Prisma {
       country: string | null
       state: string | null
       city: string | null
+      avatarUrl: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["client"]>
@@ -9686,6 +9811,7 @@ export namespace Prisma {
     readonly country: FieldRef<"Client", 'String'>
     readonly state: FieldRef<"Client", 'String'>
     readonly city: FieldRef<"Client", 'String'>
+    readonly avatarUrl: FieldRef<"Client", 'String'>
     readonly createdAt: FieldRef<"Client", 'DateTime'>
     readonly updatedAt: FieldRef<"Client", 'DateTime'>
   }
@@ -12600,6 +12726,9 @@ export namespace Prisma {
     role: 'role',
     isActive: 'isActive',
     refreshToken: 'refreshToken',
+    deactivatedAt: 'deactivatedAt',
+    deactivatedById: 'deactivatedById',
+    deactivationReason: 'deactivationReason',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12689,6 +12818,7 @@ export namespace Prisma {
     country: 'country',
     state: 'state',
     city: 'city',
+    avatarUrl: 'avatarUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12900,6 +13030,9 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     isActive?: BoolFilter<"User"> | boolean
     refreshToken?: StringNullableFilter<"User"> | string | null
+    deactivatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    deactivatedById?: StringNullableFilter<"User"> | string | null
+    deactivationReason?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     tokens?: TokenListRelationFilter
@@ -12909,6 +13042,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionListRelationFilter
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     assignedStaffAccounts?: StaffAccountAssignmentListRelationFilter
+    deactivatedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    deactivatedUsers?: UserListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -12922,6 +13057,9 @@ export namespace Prisma {
     role?: SortOrder
     isActive?: SortOrder
     refreshToken?: SortOrderInput | SortOrder
+    deactivatedAt?: SortOrderInput | SortOrder
+    deactivatedById?: SortOrderInput | SortOrder
+    deactivationReason?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tokens?: TokenOrderByRelationAggregateInput
@@ -12931,6 +13069,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionOrderByRelationAggregateInput
     staffAssignments?: StaffAccountAssignmentOrderByRelationAggregateInput
     assignedStaffAccounts?: StaffAccountAssignmentOrderByRelationAggregateInput
+    deactivatedBy?: UserOrderByWithRelationInput
+    deactivatedUsers?: UserOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -12947,6 +13087,9 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     isActive?: BoolFilter<"User"> | boolean
     refreshToken?: StringNullableFilter<"User"> | string | null
+    deactivatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    deactivatedById?: StringNullableFilter<"User"> | string | null
+    deactivationReason?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     tokens?: TokenListRelationFilter
@@ -12956,6 +13099,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionListRelationFilter
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     assignedStaffAccounts?: StaffAccountAssignmentListRelationFilter
+    deactivatedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    deactivatedUsers?: UserListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -12969,6 +13114,9 @@ export namespace Prisma {
     role?: SortOrder
     isActive?: SortOrder
     refreshToken?: SortOrderInput | SortOrder
+    deactivatedAt?: SortOrderInput | SortOrder
+    deactivatedById?: SortOrderInput | SortOrder
+    deactivationReason?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -12990,6 +13138,9 @@ export namespace Prisma {
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
     refreshToken?: StringNullableWithAggregatesFilter<"User"> | string | null
+    deactivatedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    deactivatedById?: StringNullableWithAggregatesFilter<"User"> | string | null
+    deactivationReason?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -13383,6 +13534,7 @@ export namespace Prisma {
     country?: StringNullableFilter<"Client"> | string | null
     state?: StringNullableFilter<"Client"> | string | null
     city?: StringNullableFilter<"Client"> | string | null
+    avatarUrl?: StringFilter<"Client"> | string
     createdAt?: DateTimeFilter<"Client"> | Date | string
     updatedAt?: DateTimeFilter<"Client"> | Date | string
     accounts?: BankAccountListRelationFilter
@@ -13399,6 +13551,7 @@ export namespace Prisma {
     country?: SortOrderInput | SortOrder
     state?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     accounts?: BankAccountOrderByRelationAggregateInput
@@ -13418,6 +13571,7 @@ export namespace Prisma {
     country?: StringNullableFilter<"Client"> | string | null
     state?: StringNullableFilter<"Client"> | string | null
     city?: StringNullableFilter<"Client"> | string | null
+    avatarUrl?: StringFilter<"Client"> | string
     createdAt?: DateTimeFilter<"Client"> | Date | string
     updatedAt?: DateTimeFilter<"Client"> | Date | string
     accounts?: BankAccountListRelationFilter
@@ -13434,6 +13588,7 @@ export namespace Prisma {
     country?: SortOrderInput | SortOrder
     state?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClientCountOrderByAggregateInput
@@ -13455,6 +13610,7 @@ export namespace Prisma {
     country?: StringNullableWithAggregatesFilter<"Client"> | string | null
     state?: StringNullableWithAggregatesFilter<"Client"> | string | null
     city?: StringNullableWithAggregatesFilter<"Client"> | string | null
+    avatarUrl?: StringWithAggregatesFilter<"Client"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Client"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Client"> | Date | string
   }
@@ -13677,6 +13833,8 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -13686,6 +13844,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -13699,6 +13859,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -13708,6 +13871,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserUpdateInput = {
@@ -13721,6 +13885,8 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -13730,6 +13896,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -13743,6 +13911,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -13752,6 +13923,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -13765,6 +13937,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13780,6 +13955,8 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13795,6 +13972,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14221,6 +14401,7 @@ export namespace Prisma {
     country?: string | null
     state?: string | null
     city?: string | null
+    avatarUrl?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: BankAccountCreateNestedManyWithoutClientInput
@@ -14237,6 +14418,7 @@ export namespace Prisma {
     country?: string | null
     state?: string | null
     city?: string | null
+    avatarUrl?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: BankAccountUncheckedCreateNestedManyWithoutClientInput
@@ -14253,6 +14435,7 @@ export namespace Prisma {
     country?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: BankAccountUpdateManyWithoutClientNestedInput
@@ -14269,6 +14452,7 @@ export namespace Prisma {
     country?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: BankAccountUncheckedUpdateManyWithoutClientNestedInput
@@ -14285,6 +14469,7 @@ export namespace Prisma {
     country?: string | null
     state?: string | null
     city?: string | null
+    avatarUrl?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14300,6 +14485,7 @@ export namespace Prisma {
     country?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14315,6 +14501,7 @@ export namespace Prisma {
     country?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14592,6 +14779,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -14627,6 +14825,17 @@ export namespace Prisma {
     none?: PermissionWhereInput
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -14648,6 +14857,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     firstName?: SortOrder
@@ -14659,6 +14872,9 @@ export namespace Prisma {
     role?: SortOrder
     isActive?: SortOrder
     refreshToken?: SortOrder
+    deactivatedAt?: SortOrder
+    deactivatedById?: SortOrder
+    deactivationReason?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14674,6 +14890,9 @@ export namespace Prisma {
     role?: SortOrder
     isActive?: SortOrder
     refreshToken?: SortOrder
+    deactivatedAt?: SortOrder
+    deactivatedById?: SortOrder
+    deactivationReason?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14689,6 +14908,9 @@ export namespace Prisma {
     role?: SortOrder
     isActive?: SortOrder
     refreshToken?: SortOrder
+    deactivatedAt?: SortOrder
+    deactivatedById?: SortOrder
+    deactivationReason?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14747,6 +14969,20 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -14759,16 +14995,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type UserListRelationFilter = {
-    every?: UserWhereInput
-    some?: UserWhereInput
-    none?: UserWhereInput
-  }
-
-  export type UserOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type PermissionCountOrderByAggregateInput = {
@@ -15071,6 +15297,7 @@ export namespace Prisma {
     country?: SortOrder
     state?: SortOrder
     city?: SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15086,6 +15313,7 @@ export namespace Prisma {
     country?: SortOrder
     state?: SortOrder
     city?: SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15101,6 +15329,7 @@ export namespace Prisma {
     country?: SortOrder
     state?: SortOrder
     city?: SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15119,17 +15348,6 @@ export namespace Prisma {
   export type BoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type AccountContractCountOrderByAggregateInput = {
@@ -15256,20 +15474,6 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type StaffAccountAssignmentUserIdAccountIdCompoundUniqueInput = {
     userId: string
     accountId: string
@@ -15348,6 +15552,19 @@ export namespace Prisma {
     connect?: StaffAccountAssignmentWhereUniqueInput | StaffAccountAssignmentWhereUniqueInput[]
   }
 
+  export type UserCreateNestedOneWithoutDeactivatedUsersInput = {
+    create?: XOR<UserCreateWithoutDeactivatedUsersInput, UserUncheckedCreateWithoutDeactivatedUsersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDeactivatedUsersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedManyWithoutDeactivatedByInput = {
+    create?: XOR<UserCreateWithoutDeactivatedByInput, UserUncheckedCreateWithoutDeactivatedByInput> | UserCreateWithoutDeactivatedByInput[] | UserUncheckedCreateWithoutDeactivatedByInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutDeactivatedByInput | UserCreateOrConnectWithoutDeactivatedByInput[]
+    createMany?: UserCreateManyDeactivatedByInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
   export type TokenUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
@@ -15394,6 +15611,13 @@ export namespace Prisma {
     connect?: StaffAccountAssignmentWhereUniqueInput | StaffAccountAssignmentWhereUniqueInput[]
   }
 
+  export type UserUncheckedCreateNestedManyWithoutDeactivatedByInput = {
+    create?: XOR<UserCreateWithoutDeactivatedByInput, UserUncheckedCreateWithoutDeactivatedByInput> | UserCreateWithoutDeactivatedByInput[] | UserUncheckedCreateWithoutDeactivatedByInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutDeactivatedByInput | UserCreateOrConnectWithoutDeactivatedByInput[]
+    createMany?: UserCreateManyDeactivatedByInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -15408,6 +15632,10 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -15509,6 +15737,30 @@ export namespace Prisma {
     deleteMany?: StaffAccountAssignmentScalarWhereInput | StaffAccountAssignmentScalarWhereInput[]
   }
 
+  export type UserUpdateOneWithoutDeactivatedUsersNestedInput = {
+    create?: XOR<UserCreateWithoutDeactivatedUsersInput, UserUncheckedCreateWithoutDeactivatedUsersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDeactivatedUsersInput
+    upsert?: UserUpsertWithoutDeactivatedUsersInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDeactivatedUsersInput, UserUpdateWithoutDeactivatedUsersInput>, UserUncheckedUpdateWithoutDeactivatedUsersInput>
+  }
+
+  export type UserUpdateManyWithoutDeactivatedByNestedInput = {
+    create?: XOR<UserCreateWithoutDeactivatedByInput, UserUncheckedCreateWithoutDeactivatedByInput> | UserCreateWithoutDeactivatedByInput[] | UserUncheckedCreateWithoutDeactivatedByInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutDeactivatedByInput | UserCreateOrConnectWithoutDeactivatedByInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutDeactivatedByInput | UserUpsertWithWhereUniqueWithoutDeactivatedByInput[]
+    createMany?: UserCreateManyDeactivatedByInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutDeactivatedByInput | UserUpdateWithWhereUniqueWithoutDeactivatedByInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutDeactivatedByInput | UserUpdateManyWithWhereWithoutDeactivatedByInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
   export type TokenUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
@@ -15602,6 +15854,20 @@ export namespace Prisma {
     update?: StaffAccountAssignmentUpdateWithWhereUniqueWithoutAssignedByInput | StaffAccountAssignmentUpdateWithWhereUniqueWithoutAssignedByInput[]
     updateMany?: StaffAccountAssignmentUpdateManyWithWhereWithoutAssignedByInput | StaffAccountAssignmentUpdateManyWithWhereWithoutAssignedByInput[]
     deleteMany?: StaffAccountAssignmentScalarWhereInput | StaffAccountAssignmentScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutDeactivatedByNestedInput = {
+    create?: XOR<UserCreateWithoutDeactivatedByInput, UserUncheckedCreateWithoutDeactivatedByInput> | UserCreateWithoutDeactivatedByInput[] | UserUncheckedCreateWithoutDeactivatedByInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutDeactivatedByInput | UserCreateOrConnectWithoutDeactivatedByInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutDeactivatedByInput | UserUpsertWithWhereUniqueWithoutDeactivatedByInput[]
+    createMany?: UserCreateManyDeactivatedByInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutDeactivatedByInput | UserUpdateWithWhereUniqueWithoutDeactivatedByInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutDeactivatedByInput | UserUpdateManyWithWhereWithoutDeactivatedByInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type UserCreateNestedManyWithoutPermissionsInput = {
@@ -15988,10 +16254,6 @@ export namespace Prisma {
     set?: boolean | null
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
   export type BankAccountUpdateOneRequiredWithoutContractNestedInput = {
     create?: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput>
     connectOrCreate?: BankAccountCreateOrConnectWithoutContractInput
@@ -16120,6 +16382,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -16203,6 +16476,20 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -16313,17 +16600,6 @@ export namespace Prisma {
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -16346,20 +16622,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type TokenCreateWithoutUserInput = {
@@ -16572,6 +16834,121 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserCreateWithoutDeactivatedUsersInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    username: string
+    email: string
+    password: string
+    avatarUrl?: string
+    role?: $Enums.UserRole
+    isActive?: boolean
+    refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    BankTransaction?: BankTransactionCreateNestedManyWithoutUploadedByInput
+    StaffAccountAssignment?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
+    permissions?: PermissionCreateNestedManyWithoutUsersInput
+    uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
+    staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
+    assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+  }
+
+  export type UserUncheckedCreateWithoutDeactivatedUsersInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    username: string
+    email: string
+    password: string
+    avatarUrl?: string
+    role?: $Enums.UserRole
+    isActive?: boolean
+    refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    BankTransaction?: BankTransactionUncheckedCreateNestedManyWithoutUploadedByInput
+    StaffAccountAssignment?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutUsersInput
+    uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
+    staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
+    assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  }
+
+  export type UserCreateOrConnectWithoutDeactivatedUsersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDeactivatedUsersInput, UserUncheckedCreateWithoutDeactivatedUsersInput>
+  }
+
+  export type UserCreateWithoutDeactivatedByInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    username: string
+    email: string
+    password: string
+    avatarUrl?: string
+    role?: $Enums.UserRole
+    isActive?: boolean
+    refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    BankTransaction?: BankTransactionCreateNestedManyWithoutUploadedByInput
+    StaffAccountAssignment?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
+    permissions?: PermissionCreateNestedManyWithoutUsersInput
+    uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
+    staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
+    assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutDeactivatedByInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    username: string
+    email: string
+    password: string
+    avatarUrl?: string
+    role?: $Enums.UserRole
+    isActive?: boolean
+    refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    BankTransaction?: BankTransactionUncheckedCreateNestedManyWithoutUploadedByInput
+    StaffAccountAssignment?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutUsersInput
+    uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
+    staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
+    assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutDeactivatedByInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDeactivatedByInput, UserUncheckedCreateWithoutDeactivatedByInput>
+  }
+
+  export type UserCreateManyDeactivatedByInputEnvelope = {
+    data: UserCreateManyDeactivatedByInput | UserCreateManyDeactivatedByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TokenUpsertWithWhereUniqueWithoutUserInput = {
     where: TokenWhereUniqueInput
     update: XOR<TokenUpdateWithoutUserInput, TokenUncheckedUpdateWithoutUserInput>
@@ -16740,6 +17117,104 @@ export namespace Prisma {
     data: XOR<StaffAccountAssignmentUpdateManyMutationInput, StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByInput>
   }
 
+  export type UserUpsertWithoutDeactivatedUsersInput = {
+    update: XOR<UserUpdateWithoutDeactivatedUsersInput, UserUncheckedUpdateWithoutDeactivatedUsersInput>
+    create: XOR<UserCreateWithoutDeactivatedUsersInput, UserUncheckedCreateWithoutDeactivatedUsersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDeactivatedUsersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDeactivatedUsersInput, UserUncheckedUpdateWithoutDeactivatedUsersInput>
+  }
+
+  export type UserUpdateWithoutDeactivatedUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    BankTransaction?: BankTransactionUpdateManyWithoutUploadedByNestedInput
+    StaffAccountAssignment?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
+    permissions?: PermissionUpdateManyWithoutUsersNestedInput
+    uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
+    staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
+    assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDeactivatedUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    BankTransaction?: BankTransactionUncheckedUpdateManyWithoutUploadedByNestedInput
+    StaffAccountAssignment?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutUsersNestedInput
+    uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
+    staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutDeactivatedByInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutDeactivatedByInput, UserUncheckedUpdateWithoutDeactivatedByInput>
+    create: XOR<UserCreateWithoutDeactivatedByInput, UserUncheckedCreateWithoutDeactivatedByInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutDeactivatedByInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutDeactivatedByInput, UserUncheckedUpdateWithoutDeactivatedByInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutDeactivatedByInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutDeactivatedByInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    firstName?: StringFilter<"User"> | string
+    lastName?: StringFilter<"User"> | string
+    username?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
+    avatarUrl?: StringFilter<"User"> | string
+    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    isActive?: BoolFilter<"User"> | boolean
+    refreshToken?: StringNullableFilter<"User"> | string | null
+    deactivatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    deactivatedById?: StringNullableFilter<"User"> | string | null
+    deactivationReason?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+  }
+
   export type UserCreateWithoutPermissionsInput = {
     id?: string
     firstName: string
@@ -16751,6 +17226,8 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -16759,6 +17236,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserUncheckedCreateWithoutPermissionsInput = {
@@ -16772,6 +17251,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -16780,6 +17262,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserCreateOrConnectWithoutPermissionsInput = {
@@ -16803,24 +17286,6 @@ export namespace Prisma {
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutPermissionsInput>
   }
 
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: StringFilter<"User"> | string
-    firstName?: StringFilter<"User"> | string
-    lastName?: StringFilter<"User"> | string
-    username?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
-    avatarUrl?: StringFilter<"User"> | string
-    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
-    isActive?: BoolFilter<"User"> | boolean
-    refreshToken?: StringNullableFilter<"User"> | string | null
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-  }
-
   export type UserCreateWithoutTokensInput = {
     id?: string
     firstName: string
@@ -16832,6 +17297,8 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     BankTransaction?: BankTransactionCreateNestedManyWithoutUploadedByInput
@@ -16840,6 +17307,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserUncheckedCreateWithoutTokensInput = {
@@ -16853,6 +17322,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     BankTransaction?: BankTransactionUncheckedCreateNestedManyWithoutUploadedByInput
@@ -16861,6 +17333,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserCreateOrConnectWithoutTokensInput = {
@@ -16890,6 +17363,8 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     BankTransaction?: BankTransactionUpdateManyWithoutUploadedByNestedInput
@@ -16898,6 +17373,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensInput = {
@@ -16911,6 +17388,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     BankTransaction?: BankTransactionUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -16919,6 +17399,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type BankTransactionCreateWithoutClassificationInput = {
@@ -17027,6 +17508,8 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -17035,6 +17518,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserUncheckedCreateWithoutBankTransactionInput = {
@@ -17048,6 +17533,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -17056,6 +17544,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserCreateOrConnectWithoutBankTransactionInput = {
@@ -17099,6 +17588,8 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -17107,6 +17598,8 @@ export namespace Prisma {
     permissions?: PermissionCreateNestedManyWithoutUsersInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserUncheckedCreateWithoutUploadedTransactionsInput = {
@@ -17120,6 +17613,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -17128,6 +17624,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedCreateNestedManyWithoutUsersInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserCreateOrConnectWithoutUploadedTransactionsInput = {
@@ -17194,6 +17691,8 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -17202,6 +17701,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBankTransactionInput = {
@@ -17215,6 +17716,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -17223,6 +17727,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type TransactionClassificationUpsertWithoutTransactionsInput = {
@@ -17410,6 +17915,7 @@ export namespace Prisma {
     country?: string | null
     state?: string | null
     city?: string | null
+    avatarUrl?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17425,6 +17931,7 @@ export namespace Prisma {
     country?: string | null
     state?: string | null
     city?: string | null
+    avatarUrl?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17545,6 +18052,7 @@ export namespace Prisma {
     country?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17560,6 +18068,7 @@ export namespace Prisma {
     country?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17709,6 +18218,8 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -17717,6 +18228,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserUncheckedCreateWithoutStaffAccountAssignmentInput = {
@@ -17730,6 +18243,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -17738,6 +18254,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserCreateOrConnectWithoutStaffAccountAssignmentInput = {
@@ -17787,6 +18304,8 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -17795,6 +18314,8 @@ export namespace Prisma {
     permissions?: PermissionCreateNestedManyWithoutUsersInput
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserUncheckedCreateWithoutAssignedStaffAccountsInput = {
@@ -17808,6 +18329,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -17816,6 +18340,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedCreateNestedManyWithoutUsersInput
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserCreateOrConnectWithoutAssignedStaffAccountsInput = {
@@ -17834,6 +18359,8 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -17842,6 +18369,8 @@ export namespace Prisma {
     permissions?: PermissionCreateNestedManyWithoutUsersInput
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserUncheckedCreateWithoutStaffAssignmentsInput = {
@@ -17855,6 +18384,9 @@ export namespace Prisma {
     role?: $Enums.UserRole
     isActive?: boolean
     refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -17863,6 +18395,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedCreateNestedManyWithoutUsersInput
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
   export type UserCreateOrConnectWithoutStaffAssignmentsInput = {
@@ -17892,6 +18425,8 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -17900,6 +18435,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStaffAccountAssignmentInput = {
@@ -17913,6 +18450,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -17921,6 +18461,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type BankAccountUpsertWithoutStaffAssignmentsInput = {
@@ -17982,6 +18523,8 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -17990,6 +18533,8 @@ export namespace Prisma {
     permissions?: PermissionUpdateManyWithoutUsersNestedInput
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssignedStaffAccountsInput = {
@@ -18003,6 +18548,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -18011,6 +18559,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedUpdateManyWithoutUsersNestedInput
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutStaffAssignmentsInput = {
@@ -18067,6 +18616,23 @@ export namespace Prisma {
     id?: string
     userId: string
     accountId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCreateManyDeactivatedByInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    username: string
+    email: string
+    password: string
+    avatarUrl?: string
+    role?: $Enums.UserRole
+    isActive?: boolean
+    refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18308,6 +18874,73 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserUpdateWithoutDeactivatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    BankTransaction?: BankTransactionUpdateManyWithoutUploadedByNestedInput
+    StaffAccountAssignment?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
+    permissions?: PermissionUpdateManyWithoutUsersNestedInput
+    uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
+    staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
+    assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDeactivatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    BankTransaction?: BankTransactionUncheckedUpdateManyWithoutUploadedByNestedInput
+    StaffAccountAssignment?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutUsersNestedInput
+    uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
+    staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutDeactivatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserUpdateWithoutPermissionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
@@ -18319,6 +18952,8 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -18327,6 +18962,8 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPermissionsInput = {
@@ -18340,6 +18977,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -18348,6 +18988,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPermissionsInput = {
@@ -18361,6 +19002,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18450,6 +19094,8 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -18458,6 +19104,8 @@ export namespace Prisma {
     permissions?: PermissionUpdateManyWithoutUsersNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUploadedTransactionsInput = {
@@ -18471,6 +19119,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -18479,6 +19130,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedUpdateManyWithoutUsersNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutUploadedTransactionsInput = {
@@ -18492,6 +19144,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18661,6 +19316,8 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -18669,6 +19326,8 @@ export namespace Prisma {
     permissions?: PermissionUpdateManyWithoutUsersNestedInput
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStaffAssignmentsInput = {
@@ -18682,6 +19341,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -18690,6 +19352,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedUpdateManyWithoutUsersNestedInput
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutStaffAssignmentsInput = {
@@ -18703,6 +19366,9 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     isActive?: BoolFieldUpdateOperationsInput | boolean
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

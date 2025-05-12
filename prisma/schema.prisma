@@ -34,6 +34,12 @@ model User {
   role         UserRole                  @default(STAFF)
   isActive     Boolean                   @default(true)
   refreshToken String?
+
+  deactivatedAt DateTime?  // When the user was deactivated
+  deactivatedById String?  // Who deactivated them
+  deactivationReason String? // Reason for deactivation
+
+
   createdAt    DateTime                  @default(now())
   updatedAt    DateTime                  @updatedAt
 
@@ -57,6 +63,10 @@ model User {
 
   // 🧑‍🏫 Admins who assign staff to accounts
   assignedStaffAccounts StaffAccountAssignment[] @relation("AssignedBy")
+
+  // 👤 User that deactivated this user
+  deactivatedBy User?      @relation("UserDeactivatedBy", fields: [deactivatedById], references: [id])
+  deactivatedUsers User[]  @relation("UserDeactivatedBy")  // Users this user deactivated
 
   @@map("users")
 }
@@ -186,6 +196,7 @@ model Client {
   country   String?
   state     String?
   city      String?
+  avatarUrl String         @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
   accounts  BankAccount[]
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
@@ -239,4 +250,3 @@ model StaffAccountAssignment {
 
   @@map("staff_account_assignments")
 }
-
