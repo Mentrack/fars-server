@@ -8,6 +8,8 @@ export class TokenService {
 
   async createToken(createTokenDto: CreateTokenDto) {
     const { userId, token, expiresIn } = createTokenDto;
+    // Check if the token already exists for the user
+    await this.deleteTokens(userId);
     return await this.databaseService.token.create({
       data: {
         userId,
@@ -43,6 +45,14 @@ export class TokenService {
     return await this.databaseService.token.delete({
       where: {
         token,
+      },
+    });
+  }
+
+  async deleteTokens(userId: string) {
+    return await this.databaseService.token.deleteMany({
+      where: {
+        userId,
       },
     });
   }
