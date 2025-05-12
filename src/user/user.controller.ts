@@ -29,6 +29,7 @@ import {
   DeactivateUserResponseDto,
 } from './dto/deactivate-user.dto';
 import { RequestWithUser } from 'src/auth/types/request-with-user';
+import { ActivateUserResponseDto } from './dto/activate-user.dto';
 
 @ApiBearerAuth()
 @Controller('users')
@@ -86,6 +87,17 @@ export class UserController {
       id,
       deactivateUserDto,
     );
+  }
+
+  @ApiOperation({ summary: 'Reactivate a user by ID' })
+  @ApiOkResponse({
+    description: 'User reactivated successfully',
+    type: ActivateUserResponseDto,
+  })
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @Patch('activate/:id')
+  async activateUser(@Param('id', ParseUUIDPipe) id: string) {
+    return this.userService.activateUser(id);
   }
 
   @ApiOperation({ summary: 'Update a user by ID' })

@@ -225,7 +225,35 @@ export class UserService {
         throw new NotFoundException(`User not found`);
       }
       // Handle other errors
-      throw new BadRequestException(`Failed to update user`);
+      throw new BadRequestException(`Failed to deactivate user`);
+    }
+  }
+
+  async activateUser(userId: string) {
+    try {
+      // Check if user exists
+      await this.findOne(userId);
+
+      await this.databaseService.user.update({
+        where: { id: userId },
+        data: {
+          isActive: true,
+          deactivatedAt: null,
+          deactivatedById: null,
+          deactivationReason: null,
+        },
+      });
+
+      return {
+        message: 'User has been successfully activated',
+      };
+    } catch (error) {
+      // Handle specific error codes from Prisma
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`User not found`);
+      }
+      // Handle other errors
+      throw new BadRequestException(`Failed to activate user`);
     }
   }
 
