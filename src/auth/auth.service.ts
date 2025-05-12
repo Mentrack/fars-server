@@ -14,6 +14,7 @@ import { nanoid } from 'nanoid';
 import { TokenService } from 'src/token/token.service';
 import { MailService } from 'src/mail/mail.service';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { randomInt } from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -108,25 +109,27 @@ export class AuthService {
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
     // Check if the user exists
     const user = await this.userService.findByEmail(forgotPasswordDto.email);
-    if (!user) throw new UnauthorizedException('User not found');
 
-    const expiresIn = new Date();
-    expiresIn.setHours(expiresIn.getHours() + 1); // Set expiration time to 1 hour
+    if (user) {
+      const expiresIn = new Date();
+      expiresIn.setHours(expiresIn.getHours() + 1); // Set expiration time to 1 hour
 
-    const resetToken = nanoid(64);
+      const resetToken = randomInt(100000, 1000000).toString(); // 6-digit string
 
-    // Save the reset token to the database
-    await this.tokenService.createToken({
-      userId: user.id,
-      token: resetToken,
-      expiresIn,
-    });
+      // Save the reset token to the database
+      await this.tokenService.createToken({
+        userId: user.id,
+        token: resetToken,
+        expiresIn,
+      });
 
-    // Send the token to the user's email
-    await this.mailService.sendResetPasswordEmail(
-      forgotPasswordDto.email,
-      resetToken,
-    );
+      // Send the token to the user's email
+      await this.mailService.sendResetPasswordEmail(
+        user.firstName,
+        forgotPasswordDto.email,
+        resetToken,
+      );
+    }
 
     return { message: 'If this user exists, you will recieve and email.' };
   }
@@ -139,10 +142,19 @@ export class AuthService {
 
     // Hash the new password and update it in the database
     const hashedNewPassword = await argon2.hash(password);
-    await this.userService.updatePassword(token.userId, hashedNewPassword);
+    const user = await this.userService.updatePassword(
+      token.userId,
+      hashedNewPassword,
+    );
 
     // Delete the token from the database
     await this.tokenService.deleteToken(resetToken);
+
+    // Send a success email to the user
+    await this.mailService.sendResetPasswordSuccessEmail(
+      user.firstName,
+      user.email,
+    );
 
     return { message: 'Password reset successfully' };
   }
