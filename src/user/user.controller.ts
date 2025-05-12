@@ -9,6 +9,7 @@ import {
   Query,
   ParseUUIDPipe,
   Ip,
+  Request,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, CreateUserResponseDto } from './dto/create-user.dto';
@@ -23,6 +24,12 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import { MyLoggerService } from 'src/my-logger/my-logger.service';
+import {
+  DeactivateUserDto,
+  DeactivateUserResponseDto,
+} from './dto/deactivate-user.dto';
+import { RequestWithUser } from 'src/auth/types/request-with-user';
+import { ActivateUserResponseDto } from './dto/activate-user.dto';
 
 @ApiBearerAuth()
 @Controller('users')
@@ -37,8 +44,8 @@ export class UserController {
     type: CreateUserResponseDto,
   })
   @Post('/')
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    return await this.userService.create(createUserDto);
   }
 
   @ApiOperation({ summary: 'Get all users' })
@@ -47,9 +54,9 @@ export class UserController {
     type: [CreateUserResponseDto],
   })
   @Get('/')
-  findAll(@Ip() ip: string, @Query('role') role?: Role) {
+  async findAll(@Ip() ip: string, @Query('role') role?: Role) {
     this.logger.log(`Request for All Users\t${ip}`, UserController.name);
-    return this.userService.findAll(role);
+    return await this.userService.findAll(role);
   }
 
   @ApiOperation({ summary: 'Get a user by ID' })
@@ -59,8 +66,38 @@ export class UserController {
     type: CreateUserResponseDto,
   })
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.userService.findOne(id);
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.userService.findOne(id);
+  }
+
+  @ApiOperation({ summary: 'Deactivate a user by ID' })
+  @ApiOkResponse({
+    description: 'User deactivated successfully',
+    type: DeactivateUserResponseDto,
+  })
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @Patch('deactivate/:id')
+  async deactivateUser(
+    @Request() req: RequestWithUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() deactivateUserDto: DeactivateUserDto,
+  ) {
+    return await this.userService.deactivateUser(
+      req.user.id,
+      id,
+      deactivateUserDto,
+    );
+  }
+
+  @ApiOperation({ summary: 'Reactivate a user by ID' })
+  @ApiOkResponse({
+    description: 'User reactivated successfully',
+    type: ActivateUserResponseDto,
+  })
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @Patch('activate/:id')
+  async activateUser(@Param('id', ParseUUIDPipe) id: string) {
+    return this.userService.activateUser(id);
   }
 
   @ApiOperation({ summary: 'Update a user by ID' })
@@ -70,11 +107,11 @@ export class UserController {
   })
   @ApiParam({ name: 'id', type: 'string' })
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.update(id, updateUserDto);
+    return await this.userService.update(id, updateUserDto);
   }
 
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
@@ -85,7 +122,7 @@ export class UserController {
   })
   @ApiParam({ name: 'id', type: 'string' })
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.userService.remove(id);
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.userService.remove(id);
   }
 }

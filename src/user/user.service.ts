@@ -10,6 +10,7 @@ import { DatabaseService } from 'src/database/database.service';
 import { Role } from './enum/role.enum';
 import * as argon2 from 'argon2';
 import { omit } from 'src/utils/omit.util';
+import { DeactivateUserDto } from './dto/deactivate-user.dto';
 
 @Injectable()
 export class UserService {
@@ -194,6 +195,66 @@ export class UserService {
       where: { id },
       data: { password },
     });
+  }
+
+  async deactivateUser(
+    adminId: string,
+    userId: string,
+    deactivateUserDto: DeactivateUserDto,
+  ) {
+    try {
+      // Check if user exists
+      await this.findOne(userId);
+
+      await this.databaseService.user.update({
+        where: { id: userId },
+        data: {
+          isActive: false,
+          deactivatedAt: new Date(),
+          deactivatedById: adminId,
+          deactivationReason: deactivateUserDto.reason,
+        },
+      });
+
+      return {
+        message: 'User has been successfully deactivated',
+      };
+    } catch (error) {
+      // Handle specific error codes from Prisma
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`User not found`);
+      }
+      // Handle other errors
+      throw new BadRequestException(`Failed to deactivate user`);
+    }
+  }
+
+  async activateUser(userId: string) {
+    try {
+      // Check if user exists
+      await this.findOne(userId);
+
+      await this.databaseService.user.update({
+        where: { id: userId },
+        data: {
+          isActive: true,
+          deactivatedAt: null,
+          deactivatedById: null,
+          deactivationReason: null,
+        },
+      });
+
+      return {
+        message: 'User has been successfully activated',
+      };
+    } catch (error) {
+      // Handle specific error codes from Prisma
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`User not found`);
+      }
+      // Handle other errors
+      throw new BadRequestException(`Failed to activate user`);
+    }
   }
 
   async remove(id: string) {
