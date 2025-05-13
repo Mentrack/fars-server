@@ -77,4 +77,13 @@ export class CreateClientDto {
   @IsString()
   @IsOptional()
   city?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional({
+    description: 'Client avatar URL',
+    default:
+      'https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg',
+  })
+  avatarUrl?: string;
 }
