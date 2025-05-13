@@ -12,6 +12,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { MyLoggerModule } from './my-logger/my-logger.module';
 import { ClientModule } from './client/client.module';
 import { BankAccountModule } from './bank-account/bank-account.module';
+import { StaffAssignmentModule } from './staff-assignment/staff-assignment.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { BankAccountModule } from './bank-account/bank-account.module';
     MyLoggerModule,
     ClientModule,
     BankAccountModule,
+    StaffAssignmentModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1969,6 +1969,7 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     username: string | null
+    phone: string | null
     email: string | null
     password: string | null
     avatarUrl: string | null
@@ -1987,6 +1988,7 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     username: string | null
+    phone: string | null
     email: string | null
     password: string | null
     avatarUrl: string | null
@@ -2005,6 +2007,7 @@ export namespace Prisma {
     firstName: number
     lastName: number
     username: number
+    phone: number
     email: number
     password: number
     avatarUrl: number
@@ -2025,6 +2028,7 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     username?: true
+    phone?: true
     email?: true
     password?: true
     avatarUrl?: true
@@ -2043,6 +2047,7 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     username?: true
+    phone?: true
     email?: true
     password?: true
     avatarUrl?: true
@@ -2061,6 +2066,7 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     username?: true
+    phone?: true
     email?: true
     password?: true
     avatarUrl?: true
@@ -2152,6 +2158,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone: string | null
     email: string
     password: string
     avatarUrl: string
@@ -2187,6 +2194,7 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     username?: boolean
+    phone?: boolean
     email?: boolean
     password?: boolean
     avatarUrl?: boolean
@@ -2215,6 +2223,7 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     username?: boolean
+    phone?: boolean
     email?: boolean
     password?: boolean
     avatarUrl?: boolean
@@ -2234,6 +2243,7 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     username?: boolean
+    phone?: boolean
     email?: boolean
     password?: boolean
     avatarUrl?: boolean
@@ -2253,6 +2263,7 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     username?: boolean
+    phone?: boolean
     email?: boolean
     password?: boolean
     avatarUrl?: boolean
@@ -2266,7 +2277,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "username" | "email" | "password" | "avatarUrl" | "role" | "isActive" | "refreshToken" | "deactivatedAt" | "deactivatedById" | "deactivationReason" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "username" | "phone" | "email" | "password" | "avatarUrl" | "role" | "isActive" | "refreshToken" | "deactivatedAt" | "deactivatedById" | "deactivationReason" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tokens?: boolean | User$tokensArgs<ExtArgs>
     BankTransaction?: boolean | User$BankTransactionArgs<ExtArgs>
@@ -2304,6 +2315,7 @@ export namespace Prisma {
       firstName: string
       lastName: string
       username: string
+      phone: string | null
       email: string
       password: string
       avatarUrl: string
@@ -2751,6 +2763,7 @@ export namespace Prisma {
     readonly firstName: FieldRef<"User", 'String'>
     readonly lastName: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
+    readonly phone: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly avatarUrl: FieldRef<"User", 'String'>
@@ -7904,6 +7917,7 @@ export namespace Prisma {
 
   export type BankAccountMinAggregateOutputType = {
     id: string | null
+    accountCode: string | null
     accountNumber: string | null
     accountName: string | null
     accountType: $Enums.AccountType | null
@@ -7915,6 +7929,7 @@ export namespace Prisma {
 
   export type BankAccountMaxAggregateOutputType = {
     id: string | null
+    accountCode: string | null
     accountNumber: string | null
     accountName: string | null
     accountType: $Enums.AccountType | null
@@ -7926,6 +7941,7 @@ export namespace Prisma {
 
   export type BankAccountCountAggregateOutputType = {
     id: number
+    accountCode: number
     accountNumber: number
     accountName: number
     accountType: number
@@ -7939,6 +7955,7 @@ export namespace Prisma {
 
   export type BankAccountMinAggregateInputType = {
     id?: true
+    accountCode?: true
     accountNumber?: true
     accountName?: true
     accountType?: true
@@ -7950,6 +7967,7 @@ export namespace Prisma {
 
   export type BankAccountMaxAggregateInputType = {
     id?: true
+    accountCode?: true
     accountNumber?: true
     accountName?: true
     accountType?: true
@@ -7961,6 +7979,7 @@ export namespace Prisma {
 
   export type BankAccountCountAggregateInputType = {
     id?: true
+    accountCode?: true
     accountNumber?: true
     accountName?: true
     accountType?: true
@@ -8045,6 +8064,7 @@ export namespace Prisma {
 
   export type BankAccountGroupByOutputType = {
     id: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -8073,6 +8093,7 @@ export namespace Prisma {
 
   export type BankAccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountCode?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8089,6 +8110,7 @@ export namespace Prisma {
 
   export type BankAccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountCode?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8101,6 +8123,7 @@ export namespace Prisma {
 
   export type BankAccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountCode?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8113,6 +8136,7 @@ export namespace Prisma {
 
   export type BankAccountSelectScalar = {
     id?: boolean
+    accountCode?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8122,7 +8146,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
+  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountCode" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
   export type BankAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contract?: boolean | BankAccount$contractArgs<ExtArgs>
     staffAssignments?: boolean | BankAccount$staffAssignmentsArgs<ExtArgs>
@@ -8147,6 +8171,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      accountCode: string
       accountNumber: string
       accountName: string
       accountType: $Enums.AccountType
@@ -8582,6 +8607,7 @@ export namespace Prisma {
    */
   interface BankAccountFieldRefs {
     readonly id: FieldRef<"BankAccount", 'String'>
+    readonly accountCode: FieldRef<"BankAccount", 'String'>
     readonly accountNumber: FieldRef<"BankAccount", 'String'>
     readonly accountName: FieldRef<"BankAccount", 'String'>
     readonly accountType: FieldRef<"BankAccount", 'AccountType'>
@@ -12720,6 +12746,7 @@ export namespace Prisma {
     firstName: 'firstName',
     lastName: 'lastName',
     username: 'username',
+    phone: 'phone',
     email: 'email',
     password: 'password',
     avatarUrl: 'avatarUrl',
@@ -12795,6 +12822,7 @@ export namespace Prisma {
 
   export const BankAccountScalarFieldEnum: {
     id: 'id',
+    accountCode: 'accountCode',
     accountNumber: 'accountNumber',
     accountName: 'accountName',
     accountType: 'accountType',
@@ -13024,6 +13052,7 @@ export namespace Prisma {
     firstName?: StringFilter<"User"> | string
     lastName?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
+    phone?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     avatarUrl?: StringFilter<"User"> | string
@@ -13051,6 +13080,7 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     username?: SortOrder
+    phone?: SortOrderInput | SortOrder
     email?: SortOrder
     password?: SortOrder
     avatarUrl?: SortOrder
@@ -13076,6 +13106,7 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     username?: string
+    phone?: string
     email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -13101,13 +13132,14 @@ export namespace Prisma {
     assignedStaffAccounts?: StaffAccountAssignmentListRelationFilter
     deactivatedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     deactivatedUsers?: UserListRelationFilter
-  }, "id" | "username" | "email">
+  }, "id" | "username" | "phone" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     username?: SortOrder
+    phone?: SortOrderInput | SortOrder
     email?: SortOrder
     password?: SortOrder
     avatarUrl?: SortOrder
@@ -13132,6 +13164,7 @@ export namespace Prisma {
     firstName?: StringWithAggregatesFilter<"User"> | string
     lastName?: StringWithAggregatesFilter<"User"> | string
     username?: StringWithAggregatesFilter<"User"> | string
+    phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     avatarUrl?: StringWithAggregatesFilter<"User"> | string
@@ -13446,6 +13479,7 @@ export namespace Prisma {
     OR?: BankAccountWhereInput[]
     NOT?: BankAccountWhereInput | BankAccountWhereInput[]
     id?: StringFilter<"BankAccount"> | string
+    accountCode?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
     accountName?: StringFilter<"BankAccount"> | string
     accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
@@ -13461,6 +13495,7 @@ export namespace Prisma {
 
   export type BankAccountOrderByWithRelationInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -13476,6 +13511,7 @@ export namespace Prisma {
 
   export type BankAccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    accountCode?: string
     accountNumber?: string
     AND?: BankAccountWhereInput | BankAccountWhereInput[]
     OR?: BankAccountWhereInput[]
@@ -13490,10 +13526,11 @@ export namespace Prisma {
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     transactions?: BankTransactionListRelationFilter
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
-  }, "id" | "accountNumber">
+  }, "id" | "accountCode" | "accountNumber">
 
   export type BankAccountOrderByWithAggregationInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -13511,6 +13548,7 @@ export namespace Prisma {
     OR?: BankAccountScalarWhereWithAggregatesInput[]
     NOT?: BankAccountScalarWhereWithAggregatesInput | BankAccountScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"BankAccount"> | string
+    accountCode?: StringWithAggregatesFilter<"BankAccount"> | string
     accountNumber?: StringWithAggregatesFilter<"BankAccount"> | string
     accountName?: StringWithAggregatesFilter<"BankAccount"> | string
     accountType?: EnumAccountTypeWithAggregatesFilter<"BankAccount"> | $Enums.AccountType
@@ -13827,6 +13865,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -13853,6 +13892,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -13879,6 +13919,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -13905,6 +13946,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -13931,6 +13973,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -13949,6 +13992,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -13966,6 +14010,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -14304,6 +14349,7 @@ export namespace Prisma {
 
   export type BankAccountCreateInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -14318,6 +14364,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -14332,6 +14379,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14346,6 +14394,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14360,6 +14409,7 @@ export namespace Prisma {
 
   export type BankAccountCreateManyInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -14371,6 +14421,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14381,6 +14432,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14752,18 +14804,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type EnumUserRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -14777,6 +14817,18 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type EnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -14866,6 +14918,7 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     username?: SortOrder
+    phone?: SortOrder
     email?: SortOrder
     password?: SortOrder
     avatarUrl?: SortOrder
@@ -14884,6 +14937,7 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     username?: SortOrder
+    phone?: SortOrder
     email?: SortOrder
     password?: SortOrder
     avatarUrl?: SortOrder
@@ -14902,6 +14956,7 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     username?: SortOrder
+    phone?: SortOrder
     email?: SortOrder
     password?: SortOrder
     avatarUrl?: SortOrder
@@ -14933,24 +14988,6 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumUserRoleFilter<$PrismaModel>
-    _max?: NestedEnumUserRoleFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -14967,6 +15004,24 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15235,6 +15290,7 @@ export namespace Prisma {
 
   export type BankAccountCountOrderByAggregateInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -15246,6 +15302,7 @@ export namespace Prisma {
 
   export type BankAccountMaxOrderByAggregateInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -15257,6 +15314,7 @@ export namespace Prisma {
 
   export type BankAccountMinOrderByAggregateInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -15622,16 +15680,16 @@ export namespace Prisma {
     set?: string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type EnumUserRoleFieldUpdateOperationsInput = {
     set?: $Enums.UserRole
   }
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -16356,18 +16414,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -16380,6 +16426,18 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -16432,24 +16490,6 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumUserRoleFilter<$PrismaModel>
-    _max?: NestedEnumUserRoleFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -16476,6 +16516,24 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16839,6 +16897,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -16864,6 +16923,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -16894,6 +16954,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -16919,6 +16980,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -17133,6 +17195,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -17158,6 +17221,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -17202,6 +17266,7 @@ export namespace Prisma {
     firstName?: StringFilter<"User"> | string
     lastName?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
+    phone?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     avatarUrl?: StringFilter<"User"> | string
@@ -17220,6 +17285,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -17245,6 +17311,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -17291,6 +17358,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -17316,6 +17384,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -17357,6 +17426,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -17382,6 +17452,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -17468,6 +17539,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutTransactionsInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -17481,6 +17553,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutTransactionsInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -17502,6 +17575,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -17527,6 +17601,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -17582,6 +17657,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -17607,6 +17683,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -17645,6 +17722,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -17658,6 +17736,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -17685,6 +17764,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -17710,6 +17790,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18075,6 +18156,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutClientInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18088,6 +18170,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutClientInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18130,6 +18213,7 @@ export namespace Prisma {
     OR?: BankAccountScalarWhereInput[]
     NOT?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
     id?: StringFilter<"BankAccount"> | string
+    accountCode?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
     accountName?: StringFilter<"BankAccount"> | string
     accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
@@ -18141,6 +18225,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutContractInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18154,6 +18239,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutContractInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18183,6 +18269,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutContractInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18196,6 +18283,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutContractInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18212,6 +18300,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -18237,6 +18326,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -18264,6 +18354,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutStaffAssignmentsInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18277,6 +18368,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutStaffAssignmentsInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18298,6 +18390,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -18323,6 +18416,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -18353,6 +18447,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -18378,6 +18473,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -18419,6 +18515,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18444,6 +18541,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18477,6 +18575,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutStaffAssignmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18490,6 +18589,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutStaffAssignmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18517,6 +18617,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18542,6 +18643,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18625,6 +18727,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     username: string
+    phone?: string | null
     email: string
     password: string
     avatarUrl?: string
@@ -18879,6 +18982,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18904,6 +19008,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18929,6 +19034,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18946,6 +19052,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18971,6 +19078,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -18996,6 +19104,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -19088,6 +19197,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -19113,6 +19223,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -19138,6 +19249,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -19261,6 +19373,7 @@ export namespace Prisma {
 
   export type BankAccountCreateManyClientInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -19271,6 +19384,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -19284,6 +19398,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -19297,6 +19412,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -19310,6 +19426,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -19335,6 +19452,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string
@@ -19360,6 +19478,7 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     avatarUrl?: StringFieldUpdateOperationsInput | string

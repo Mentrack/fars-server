@@ -28,11 +28,12 @@ model User {
   firstName    String
   lastName     String
   username     String                    @unique
+  phone        String?                   @unique
   email        String                    @unique
   password     String
-  avatarUrl    String                    @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
-  role         UserRole                  @default(STAFF)
-  isActive     Boolean                   @default(true)
+  avatarUrl    String                   @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
+  role         UserRole                 @default(STAFF)
+  isActive     Boolean                  @default(true)
   refreshToken String?
 
   deactivatedAt DateTime?  // When the user was deactivated
@@ -168,6 +169,7 @@ enum AccountType {
 
 model BankAccount {
   id              String                  @id @default(uuid())
+  accountCode     String                  @unique
   accountNumber   String                  @unique
   accountName     String
   accountType     AccountType

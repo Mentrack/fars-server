@@ -125,6 +125,7 @@ exports.Prisma.UserScalarFieldEnum = {
   firstName: 'firstName',
   lastName: 'lastName',
   username: 'username',
+  phone: 'phone',
   email: 'email',
   password: 'password',
   avatarUrl: 'avatarUrl',
@@ -185,6 +186,7 @@ exports.Prisma.BankTransactionScalarFieldEnum = {
 
 exports.Prisma.BankAccountScalarFieldEnum = {
   id: 'id',
+  accountCode: 'accountCode',
   accountNumber: 'accountNumber',
   accountName: 'accountName',
   accountType: 'accountType',
