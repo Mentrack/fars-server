@@ -60,6 +60,13 @@ export class CreateBankAccountDto {
 
 export class CreateBankAccountResponseDto {
   @ApiProperty({
+    description: 'Unique identifier for the bank account',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @IsString()
+  accountCode: string;
+
+  @ApiProperty({
     example: '1234567890',
   })
   @IsString()
