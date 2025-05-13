@@ -28,6 +28,7 @@ model User {
   firstName    String
   lastName     String
   username     String   @unique
+  phone        String?  @unique
   email        String   @unique
   password     String
   avatarUrl    String   @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")

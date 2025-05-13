@@ -41,6 +41,17 @@ export class CreateUserDto {
   })
   email: string;
 
+  @ApiPropertyOptional({
+    description: 'Phone number must be a valid Nigerian mobile number',
+    example: '+2347012345678',
+  })
+  @IsString()
+  @IsOptional()
+  @Matches(/^(?:0|\+234)(7|8|9)[01]\d{8}$/, {
+    message: 'Phone number must be a valid Nigerian mobile number',
+  })
+  phone?: string;
+
   @IsString()
   @IsOptional()
   @ApiPropertyOptional({
@@ -48,7 +59,7 @@ export class CreateUserDto {
     default:
       'https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg',
   })
-  avatarUrl: string;
+  avatarUrl?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -74,7 +85,7 @@ export class CreateUserDto {
     enum: Role,
     default: Role.STAFF,
   })
-  role: Role;
+  role?: Role;
 
   @IsArray()
   @IsOptional()
@@ -83,7 +94,7 @@ export class CreateUserDto {
     type: [String],
     example: ['VIEW_CLIENTS', 'EDIT_TRANSACTIONS'],
   })
-  permissions: string[];
+  permissions?: string[];
 
   @IsBoolean()
   @IsOptional()
@@ -91,7 +102,7 @@ export class CreateUserDto {
     description: 'Is user active',
     default: true,
   })
-  isActive: boolean;
+  isActive?: boolean;
 }
 
 // The CreateUserResponseDto is used to define the structure of the response
@@ -116,6 +127,13 @@ export class CreateUserResponseDto {
     example: 'example@mail.com',
   })
   email: string;
+
+  @ApiPropertyOptional({
+    example: '+2347012345678',
+  })
+  @IsString()
+  @IsOptional()
+  phone?: string;
 
   @IsString()
   @ApiPropertyOptional({
