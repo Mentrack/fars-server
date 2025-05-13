@@ -69,4 +69,46 @@ export class MailService {
 
     await this.transporter.sendMail(mailOptions);
   }
+
+  async sendBankAccountAssignmentNotification(
+    to: string,
+    accountCode: string,
+    staffName: string,
+    companyName: string,
+  ) {
+    const mailOptions = {
+      from: 'RespecTech-HR Service',
+      to,
+      subject: `You've been assigned to a bank account – ${accountCode}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; border: 1px solid #eee; border-radius: 8px;">
+          <h2 style="color: #0d6efd; text-align: center;">You've Been Assigned to a Bank Account</h2>
+      
+          <p>Hello ${staffName},</p>
+      
+          <p>
+            You have been successfully assigned to manage a bank account within <strong>${companyName}</strong>'s financial system.
+          </p>
+      
+          <div style="background: #f8f9fa; padding: 16px; font-size: 18px; font-weight: bold; text-align: center; border: 1px dashed #0d6efd; border-radius: 4px; margin: 20px 0;">
+            Account Code: ${accountCode}
+          </div>
+      
+          <p>
+            Please log in to your dashboard to begin managing transactions, uploading statements, and performing reconciliation as required.
+          </p>
+      
+          <p style="color: #dc3545;"><strong>Do not share this email or account details with anyone.</strong></p>
+      
+          <hr style="margin: 24px 0;">
+          <p style="font-size: 12px; color: #6c757d;">
+            This message was sent by ${companyName}'s Financial Reconciliation System. For support, contact your administrator.
+          </p>
+          <p style="font-size: 12px; color: #6c757d;">© ${new Date().getFullYear()} ${companyName}. All rights reserved.</p>
+        </div>
+      `,
+    };
+
+    await this.transporter.sendMail(mailOptions);
+  }
 }
