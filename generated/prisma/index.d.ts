@@ -7917,6 +7917,7 @@ export namespace Prisma {
 
   export type BankAccountMinAggregateOutputType = {
     id: string | null
+    accountCode: string | null
     accountNumber: string | null
     accountName: string | null
     accountType: $Enums.AccountType | null
@@ -7928,6 +7929,7 @@ export namespace Prisma {
 
   export type BankAccountMaxAggregateOutputType = {
     id: string | null
+    accountCode: string | null
     accountNumber: string | null
     accountName: string | null
     accountType: $Enums.AccountType | null
@@ -7939,6 +7941,7 @@ export namespace Prisma {
 
   export type BankAccountCountAggregateOutputType = {
     id: number
+    accountCode: number
     accountNumber: number
     accountName: number
     accountType: number
@@ -7952,6 +7955,7 @@ export namespace Prisma {
 
   export type BankAccountMinAggregateInputType = {
     id?: true
+    accountCode?: true
     accountNumber?: true
     accountName?: true
     accountType?: true
@@ -7963,6 +7967,7 @@ export namespace Prisma {
 
   export type BankAccountMaxAggregateInputType = {
     id?: true
+    accountCode?: true
     accountNumber?: true
     accountName?: true
     accountType?: true
@@ -7974,6 +7979,7 @@ export namespace Prisma {
 
   export type BankAccountCountAggregateInputType = {
     id?: true
+    accountCode?: true
     accountNumber?: true
     accountName?: true
     accountType?: true
@@ -8058,6 +8064,7 @@ export namespace Prisma {
 
   export type BankAccountGroupByOutputType = {
     id: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -8086,6 +8093,7 @@ export namespace Prisma {
 
   export type BankAccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountCode?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8102,6 +8110,7 @@ export namespace Prisma {
 
   export type BankAccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountCode?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8114,6 +8123,7 @@ export namespace Prisma {
 
   export type BankAccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountCode?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8126,6 +8136,7 @@ export namespace Prisma {
 
   export type BankAccountSelectScalar = {
     id?: boolean
+    accountCode?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8135,7 +8146,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
+  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountCode" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
   export type BankAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contract?: boolean | BankAccount$contractArgs<ExtArgs>
     staffAssignments?: boolean | BankAccount$staffAssignmentsArgs<ExtArgs>
@@ -8160,6 +8171,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      accountCode: string
       accountNumber: string
       accountName: string
       accountType: $Enums.AccountType
@@ -8595,6 +8607,7 @@ export namespace Prisma {
    */
   interface BankAccountFieldRefs {
     readonly id: FieldRef<"BankAccount", 'String'>
+    readonly accountCode: FieldRef<"BankAccount", 'String'>
     readonly accountNumber: FieldRef<"BankAccount", 'String'>
     readonly accountName: FieldRef<"BankAccount", 'String'>
     readonly accountType: FieldRef<"BankAccount", 'AccountType'>
@@ -12809,6 +12822,7 @@ export namespace Prisma {
 
   export const BankAccountScalarFieldEnum: {
     id: 'id',
+    accountCode: 'accountCode',
     accountNumber: 'accountNumber',
     accountName: 'accountName',
     accountType: 'accountType',
@@ -13465,6 +13479,7 @@ export namespace Prisma {
     OR?: BankAccountWhereInput[]
     NOT?: BankAccountWhereInput | BankAccountWhereInput[]
     id?: StringFilter<"BankAccount"> | string
+    accountCode?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
     accountName?: StringFilter<"BankAccount"> | string
     accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
@@ -13480,6 +13495,7 @@ export namespace Prisma {
 
   export type BankAccountOrderByWithRelationInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -13495,6 +13511,7 @@ export namespace Prisma {
 
   export type BankAccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    accountCode?: string
     accountNumber?: string
     AND?: BankAccountWhereInput | BankAccountWhereInput[]
     OR?: BankAccountWhereInput[]
@@ -13509,10 +13526,11 @@ export namespace Prisma {
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     transactions?: BankTransactionListRelationFilter
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
-  }, "id" | "accountNumber">
+  }, "id" | "accountCode" | "accountNumber">
 
   export type BankAccountOrderByWithAggregationInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -13530,6 +13548,7 @@ export namespace Prisma {
     OR?: BankAccountScalarWhereWithAggregatesInput[]
     NOT?: BankAccountScalarWhereWithAggregatesInput | BankAccountScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"BankAccount"> | string
+    accountCode?: StringWithAggregatesFilter<"BankAccount"> | string
     accountNumber?: StringWithAggregatesFilter<"BankAccount"> | string
     accountName?: StringWithAggregatesFilter<"BankAccount"> | string
     accountType?: EnumAccountTypeWithAggregatesFilter<"BankAccount"> | $Enums.AccountType
@@ -14330,6 +14349,7 @@ export namespace Prisma {
 
   export type BankAccountCreateInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -14344,6 +14364,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -14358,6 +14379,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14372,6 +14394,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14386,6 +14409,7 @@ export namespace Prisma {
 
   export type BankAccountCreateManyInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -14397,6 +14421,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14407,6 +14432,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -15264,6 +15290,7 @@ export namespace Prisma {
 
   export type BankAccountCountOrderByAggregateInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -15275,6 +15302,7 @@ export namespace Prisma {
 
   export type BankAccountMaxOrderByAggregateInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -15286,6 +15314,7 @@ export namespace Prisma {
 
   export type BankAccountMinOrderByAggregateInput = {
     id?: SortOrder
+    accountCode?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -17510,6 +17539,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutTransactionsInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -17523,6 +17553,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutTransactionsInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -17691,6 +17722,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -17704,6 +17736,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18123,6 +18156,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutClientInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18136,6 +18170,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutClientInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18178,6 +18213,7 @@ export namespace Prisma {
     OR?: BankAccountScalarWhereInput[]
     NOT?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
     id?: StringFilter<"BankAccount"> | string
+    accountCode?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
     accountName?: StringFilter<"BankAccount"> | string
     accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
@@ -18189,6 +18225,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutContractInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18202,6 +18239,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutContractInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18231,6 +18269,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutContractInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18244,6 +18283,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutContractInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18314,6 +18354,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutStaffAssignmentsInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18327,6 +18368,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutStaffAssignmentsInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18533,6 +18575,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutStaffAssignmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18546,6 +18589,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutStaffAssignmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -19329,6 +19373,7 @@ export namespace Prisma {
 
   export type BankAccountCreateManyClientInput = {
     id?: string
+    accountCode: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -19339,6 +19384,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -19352,6 +19398,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -19365,6 +19412,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType

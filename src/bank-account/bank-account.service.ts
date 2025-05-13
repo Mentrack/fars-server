@@ -7,6 +7,7 @@ import {
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
 import { DatabaseService } from 'src/database/database.service';
+import { generateBankAccountCode } from 'src/utils/create-bankcode.util';
 
 @Injectable()
 export class BankAccountService {
@@ -14,6 +15,21 @@ export class BankAccountService {
 
   async create(createBankAccountDto: CreateBankAccountDto) {
     try {
+      // Create a new bank account code
+      let accountCode: string;
+
+      // Keep trying until we generate a code that doesn't exist
+      while (true) {
+        const candidate = generateBankAccountCode();
+        const existing = await this.databaseService.bankAccount.findUnique({
+          where: { accountCode: candidate },
+        });
+        if (!existing) {
+          accountCode = candidate;
+          break;
+        }
+      }
+
       // Create a new bank account
       const { contract: accountContractDto, ...bankAccountDto } =
         createBankAccountDto;
@@ -21,7 +37,7 @@ export class BankAccountService {
       // Make sure the account contract is created with the bank account
       return await this.databaseService.$transaction(async (prisma) => {
         const newBankAccount = await prisma.bankAccount.create({
-          data: { ...bankAccountDto },
+          data: { accountCode, ...bankAccountDto },
         });
 
         const newAccountContract = await prisma.accountContract.create({

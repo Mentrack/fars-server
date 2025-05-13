@@ -167,6 +167,7 @@ enum AccountType {
 
 model BankAccount {
   id               String                   @id @default(uuid())
+  accountCode      String                   @unique
   accountNumber    String                   @unique
   accountName      String
   accountType      AccountType
