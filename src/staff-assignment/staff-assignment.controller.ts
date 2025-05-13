@@ -15,13 +15,19 @@ import {
   UnassignStaffResponseDto,
 } from './dto/unassign-staff.dto';
 import { RequestWithUser } from 'src/auth/types/request-with-user';
-import { ApiOkResponse, ApiOperation, ApiParam } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+} from '@nestjs/swagger';
 import {
   GetAllAssignmentsResponseDto,
   GetAllBankAccountsAssignedToStaffResponseDto,
   GetAllStaffAssignedToBankAccountResponseDto,
 } from './dto/get-assignments.tdo';
 
+@ApiBearerAuth()
 @Controller('staff-assignments')
 export class StaffAssignmentController {
   constructor(

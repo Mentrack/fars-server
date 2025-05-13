@@ -60,6 +60,12 @@ export class CreateBankAccountDto {
 
 export class CreateBankAccountResponseDto {
   @ApiProperty({
+    example: 'BAC12345678',
+  })
+  @IsString()
+  accountCode: string;
+
+  @ApiProperty({
     example: '1234567890',
   })
   @IsString()
