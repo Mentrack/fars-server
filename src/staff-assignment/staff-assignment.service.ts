@@ -7,34 +7,89 @@ import {
 import { AssignStaffDto } from './dto/assign-staff.dto';
 import { UnassignStaffDto } from './dto/unassign-staff.dto';
 import { DatabaseService } from 'src/database/database.service';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class StaffAssignmentService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly mailService: MailService,
+  ) {}
 
   async create(assignedBy: string, assignStaffDto: AssignStaffDto) {
-    // Check if the user is already assigned to the account
-    const existingAssignment =
-      await this.databaseService.staffAccountAssignment.findFirst({
-        where: {
+    try {
+      // Check if the user is already assigned to the account
+      const existingAssignment =
+        await this.databaseService.staffAccountAssignment.findFirst({
+          where: {
+            userId: assignStaffDto.userId,
+            accountId: assignStaffDto.accountId,
+          },
+        });
+      if (existingAssignment) {
+        throw new ConflictException('User is already assigned to this account');
+      }
+
+      // Create the staff assignment
+      await this.databaseService.staffAccountAssignment.create({
+        data: {
           userId: assignStaffDto.userId,
           accountId: assignStaffDto.accountId,
+          assignedById: assignedBy,
         },
       });
-    if (existingAssignment) {
-      throw new ConflictException('User is already assigned to this account');
+
+      // Fetch the user details for sending the email
+      const assignmentDetails =
+        await this.databaseService.staffAccountAssignment.findUnique({
+          where: {
+            userId_accountId: {
+              userId: assignStaffDto.userId,
+              accountId: assignStaffDto.accountId,
+            },
+          },
+          include: {
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+            bankAccount: {
+              include: {
+                client: {
+                  select: {
+                    companyName: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+
+      if (assignmentDetails) {
+        await this.mailService.sendBankAccountAssignmentNotification(
+          assignmentDetails.user.email,
+          assignmentDetails.bankAccount.accountCode,
+          assignmentDetails.user.firstName,
+          assignmentDetails.bankAccount.client.companyName,
+        );
+      }
+
+      return { message: 'Staff assigned successfully' };
+    } catch (error) {
+      // Handle the case where the assignment already exists
+      if (error.code === 'P2002') {
+        throw new ConflictException('Staff already assigned to this account');
+      } else if (error.code === 'P2003') {
+        throw new NotFoundException('Bank account or user not found');
+      }
+      // Handle other potential errors
+      throw new BadRequestException(
+        'An error occurred while assigning staff to the bank account',
+      );
     }
-
-    // Create the staff assignment
-    await this.databaseService.staffAccountAssignment.create({
-      data: {
-        userId: assignStaffDto.userId,
-        accountId: assignStaffDto.accountId,
-        assignedById: assignedBy,
-      },
-    });
-
-    return { message: 'Staff assigned successfully' };
   }
 
   async findAll() {
