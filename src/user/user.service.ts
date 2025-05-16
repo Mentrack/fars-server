@@ -11,10 +11,14 @@ import { Role } from './enum/role.enum';
 import * as argon2 from 'argon2';
 import { omit } from 'src/utils/omit.util';
 import { DeactivateUserDto } from './dto/deactivate-user.dto';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly mailService: MailService,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
@@ -45,6 +49,14 @@ export class UserService {
       const newUser = await this.databaseService.user.create({
         data,
       });
+
+      // If the user is created successfully, send a welcome email
+      await this.mailService.sendAccountCreationEmail(
+        newUser.email,
+        newUser.firstName,
+        newUser.email,
+        createUserDto.password,
+      );
 
       // Return the user without sensitive information
       return omit(newUser, ['id', 'password', 'refreshToken']);
