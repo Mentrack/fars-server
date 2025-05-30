@@ -285,6 +285,12 @@ exports.ClassificationCode = exports.$Enums.ClassificationCode = {
   VAT: 'VAT'
 };
 
+exports.Category = exports.$Enums.Category = {
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAWAL: 'WITHDRAWAL',
+  FEE: 'FEE'
+};
+
 exports.TransactionType = exports.$Enums.TransactionType = {
   CREDIT: 'CREDIT',
   DEBIT: 'DEBIT'

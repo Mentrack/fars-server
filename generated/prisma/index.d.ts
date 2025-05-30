@@ -95,6 +95,15 @@ export const ClassificationCode: {
 export type ClassificationCode = (typeof ClassificationCode)[keyof typeof ClassificationCode]
 
 
+export const Category: {
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAWAL: 'WITHDRAWAL',
+  FEE: 'FEE'
+};
+
+export type Category = (typeof Category)[keyof typeof Category]
+
+
 export const TransactionType: {
   CREDIT: 'CREDIT',
   DEBIT: 'DEBIT'
@@ -119,6 +128,10 @@ export const UserRole: typeof $Enums.UserRole
 export type ClassificationCode = $Enums.ClassificationCode
 
 export const ClassificationCode: typeof $Enums.ClassificationCode
+
+export type Category = $Enums.Category
+
+export const Category: typeof $Enums.Category
 
 export type TransactionType = $Enums.TransactionType
 
@@ -5541,7 +5554,7 @@ export namespace Prisma {
   export type TransactionClassificationMinAggregateOutputType = {
     id: string | null
     code: $Enums.ClassificationCode | null
-    category: string | null
+    category: $Enums.Category | null
     label: string | null
     description: string | null
     createdAt: Date | null
@@ -5551,7 +5564,7 @@ export namespace Prisma {
   export type TransactionClassificationMaxAggregateOutputType = {
     id: string | null
     code: $Enums.ClassificationCode | null
-    category: string | null
+    category: $Enums.Category | null
     label: string | null
     description: string | null
     createdAt: Date | null
@@ -5676,7 +5689,7 @@ export namespace Prisma {
   export type TransactionClassificationGroupByOutputType = {
     id: string
     code: $Enums.ClassificationCode
-    category: string
+    category: $Enums.Category
     label: string
     description: string | null
     createdAt: Date
@@ -5758,7 +5771,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       code: $Enums.ClassificationCode
-      category: string
+      category: $Enums.Category
       label: string
       description: string | null
       createdAt: Date
@@ -6189,7 +6202,7 @@ export namespace Prisma {
   interface TransactionClassificationFieldRefs {
     readonly id: FieldRef<"TransactionClassification", 'String'>
     readonly code: FieldRef<"TransactionClassification", 'ClassificationCode'>
-    readonly category: FieldRef<"TransactionClassification", 'String'>
+    readonly category: FieldRef<"TransactionClassification", 'Category'>
     readonly label: FieldRef<"TransactionClassification", 'String'>
     readonly description: FieldRef<"TransactionClassification", 'String'>
     readonly createdAt: FieldRef<"TransactionClassification", 'DateTime'>
@@ -12986,6 +12999,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Category'
+   */
+  export type EnumCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Category'>
+    
+
+
+  /**
+   * Reference to a field of type 'Category[]'
+   */
+  export type ListEnumCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Category[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -13294,7 +13321,7 @@ export namespace Prisma {
     NOT?: TransactionClassificationWhereInput | TransactionClassificationWhereInput[]
     id?: StringFilter<"TransactionClassification"> | string
     code?: EnumClassificationCodeFilter<"TransactionClassification"> | $Enums.ClassificationCode
-    category?: StringFilter<"TransactionClassification"> | string
+    category?: EnumCategoryFilter<"TransactionClassification"> | $Enums.Category
     label?: StringFilter<"TransactionClassification"> | string
     description?: StringNullableFilter<"TransactionClassification"> | string | null
     createdAt?: DateTimeFilter<"TransactionClassification"> | Date | string
@@ -13315,17 +13342,17 @@ export namespace Prisma {
 
   export type TransactionClassificationWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    code?: $Enums.ClassificationCode
     AND?: TransactionClassificationWhereInput | TransactionClassificationWhereInput[]
     OR?: TransactionClassificationWhereInput[]
     NOT?: TransactionClassificationWhereInput | TransactionClassificationWhereInput[]
-    code?: EnumClassificationCodeFilter<"TransactionClassification"> | $Enums.ClassificationCode
-    category?: StringFilter<"TransactionClassification"> | string
+    category?: EnumCategoryFilter<"TransactionClassification"> | $Enums.Category
     label?: StringFilter<"TransactionClassification"> | string
     description?: StringNullableFilter<"TransactionClassification"> | string | null
     createdAt?: DateTimeFilter<"TransactionClassification"> | Date | string
     updatedAt?: DateTimeFilter<"TransactionClassification"> | Date | string
     transactions?: BankTransactionListRelationFilter
-  }, "id">
+  }, "id" | "code">
 
   export type TransactionClassificationOrderByWithAggregationInput = {
     id?: SortOrder
@@ -13346,7 +13373,7 @@ export namespace Prisma {
     NOT?: TransactionClassificationScalarWhereWithAggregatesInput | TransactionClassificationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"TransactionClassification"> | string
     code?: EnumClassificationCodeWithAggregatesFilter<"TransactionClassification"> | $Enums.ClassificationCode
-    category?: StringWithAggregatesFilter<"TransactionClassification"> | string
+    category?: EnumCategoryWithAggregatesFilter<"TransactionClassification"> | $Enums.Category
     label?: StringWithAggregatesFilter<"TransactionClassification"> | string
     description?: StringNullableWithAggregatesFilter<"TransactionClassification"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"TransactionClassification"> | Date | string
@@ -14142,7 +14169,7 @@ export namespace Prisma {
   export type TransactionClassificationCreateInput = {
     id?: string
     code: $Enums.ClassificationCode
-    category: string
+    category: $Enums.Category
     label: string
     description?: string | null
     createdAt?: Date | string
@@ -14153,7 +14180,7 @@ export namespace Prisma {
   export type TransactionClassificationUncheckedCreateInput = {
     id?: string
     code: $Enums.ClassificationCode
-    category: string
+    category: $Enums.Category
     label: string
     description?: string | null
     createdAt?: Date | string
@@ -14164,7 +14191,7 @@ export namespace Prisma {
   export type TransactionClassificationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: EnumClassificationCodeFieldUpdateOperationsInput | $Enums.ClassificationCode
-    category?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14175,7 +14202,7 @@ export namespace Prisma {
   export type TransactionClassificationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: EnumClassificationCodeFieldUpdateOperationsInput | $Enums.ClassificationCode
-    category?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14186,7 +14213,7 @@ export namespace Prisma {
   export type TransactionClassificationCreateManyInput = {
     id?: string
     code: $Enums.ClassificationCode
-    category: string
+    category: $Enums.Category
     label: string
     description?: string | null
     createdAt?: Date | string
@@ -14196,7 +14223,7 @@ export namespace Prisma {
   export type TransactionClassificationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: EnumClassificationCodeFieldUpdateOperationsInput | $Enums.ClassificationCode
-    category?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14206,7 +14233,7 @@ export namespace Prisma {
   export type TransactionClassificationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: EnumClassificationCodeFieldUpdateOperationsInput | $Enums.ClassificationCode
-    category?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15112,6 +15139,13 @@ export namespace Prisma {
     not?: NestedEnumClassificationCodeFilter<$PrismaModel> | $Enums.ClassificationCode
   }
 
+  export type EnumCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumCategoryFilter<$PrismaModel> | $Enums.Category
+  }
+
   export type TransactionClassificationCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
@@ -15150,6 +15184,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumClassificationCodeFilter<$PrismaModel>
     _max?: NestedEnumClassificationCodeFilter<$PrismaModel>
+  }
+
+  export type EnumCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumCategoryWithAggregatesFilter<$PrismaModel> | $Enums.Category
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCategoryFilter<$PrismaModel>
+    _max?: NestedEnumCategoryFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -15998,6 +16042,10 @@ export namespace Prisma {
     set?: $Enums.ClassificationCode
   }
 
+  export type EnumCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.Category
+  }
+
   export type BankTransactionUpdateManyWithoutClassificationNestedInput = {
     create?: XOR<BankTransactionCreateWithoutClassificationInput, BankTransactionUncheckedCreateWithoutClassificationInput> | BankTransactionCreateWithoutClassificationInput[] | BankTransactionUncheckedCreateWithoutClassificationInput[]
     connectOrCreate?: BankTransactionCreateOrConnectWithoutClassificationInput | BankTransactionCreateOrConnectWithoutClassificationInput[]
@@ -16571,6 +16619,13 @@ export namespace Prisma {
     not?: NestedEnumClassificationCodeFilter<$PrismaModel> | $Enums.ClassificationCode
   }
 
+  export type NestedEnumCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumCategoryFilter<$PrismaModel> | $Enums.Category
+  }
+
   export type NestedEnumClassificationCodeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ClassificationCode | EnumClassificationCodeFieldRefInput<$PrismaModel>
     in?: $Enums.ClassificationCode[] | ListEnumClassificationCodeFieldRefInput<$PrismaModel>
@@ -16579,6 +16634,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumClassificationCodeFilter<$PrismaModel>
     _max?: NestedEnumClassificationCodeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Category | EnumCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Category[] | ListEnumCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumCategoryWithAggregatesFilter<$PrismaModel> | $Enums.Category
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCategoryFilter<$PrismaModel>
+    _max?: NestedEnumCategoryFilter<$PrismaModel>
   }
 
   export type NestedFloatFilter<$PrismaModel = never> = {
@@ -17630,7 +17695,7 @@ export namespace Prisma {
   export type TransactionClassificationCreateWithoutTransactionsInput = {
     id?: string
     code: $Enums.ClassificationCode
-    category: string
+    category: $Enums.Category
     label: string
     description?: string | null
     createdAt?: Date | string
@@ -17640,7 +17705,7 @@ export namespace Prisma {
   export type TransactionClassificationUncheckedCreateWithoutTransactionsInput = {
     id?: string
     code: $Enums.ClassificationCode
-    category: string
+    category: $Enums.Category
     label: string
     description?: string | null
     createdAt?: Date | string
@@ -17825,7 +17890,7 @@ export namespace Prisma {
   export type TransactionClassificationUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: EnumClassificationCodeFieldUpdateOperationsInput | $Enums.ClassificationCode
-    category?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17835,7 +17900,7 @@ export namespace Prisma {
   export type TransactionClassificationUncheckedUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: EnumClassificationCodeFieldUpdateOperationsInput | $Enums.ClassificationCode
-    category?: StringFieldUpdateOperationsInput | string
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

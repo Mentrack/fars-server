@@ -13,6 +13,7 @@ import { MyLoggerModule } from './my-logger/my-logger.module';
 import { ClientModule } from './client/client.module';
 import { BankAccountModule } from './bank-account/bank-account.module';
 import { StaffAssignmentModule } from './staff-assignment/staff-assignment.module';
+import { ClassificationModule } from './classification/classification.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { StaffAssignmentModule } from './staff-assignment/staff-assignment.modul
     ClientModule,
     BankAccountModule,
     StaffAssignmentModule,
+    ClassificationModule,
   ],
   controllers: [AppController],
   providers: [
