@@ -117,10 +117,16 @@ enum ClassificationCode {
   VAT    // VAT on Fees
 }
 
+enum Category {
+  DEPOSIT
+  WITHDRAWAL
+  FEE
+}
+
 model TransactionClassification {
   id          String              @id @default(uuid())
-  code        ClassificationCode
-  category    String              // Deposit, Withdrawal, Fee
+  code        ClassificationCode  @unique// Unique code for classification (e.g. CD, LCD, etc.)
+  category    Category              // Deposit, Withdrawal, Fee
   label       String              // Human-readable name (e.g. Loan Disbursement)
   description String?             // Optional explanation
   createdAt   DateTime            @default(now())
