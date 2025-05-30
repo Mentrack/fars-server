@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard';
-import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
 import { RefreshAuthGuard } from './guards/refresh-auth/refresh-auth.guard';
 import { RequestWithUser } from './types/request-with-user';
 import { ChangePasswordDto } from './dto/change-password.dto';
@@ -85,7 +84,6 @@ export class AuthController {
     return await this.authService.logout(req.user.id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get user profile' })
   @ApiOkResponse({
