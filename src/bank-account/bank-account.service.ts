@@ -14,7 +14,7 @@ export class BankAccountService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async create(createBankAccountDto: CreateBankAccountDto) {
-    // Client exists
+    // Check if the client exists
     const clientExists = await this.databaseService.client.findUnique({
       where: { id: createBankAccountDto.clientId },
     });
@@ -23,7 +23,7 @@ export class BankAccountService {
       throw new NotFoundException('Client not found');
     }
 
-    // Contract exists if provided
+    // Check if the contract exists, if provided
     if (createBankAccountDto.contractId) {
       const contractExists =
         await this.databaseService.accountContract.findUnique({
