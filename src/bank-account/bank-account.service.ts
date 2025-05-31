@@ -14,54 +14,48 @@ export class BankAccountService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async create(createBankAccountDto: CreateBankAccountDto) {
-    try {
-      // Create a new bank account code
-      let accountCode: string;
+    // Client exists
+    const clientExists = await this.databaseService.client.findUnique({
+      where: { id: createBankAccountDto.clientId },
+    });
 
-      // Keep trying until we generate a code that doesn't exist
-      while (true) {
-        const candidate = generateBankAccountCode();
-        const existing = await this.databaseService.bankAccount.findUnique({
-          where: { accountCode: candidate },
+    if (!clientExists) {
+      throw new NotFoundException('Client not found');
+    }
+
+    // Contract exists if provided
+    if (createBankAccountDto.contractId) {
+      const contractExists =
+        await this.databaseService.accountContract.findUnique({
+          where: { id: createBankAccountDto.contractId },
         });
-        if (!existing) {
-          accountCode = candidate;
-          break;
-        }
-      }
-
-      // Create a new bank account
-      const { contract: accountContractDto, ...bankAccountDto } =
-        createBankAccountDto;
-
-      // Make sure the account contract is created with the bank account
-      return await this.databaseService.$transaction(async (prisma) => {
-        const newBankAccount = await prisma.bankAccount.create({
-          data: { accountCode, ...bankAccountDto },
-        });
-
-        const newAccountContract = await prisma.accountContract.create({
-          data: {
-            ...accountContractDto,
-            bankAccountId: newBankAccount.id,
-          },
-        });
-
-        return {
-          ...newBankAccount,
-          contract: newAccountContract,
-        };
-      });
-    } catch (error) {
-      // Handle specific prisma errors
-      if (error.code === 'P2002') {
-        throw new ConflictException('Account number already exists');
-      } else if (error.code === 'P2025') {
-        throw new NotFoundException('Client not found');
-      } else {
-        throw new BadRequestException('An unexpected error occurred');
+      if (!contractExists) {
+        throw new NotFoundException('Contract not found');
       }
     }
+
+    // Create a new bank account code
+    let accountCode: string;
+
+    // Keep trying until we generate a code that doesn't exist
+    while (true) {
+      const candidate = generateBankAccountCode();
+      const existing = await this.databaseService.bankAccount.findUnique({
+        where: { accountCode: candidate },
+      });
+      if (!existing) {
+        accountCode = candidate;
+        break;
+      }
+    }
+
+    // Create a new bank account
+    return await this.databaseService.bankAccount.create({
+      data: {
+        ...createBankAccountDto,
+        accountCode,
+      },
+    });
   }
 
   async findAll() {
@@ -95,33 +89,26 @@ export class BankAccountService {
 
   async update(id: string, updateBankAccountDto: UpdateBankAccountDto) {
     try {
-      const { contract: contractUpdateDto, ...bankAccountUpdateDto } =
-        updateBankAccountDto;
-
-      return this.databaseService.$transaction(async (prisma) => {
-        // Update the bank account
-        const updatedBankAccount = await prisma.bankAccount.update({
+      // Check if the bank account exists
+      const existingBankAccount =
+        await this.databaseService.bankAccount.findUnique({
           where: { id },
-          data: { ...bankAccountUpdateDto },
         });
+      if (!existingBankAccount) {
+        throw new NotFoundException('Bank account not found');
+      }
 
-        // Update the account contract
-        const updatedContract = await prisma.accountContract.update({
-          where: { bankAccountId: id },
-          data: { ...contractUpdateDto },
-        });
-
-        return {
-          ...updatedBankAccount,
-          contract: updatedContract,
-        };
+      // Update the bank account
+      return await this.databaseService.bankAccount.update({
+        where: { id },
+        data: { ...updateBankAccountDto },
       });
     } catch (error) {
       // Handle specific prisma errors
       if (error.code === 'P2002') {
         throw new ConflictException('Account number already exists');
       } else if (error.code === 'P2025') {
-        throw new NotFoundException('Client not found');
+        throw new NotFoundException('Client or contract not found');
       } else {
         throw new BadRequestException('An unexpected error occurred');
       }

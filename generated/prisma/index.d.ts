@@ -1907,10 +1907,12 @@ export namespace Prisma {
 
   export type ClientCountOutputType = {
     accounts: number
+    contracts: number
   }
 
   export type ClientCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | ClientCountOutputTypeCountAccountsArgs
+    contracts?: boolean | ClientCountOutputTypeCountContractsArgs
   }
 
   // Custom InputTypes
@@ -1928,6 +1930,44 @@ export namespace Prisma {
    * ClientCountOutputType without action
    */
   export type ClientCountOutputTypeCountAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BankAccountWhereInput
+  }
+
+  /**
+   * ClientCountOutputType without action
+   */
+  export type ClientCountOutputTypeCountContractsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccountContractWhereInput
+  }
+
+
+  /**
+   * Count Type AccountContractCountOutputType
+   */
+
+  export type AccountContractCountOutputType = {
+    bankAccounts: number
+  }
+
+  export type AccountContractCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bankAccounts?: boolean | AccountContractCountOutputTypeCountBankAccountsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AccountContractCountOutputType without action
+   */
+  export type AccountContractCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountContractCountOutputType
+     */
+    select?: AccountContractCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AccountContractCountOutputType without action
+   */
+  export type AccountContractCountOutputTypeCountBankAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BankAccountWhereInput
   }
 
@@ -7936,6 +7976,7 @@ export namespace Prisma {
     accountType: $Enums.AccountType | null
     currency: string | null
     clientId: string | null
+    contractId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7948,6 +7989,7 @@ export namespace Prisma {
     accountType: $Enums.AccountType | null
     currency: string | null
     clientId: string | null
+    contractId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7960,6 +8002,7 @@ export namespace Prisma {
     accountType: number
     currency: number
     clientId: number
+    contractId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7974,6 +8017,7 @@ export namespace Prisma {
     accountType?: true
     currency?: true
     clientId?: true
+    contractId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7986,6 +8030,7 @@ export namespace Prisma {
     accountType?: true
     currency?: true
     clientId?: true
+    contractId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7998,6 +8043,7 @@ export namespace Prisma {
     accountType?: true
     currency?: true
     clientId?: true
+    contractId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -8083,6 +8129,7 @@ export namespace Prisma {
     accountType: $Enums.AccountType
     currency: string
     clientId: string
+    contractId: string | null
     createdAt: Date
     updatedAt: Date
     _count: BankAccountCountAggregateOutputType | null
@@ -8112,12 +8159,13 @@ export namespace Prisma {
     accountType?: boolean
     currency?: boolean
     clientId?: boolean
+    contractId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    client?: boolean | ClientDefaultArgs<ExtArgs>
     contract?: boolean | BankAccount$contractArgs<ExtArgs>
     staffAssignments?: boolean | BankAccount$staffAssignmentsArgs<ExtArgs>
     transactions?: boolean | BankAccount$transactionsArgs<ExtArgs>
-    client?: boolean | ClientDefaultArgs<ExtArgs>
     _count?: boolean | BankAccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bankAccount"]>
 
@@ -8129,9 +8177,11 @@ export namespace Prisma {
     accountType?: boolean
     currency?: boolean
     clientId?: boolean
+    contractId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
+    contract?: boolean | BankAccount$contractArgs<ExtArgs>
   }, ExtArgs["result"]["bankAccount"]>
 
   export type BankAccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8142,9 +8192,11 @@ export namespace Prisma {
     accountType?: boolean
     currency?: boolean
     clientId?: boolean
+    contractId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
+    contract?: boolean | BankAccount$contractArgs<ExtArgs>
   }, ExtArgs["result"]["bankAccount"]>
 
   export type BankAccountSelectScalar = {
@@ -8155,32 +8207,35 @@ export namespace Prisma {
     accountType?: boolean
     currency?: boolean
     clientId?: boolean
+    contractId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountCode" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
+  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountCode" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "contractId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
   export type BankAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | ClientDefaultArgs<ExtArgs>
     contract?: boolean | BankAccount$contractArgs<ExtArgs>
     staffAssignments?: boolean | BankAccount$staffAssignmentsArgs<ExtArgs>
     transactions?: boolean | BankAccount$transactionsArgs<ExtArgs>
-    client?: boolean | ClientDefaultArgs<ExtArgs>
     _count?: boolean | BankAccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BankAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | ClientDefaultArgs<ExtArgs>
+    contract?: boolean | BankAccount$contractArgs<ExtArgs>
   }
   export type BankAccountIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | ClientDefaultArgs<ExtArgs>
+    contract?: boolean | BankAccount$contractArgs<ExtArgs>
   }
 
   export type $BankAccountPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "BankAccount"
     objects: {
+      client: Prisma.$ClientPayload<ExtArgs>
       contract: Prisma.$AccountContractPayload<ExtArgs> | null
       staffAssignments: Prisma.$StaffAccountAssignmentPayload<ExtArgs>[]
       transactions: Prisma.$BankTransactionPayload<ExtArgs>[]
-      client: Prisma.$ClientPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8190,6 +8245,7 @@ export namespace Prisma {
       accountType: $Enums.AccountType
       currency: string
       clientId: string
+      contractId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["bankAccount"]>
@@ -8586,10 +8642,10 @@ export namespace Prisma {
    */
   export interface Prisma__BankAccountClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    client<T extends ClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClientDefaultArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     contract<T extends BankAccount$contractArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$contractArgs<ExtArgs>>): Prisma__AccountContractClient<$Result.GetResult<Prisma.$AccountContractPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     staffAssignments<T extends BankAccount$staffAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$staffAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffAccountAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transactions<T extends BankAccount$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    client<T extends ClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClientDefaultArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8626,6 +8682,7 @@ export namespace Prisma {
     readonly accountType: FieldRef<"BankAccount", 'AccountType'>
     readonly currency: FieldRef<"BankAccount", 'String'>
     readonly clientId: FieldRef<"BankAccount", 'String'>
+    readonly contractId: FieldRef<"BankAccount", 'String'>
     readonly createdAt: FieldRef<"BankAccount", 'DateTime'>
     readonly updatedAt: FieldRef<"BankAccount", 'DateTime'>
   }
@@ -9338,6 +9395,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     accounts?: boolean | Client$accountsArgs<ExtArgs>
+    contracts?: boolean | Client$contractsArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["client"]>
 
@@ -9392,6 +9450,7 @@ export namespace Prisma {
   export type ClientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "companyName" | "email" | "address" | "phone" | "country" | "state" | "city" | "avatarUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
   export type ClientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | Client$accountsArgs<ExtArgs>
+    contracts?: boolean | Client$contractsArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClientIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -9401,6 +9460,7 @@ export namespace Prisma {
     name: "Client"
     objects: {
       accounts: Prisma.$BankAccountPayload<ExtArgs>[]
+      contracts: Prisma.$AccountContractPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9811,6 +9871,7 @@ export namespace Prisma {
   export interface Prisma__ClientClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     accounts<T extends Client$accountsArgs<ExtArgs> = {}>(args?: Subset<T, Client$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    contracts<T extends Client$contractsArgs<ExtArgs> = {}>(args?: Subset<T, Client$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10265,6 +10326,30 @@ export namespace Prisma {
   }
 
   /**
+   * Client.contracts
+   */
+  export type Client$contractsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountContract
+     */
+    select?: AccountContractSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountContract
+     */
+    omit?: AccountContractOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountContractInclude<ExtArgs> | null
+    where?: AccountContractWhereInput
+    orderBy?: AccountContractOrderByWithRelationInput | AccountContractOrderByWithRelationInput[]
+    cursor?: AccountContractWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AccountContractScalarFieldEnum | AccountContractScalarFieldEnum[]
+  }
+
+  /**
    * Client without action
    */
   export type ClientDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10325,7 +10410,7 @@ export namespace Prisma {
 
   export type AccountContractMinAggregateOutputType = {
     id: string | null
-    bankAccountId: string | null
+    clientId: string | null
     returnChargeRate: number | null
     returnChargeLimit: number | null
     cotCovenantRate: number | null
@@ -10349,7 +10434,7 @@ export namespace Prisma {
 
   export type AccountContractMaxAggregateOutputType = {
     id: string | null
-    bankAccountId: string | null
+    clientId: string | null
     returnChargeRate: number | null
     returnChargeLimit: number | null
     cotCovenantRate: number | null
@@ -10373,7 +10458,7 @@ export namespace Prisma {
 
   export type AccountContractCountAggregateOutputType = {
     id: number
-    bankAccountId: number
+    clientId: number
     returnChargeRate: number
     returnChargeLimit: number
     cotCovenantRate: number
@@ -10427,7 +10512,7 @@ export namespace Prisma {
 
   export type AccountContractMinAggregateInputType = {
     id?: true
-    bankAccountId?: true
+    clientId?: true
     returnChargeRate?: true
     returnChargeLimit?: true
     cotCovenantRate?: true
@@ -10451,7 +10536,7 @@ export namespace Prisma {
 
   export type AccountContractMaxAggregateInputType = {
     id?: true
-    bankAccountId?: true
+    clientId?: true
     returnChargeRate?: true
     returnChargeLimit?: true
     cotCovenantRate?: true
@@ -10475,7 +10560,7 @@ export namespace Prisma {
 
   export type AccountContractCountAggregateInputType = {
     id?: true
-    bankAccountId?: true
+    clientId?: true
     returnChargeRate?: true
     returnChargeLimit?: true
     cotCovenantRate?: true
@@ -10586,7 +10671,7 @@ export namespace Prisma {
 
   export type AccountContractGroupByOutputType = {
     id: string
-    bankAccountId: string
+    clientId: string
     returnChargeRate: number | null
     returnChargeLimit: number | null
     cotCovenantRate: number | null
@@ -10629,7 +10714,7 @@ export namespace Prisma {
 
   export type AccountContractSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    bankAccountId?: boolean
+    clientId?: boolean
     returnChargeRate?: boolean
     returnChargeLimit?: boolean
     cotCovenantRate?: boolean
@@ -10649,12 +10734,14 @@ export namespace Prisma {
     effectiveTo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    bankAccount?: boolean | BankAccountDefaultArgs<ExtArgs>
+    client?: boolean | ClientDefaultArgs<ExtArgs>
+    bankAccounts?: boolean | AccountContract$bankAccountsArgs<ExtArgs>
+    _count?: boolean | AccountContractCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["accountContract"]>
 
   export type AccountContractSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    bankAccountId?: boolean
+    clientId?: boolean
     returnChargeRate?: boolean
     returnChargeLimit?: boolean
     cotCovenantRate?: boolean
@@ -10674,12 +10761,12 @@ export namespace Prisma {
     effectiveTo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    bankAccount?: boolean | BankAccountDefaultArgs<ExtArgs>
+    client?: boolean | ClientDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["accountContract"]>
 
   export type AccountContractSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    bankAccountId?: boolean
+    clientId?: boolean
     returnChargeRate?: boolean
     returnChargeLimit?: boolean
     cotCovenantRate?: boolean
@@ -10699,12 +10786,12 @@ export namespace Prisma {
     effectiveTo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    bankAccount?: boolean | BankAccountDefaultArgs<ExtArgs>
+    client?: boolean | ClientDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["accountContract"]>
 
   export type AccountContractSelectScalar = {
     id?: boolean
-    bankAccountId?: boolean
+    clientId?: boolean
     returnChargeRate?: boolean
     returnChargeLimit?: boolean
     cotCovenantRate?: boolean
@@ -10726,25 +10813,28 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AccountContractOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bankAccountId" | "returnChargeRate" | "returnChargeLimit" | "cotCovenantRate" | "cotOffCoverRate" | "cotOICRate" | "turnoverLimit" | "cotCovenantFrequency" | "chargeCOTOnShortfall" | "creditInterestRate" | "debitRate" | "excessRate" | "excessRateType" | "vatRate" | "whtRate" | "rateType" | "effectiveFrom" | "effectiveTo" | "createdAt" | "updatedAt", ExtArgs["result"]["accountContract"]>
+  export type AccountContractOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clientId" | "returnChargeRate" | "returnChargeLimit" | "cotCovenantRate" | "cotOffCoverRate" | "cotOICRate" | "turnoverLimit" | "cotCovenantFrequency" | "chargeCOTOnShortfall" | "creditInterestRate" | "debitRate" | "excessRate" | "excessRateType" | "vatRate" | "whtRate" | "rateType" | "effectiveFrom" | "effectiveTo" | "createdAt" | "updatedAt", ExtArgs["result"]["accountContract"]>
   export type AccountContractInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    bankAccount?: boolean | BankAccountDefaultArgs<ExtArgs>
+    client?: boolean | ClientDefaultArgs<ExtArgs>
+    bankAccounts?: boolean | AccountContract$bankAccountsArgs<ExtArgs>
+    _count?: boolean | AccountContractCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AccountContractIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    bankAccount?: boolean | BankAccountDefaultArgs<ExtArgs>
+    client?: boolean | ClientDefaultArgs<ExtArgs>
   }
   export type AccountContractIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    bankAccount?: boolean | BankAccountDefaultArgs<ExtArgs>
+    client?: boolean | ClientDefaultArgs<ExtArgs>
   }
 
   export type $AccountContractPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AccountContract"
     objects: {
-      bankAccount: Prisma.$BankAccountPayload<ExtArgs>
+      client: Prisma.$ClientPayload<ExtArgs>
+      bankAccounts: Prisma.$BankAccountPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      bankAccountId: string
+      clientId: string
       returnChargeRate: number | null
       returnChargeLimit: number | null
       cotCovenantRate: number | null
@@ -11158,7 +11248,8 @@ export namespace Prisma {
    */
   export interface Prisma__AccountContractClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    bankAccount<T extends BankAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BankAccountDefaultArgs<ExtArgs>>): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    client<T extends ClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClientDefaultArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    bankAccounts<T extends AccountContract$bankAccountsArgs<ExtArgs> = {}>(args?: Subset<T, AccountContract$bankAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11189,7 +11280,7 @@ export namespace Prisma {
    */
   interface AccountContractFieldRefs {
     readonly id: FieldRef<"AccountContract", 'String'>
-    readonly bankAccountId: FieldRef<"AccountContract", 'String'>
+    readonly clientId: FieldRef<"AccountContract", 'String'>
     readonly returnChargeRate: FieldRef<"AccountContract", 'Float'>
     readonly returnChargeLimit: FieldRef<"AccountContract", 'Float'>
     readonly cotCovenantRate: FieldRef<"AccountContract", 'Float'>
@@ -11602,6 +11693,30 @@ export namespace Prisma {
      * Limit how many AccountContracts to delete.
      */
     limit?: number
+  }
+
+  /**
+   * AccountContract.bankAccounts
+   */
+  export type AccountContract$bankAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankAccount
+     */
+    omit?: BankAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    where?: BankAccountWhereInput
+    orderBy?: BankAccountOrderByWithRelationInput | BankAccountOrderByWithRelationInput[]
+    cursor?: BankAccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BankAccountScalarFieldEnum | BankAccountScalarFieldEnum[]
   }
 
   /**
@@ -12841,6 +12956,7 @@ export namespace Prisma {
     accountType: 'accountType',
     currency: 'currency',
     clientId: 'clientId',
+    contractId: 'contractId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12869,7 +12985,7 @@ export namespace Prisma {
 
   export const AccountContractScalarFieldEnum: {
     id: 'id',
-    bankAccountId: 'bankAccountId',
+    clientId: 'clientId',
     returnChargeRate: 'returnChargeRate',
     returnChargeLimit: 'returnChargeLimit',
     cotCovenantRate: 'cotCovenantRate',
@@ -13512,12 +13628,13 @@ export namespace Prisma {
     accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
     currency?: StringFilter<"BankAccount"> | string
     clientId?: StringFilter<"BankAccount"> | string
+    contractId?: StringNullableFilter<"BankAccount"> | string | null
     createdAt?: DateTimeFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
+    client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
     contract?: XOR<AccountContractNullableScalarRelationFilter, AccountContractWhereInput> | null
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     transactions?: BankTransactionListRelationFilter
-    client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
   }
 
   export type BankAccountOrderByWithRelationInput = {
@@ -13528,12 +13645,13 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
+    contractId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    client?: ClientOrderByWithRelationInput
     contract?: AccountContractOrderByWithRelationInput
     staffAssignments?: StaffAccountAssignmentOrderByRelationAggregateInput
     transactions?: BankTransactionOrderByRelationAggregateInput
-    client?: ClientOrderByWithRelationInput
   }
 
   export type BankAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -13547,12 +13665,13 @@ export namespace Prisma {
     accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
     currency?: StringFilter<"BankAccount"> | string
     clientId?: StringFilter<"BankAccount"> | string
+    contractId?: StringNullableFilter<"BankAccount"> | string | null
     createdAt?: DateTimeFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
+    client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
     contract?: XOR<AccountContractNullableScalarRelationFilter, AccountContractWhereInput> | null
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     transactions?: BankTransactionListRelationFilter
-    client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
   }, "id" | "accountCode" | "accountNumber">
 
   export type BankAccountOrderByWithAggregationInput = {
@@ -13563,6 +13682,7 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
+    contractId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BankAccountCountOrderByAggregateInput
@@ -13581,6 +13701,7 @@ export namespace Prisma {
     accountType?: EnumAccountTypeWithAggregatesFilter<"BankAccount"> | $Enums.AccountType
     currency?: StringWithAggregatesFilter<"BankAccount"> | string
     clientId?: StringWithAggregatesFilter<"BankAccount"> | string
+    contractId?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
   }
@@ -13603,6 +13724,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Client"> | Date | string
     updatedAt?: DateTimeFilter<"Client"> | Date | string
     accounts?: BankAccountListRelationFilter
+    contracts?: AccountContractListRelationFilter
   }
 
   export type ClientOrderByWithRelationInput = {
@@ -13620,6 +13742,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     accounts?: BankAccountOrderByRelationAggregateInput
+    contracts?: AccountContractOrderByRelationAggregateInput
   }
 
   export type ClientWhereUniqueInput = Prisma.AtLeast<{
@@ -13640,6 +13763,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Client"> | Date | string
     updatedAt?: DateTimeFilter<"Client"> | Date | string
     accounts?: BankAccountListRelationFilter
+    contracts?: AccountContractListRelationFilter
   }, "id" | "companyName" | "email">
 
   export type ClientOrderByWithAggregationInput = {
@@ -13685,7 +13809,7 @@ export namespace Prisma {
     OR?: AccountContractWhereInput[]
     NOT?: AccountContractWhereInput | AccountContractWhereInput[]
     id?: StringFilter<"AccountContract"> | string
-    bankAccountId?: StringFilter<"AccountContract"> | string
+    clientId?: StringFilter<"AccountContract"> | string
     returnChargeRate?: FloatNullableFilter<"AccountContract"> | number | null
     returnChargeLimit?: FloatNullableFilter<"AccountContract"> | number | null
     cotCovenantRate?: FloatNullableFilter<"AccountContract"> | number | null
@@ -13705,12 +13829,13 @@ export namespace Prisma {
     effectiveTo?: DateTimeNullableFilter<"AccountContract"> | Date | string | null
     createdAt?: DateTimeFilter<"AccountContract"> | Date | string
     updatedAt?: DateTimeFilter<"AccountContract"> | Date | string
-    bankAccount?: XOR<BankAccountScalarRelationFilter, BankAccountWhereInput>
+    client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
+    bankAccounts?: BankAccountListRelationFilter
   }
 
   export type AccountContractOrderByWithRelationInput = {
     id?: SortOrder
-    bankAccountId?: SortOrder
+    clientId?: SortOrder
     returnChargeRate?: SortOrderInput | SortOrder
     returnChargeLimit?: SortOrderInput | SortOrder
     cotCovenantRate?: SortOrderInput | SortOrder
@@ -13730,15 +13855,16 @@ export namespace Prisma {
     effectiveTo?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    bankAccount?: BankAccountOrderByWithRelationInput
+    client?: ClientOrderByWithRelationInput
+    bankAccounts?: BankAccountOrderByRelationAggregateInput
   }
 
   export type AccountContractWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    bankAccountId?: string
     AND?: AccountContractWhereInput | AccountContractWhereInput[]
     OR?: AccountContractWhereInput[]
     NOT?: AccountContractWhereInput | AccountContractWhereInput[]
+    clientId?: StringFilter<"AccountContract"> | string
     returnChargeRate?: FloatNullableFilter<"AccountContract"> | number | null
     returnChargeLimit?: FloatNullableFilter<"AccountContract"> | number | null
     cotCovenantRate?: FloatNullableFilter<"AccountContract"> | number | null
@@ -13758,12 +13884,13 @@ export namespace Prisma {
     effectiveTo?: DateTimeNullableFilter<"AccountContract"> | Date | string | null
     createdAt?: DateTimeFilter<"AccountContract"> | Date | string
     updatedAt?: DateTimeFilter<"AccountContract"> | Date | string
-    bankAccount?: XOR<BankAccountScalarRelationFilter, BankAccountWhereInput>
-  }, "id" | "bankAccountId">
+    client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
+    bankAccounts?: BankAccountListRelationFilter
+  }, "id">
 
   export type AccountContractOrderByWithAggregationInput = {
     id?: SortOrder
-    bankAccountId?: SortOrder
+    clientId?: SortOrder
     returnChargeRate?: SortOrderInput | SortOrder
     returnChargeLimit?: SortOrderInput | SortOrder
     cotCovenantRate?: SortOrderInput | SortOrder
@@ -13795,7 +13922,7 @@ export namespace Prisma {
     OR?: AccountContractScalarWhereWithAggregatesInput[]
     NOT?: AccountContractScalarWhereWithAggregatesInput | AccountContractScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AccountContract"> | string
-    bankAccountId?: StringWithAggregatesFilter<"AccountContract"> | string
+    clientId?: StringWithAggregatesFilter<"AccountContract"> | string
     returnChargeRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
     returnChargeLimit?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
     cotCovenantRate?: FloatNullableWithAggregatesFilter<"AccountContract"> | number | null
@@ -14383,10 +14510,10 @@ export namespace Prisma {
     currency: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    contract?: AccountContractCreateNestedOneWithoutBankAccountInput
+    client: ClientCreateNestedOneWithoutAccountsInput
+    contract?: AccountContractCreateNestedOneWithoutBankAccountsInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
     transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
-    client: ClientCreateNestedOneWithoutAccountsInput
   }
 
   export type BankAccountUncheckedCreateInput = {
@@ -14397,9 +14524,9 @@ export namespace Prisma {
     accountType: $Enums.AccountType
     currency: string
     clientId: string
+    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    contract?: AccountContractUncheckedCreateNestedOneWithoutBankAccountInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutBankAccountInput
     transactions?: BankTransactionUncheckedCreateNestedManyWithoutBankAccountInput
   }
@@ -14413,10 +14540,10 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contract?: AccountContractUpdateOneWithoutBankAccountNestedInput
+    client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
+    contract?: AccountContractUpdateOneWithoutBankAccountsNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
     transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
-    client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
   }
 
   export type BankAccountUncheckedUpdateInput = {
@@ -14427,9 +14554,9 @@ export namespace Prisma {
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
+    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contract?: AccountContractUncheckedUpdateOneWithoutBankAccountNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutBankAccountNestedInput
     transactions?: BankTransactionUncheckedUpdateManyWithoutBankAccountNestedInput
   }
@@ -14442,6 +14569,7 @@ export namespace Prisma {
     accountType: $Enums.AccountType
     currency: string
     clientId: string
+    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14465,6 +14593,7 @@ export namespace Prisma {
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
+    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14484,6 +14613,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: BankAccountCreateNestedManyWithoutClientInput
+    contracts?: AccountContractCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateInput = {
@@ -14501,6 +14631,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: BankAccountUncheckedCreateNestedManyWithoutClientInput
+    contracts?: AccountContractUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientUpdateInput = {
@@ -14518,6 +14649,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: BankAccountUpdateManyWithoutClientNestedInput
+    contracts?: AccountContractUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateInput = {
@@ -14535,6 +14667,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: BankAccountUncheckedUpdateManyWithoutClientNestedInput
+    contracts?: AccountContractUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientCreateManyInput = {
@@ -14606,12 +14739,13 @@ export namespace Prisma {
     effectiveTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    bankAccount: BankAccountCreateNestedOneWithoutContractInput
+    client: ClientCreateNestedOneWithoutContractsInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutContractInput
   }
 
   export type AccountContractUncheckedCreateInput = {
     id?: string
-    bankAccountId: string
+    clientId: string
     returnChargeRate?: number | null
     returnChargeLimit?: number | null
     cotCovenantRate?: number | null
@@ -14631,6 +14765,7 @@ export namespace Prisma {
     effectiveTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutContractInput
   }
 
   export type AccountContractUpdateInput = {
@@ -14654,12 +14789,13 @@ export namespace Prisma {
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    bankAccount?: BankAccountUpdateOneRequiredWithoutContractNestedInput
+    client?: ClientUpdateOneRequiredWithoutContractsNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutContractNestedInput
   }
 
   export type AccountContractUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    bankAccountId?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
     returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
     returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
     cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14679,11 +14815,12 @@ export namespace Prisma {
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutContractNestedInput
   }
 
   export type AccountContractCreateManyInput = {
     id?: string
-    bankAccountId: string
+    clientId: string
     returnChargeRate?: number | null
     returnChargeLimit?: number | null
     cotCovenantRate?: number | null
@@ -14730,7 +14867,7 @@ export namespace Prisma {
 
   export type AccountContractUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    bankAccountId?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
     returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
     returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
     cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -15322,14 +15459,14 @@ export namespace Prisma {
     not?: NestedEnumAccountTypeFilter<$PrismaModel> | $Enums.AccountType
   }
 
-  export type AccountContractNullableScalarRelationFilter = {
-    is?: AccountContractWhereInput | null
-    isNot?: AccountContractWhereInput | null
-  }
-
   export type ClientScalarRelationFilter = {
     is?: ClientWhereInput
     isNot?: ClientWhereInput
+  }
+
+  export type AccountContractNullableScalarRelationFilter = {
+    is?: AccountContractWhereInput | null
+    isNot?: AccountContractWhereInput | null
   }
 
   export type BankAccountCountOrderByAggregateInput = {
@@ -15340,6 +15477,7 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
+    contractId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15352,6 +15490,7 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
+    contractId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15364,6 +15503,7 @@ export namespace Prisma {
     accountType?: SortOrder
     currency?: SortOrder
     clientId?: SortOrder
+    contractId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15384,7 +15524,17 @@ export namespace Prisma {
     none?: BankAccountWhereInput
   }
 
+  export type AccountContractListRelationFilter = {
+    every?: AccountContractWhereInput
+    some?: AccountContractWhereInput
+    none?: AccountContractWhereInput
+  }
+
   export type BankAccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AccountContractOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15454,7 +15604,7 @@ export namespace Prisma {
 
   export type AccountContractCountOrderByAggregateInput = {
     id?: SortOrder
-    bankAccountId?: SortOrder
+    clientId?: SortOrder
     returnChargeRate?: SortOrder
     returnChargeLimit?: SortOrder
     cotCovenantRate?: SortOrder
@@ -15492,7 +15642,7 @@ export namespace Prisma {
 
   export type AccountContractMaxOrderByAggregateInput = {
     id?: SortOrder
-    bankAccountId?: SortOrder
+    clientId?: SortOrder
     returnChargeRate?: SortOrder
     returnChargeLimit?: SortOrder
     cotCovenantRate?: SortOrder
@@ -15516,7 +15666,7 @@ export namespace Prisma {
 
   export type AccountContractMinOrderByAggregateInput = {
     id?: SortOrder
-    bankAccountId?: SortOrder
+    clientId?: SortOrder
     returnChargeRate?: SortOrder
     returnChargeLimit?: SortOrder
     cotCovenantRate?: SortOrder
@@ -16166,9 +16316,15 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
-  export type AccountContractCreateNestedOneWithoutBankAccountInput = {
-    create?: XOR<AccountContractCreateWithoutBankAccountInput, AccountContractUncheckedCreateWithoutBankAccountInput>
-    connectOrCreate?: AccountContractCreateOrConnectWithoutBankAccountInput
+  export type ClientCreateNestedOneWithoutAccountsInput = {
+    create?: XOR<ClientCreateWithoutAccountsInput, ClientUncheckedCreateWithoutAccountsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutAccountsInput
+    connect?: ClientWhereUniqueInput
+  }
+
+  export type AccountContractCreateNestedOneWithoutBankAccountsInput = {
+    create?: XOR<AccountContractCreateWithoutBankAccountsInput, AccountContractUncheckedCreateWithoutBankAccountsInput>
+    connectOrCreate?: AccountContractCreateOrConnectWithoutBankAccountsInput
     connect?: AccountContractWhereUniqueInput
   }
 
@@ -16184,18 +16340,6 @@ export namespace Prisma {
     connectOrCreate?: BankTransactionCreateOrConnectWithoutBankAccountInput | BankTransactionCreateOrConnectWithoutBankAccountInput[]
     createMany?: BankTransactionCreateManyBankAccountInputEnvelope
     connect?: BankTransactionWhereUniqueInput | BankTransactionWhereUniqueInput[]
-  }
-
-  export type ClientCreateNestedOneWithoutAccountsInput = {
-    create?: XOR<ClientCreateWithoutAccountsInput, ClientUncheckedCreateWithoutAccountsInput>
-    connectOrCreate?: ClientCreateOrConnectWithoutAccountsInput
-    connect?: ClientWhereUniqueInput
-  }
-
-  export type AccountContractUncheckedCreateNestedOneWithoutBankAccountInput = {
-    create?: XOR<AccountContractCreateWithoutBankAccountInput, AccountContractUncheckedCreateWithoutBankAccountInput>
-    connectOrCreate?: AccountContractCreateOrConnectWithoutBankAccountInput
-    connect?: AccountContractWhereUniqueInput
   }
 
   export type StaffAccountAssignmentUncheckedCreateNestedManyWithoutBankAccountInput = {
@@ -16216,14 +16360,22 @@ export namespace Prisma {
     set?: $Enums.AccountType
   }
 
-  export type AccountContractUpdateOneWithoutBankAccountNestedInput = {
-    create?: XOR<AccountContractCreateWithoutBankAccountInput, AccountContractUncheckedCreateWithoutBankAccountInput>
-    connectOrCreate?: AccountContractCreateOrConnectWithoutBankAccountInput
-    upsert?: AccountContractUpsertWithoutBankAccountInput
+  export type ClientUpdateOneRequiredWithoutAccountsNestedInput = {
+    create?: XOR<ClientCreateWithoutAccountsInput, ClientUncheckedCreateWithoutAccountsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutAccountsInput
+    upsert?: ClientUpsertWithoutAccountsInput
+    connect?: ClientWhereUniqueInput
+    update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutAccountsInput, ClientUpdateWithoutAccountsInput>, ClientUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type AccountContractUpdateOneWithoutBankAccountsNestedInput = {
+    create?: XOR<AccountContractCreateWithoutBankAccountsInput, AccountContractUncheckedCreateWithoutBankAccountsInput>
+    connectOrCreate?: AccountContractCreateOrConnectWithoutBankAccountsInput
+    upsert?: AccountContractUpsertWithoutBankAccountsInput
     disconnect?: AccountContractWhereInput | boolean
     delete?: AccountContractWhereInput | boolean
     connect?: AccountContractWhereUniqueInput
-    update?: XOR<XOR<AccountContractUpdateToOneWithWhereWithoutBankAccountInput, AccountContractUpdateWithoutBankAccountInput>, AccountContractUncheckedUpdateWithoutBankAccountInput>
+    update?: XOR<XOR<AccountContractUpdateToOneWithWhereWithoutBankAccountsInput, AccountContractUpdateWithoutBankAccountsInput>, AccountContractUncheckedUpdateWithoutBankAccountsInput>
   }
 
   export type StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput = {
@@ -16252,24 +16404,6 @@ export namespace Prisma {
     update?: BankTransactionUpdateWithWhereUniqueWithoutBankAccountInput | BankTransactionUpdateWithWhereUniqueWithoutBankAccountInput[]
     updateMany?: BankTransactionUpdateManyWithWhereWithoutBankAccountInput | BankTransactionUpdateManyWithWhereWithoutBankAccountInput[]
     deleteMany?: BankTransactionScalarWhereInput | BankTransactionScalarWhereInput[]
-  }
-
-  export type ClientUpdateOneRequiredWithoutAccountsNestedInput = {
-    create?: XOR<ClientCreateWithoutAccountsInput, ClientUncheckedCreateWithoutAccountsInput>
-    connectOrCreate?: ClientCreateOrConnectWithoutAccountsInput
-    upsert?: ClientUpsertWithoutAccountsInput
-    connect?: ClientWhereUniqueInput
-    update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutAccountsInput, ClientUpdateWithoutAccountsInput>, ClientUncheckedUpdateWithoutAccountsInput>
-  }
-
-  export type AccountContractUncheckedUpdateOneWithoutBankAccountNestedInput = {
-    create?: XOR<AccountContractCreateWithoutBankAccountInput, AccountContractUncheckedCreateWithoutBankAccountInput>
-    connectOrCreate?: AccountContractCreateOrConnectWithoutBankAccountInput
-    upsert?: AccountContractUpsertWithoutBankAccountInput
-    disconnect?: AccountContractWhereInput | boolean
-    delete?: AccountContractWhereInput | boolean
-    connect?: AccountContractWhereUniqueInput
-    update?: XOR<XOR<AccountContractUpdateToOneWithWhereWithoutBankAccountInput, AccountContractUpdateWithoutBankAccountInput>, AccountContractUncheckedUpdateWithoutBankAccountInput>
   }
 
   export type StaffAccountAssignmentUncheckedUpdateManyWithoutBankAccountNestedInput = {
@@ -16307,11 +16441,25 @@ export namespace Prisma {
     connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
   }
 
+  export type AccountContractCreateNestedManyWithoutClientInput = {
+    create?: XOR<AccountContractCreateWithoutClientInput, AccountContractUncheckedCreateWithoutClientInput> | AccountContractCreateWithoutClientInput[] | AccountContractUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: AccountContractCreateOrConnectWithoutClientInput | AccountContractCreateOrConnectWithoutClientInput[]
+    createMany?: AccountContractCreateManyClientInputEnvelope
+    connect?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
+  }
+
   export type BankAccountUncheckedCreateNestedManyWithoutClientInput = {
     create?: XOR<BankAccountCreateWithoutClientInput, BankAccountUncheckedCreateWithoutClientInput> | BankAccountCreateWithoutClientInput[] | BankAccountUncheckedCreateWithoutClientInput[]
     connectOrCreate?: BankAccountCreateOrConnectWithoutClientInput | BankAccountCreateOrConnectWithoutClientInput[]
     createMany?: BankAccountCreateManyClientInputEnvelope
     connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type AccountContractUncheckedCreateNestedManyWithoutClientInput = {
+    create?: XOR<AccountContractCreateWithoutClientInput, AccountContractUncheckedCreateWithoutClientInput> | AccountContractCreateWithoutClientInput[] | AccountContractUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: AccountContractCreateOrConnectWithoutClientInput | AccountContractCreateOrConnectWithoutClientInput[]
+    createMany?: AccountContractCreateManyClientInputEnvelope
+    connect?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
   }
 
   export type BankAccountUpdateManyWithoutClientNestedInput = {
@@ -16328,6 +16476,20 @@ export namespace Prisma {
     deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
   }
 
+  export type AccountContractUpdateManyWithoutClientNestedInput = {
+    create?: XOR<AccountContractCreateWithoutClientInput, AccountContractUncheckedCreateWithoutClientInput> | AccountContractCreateWithoutClientInput[] | AccountContractUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: AccountContractCreateOrConnectWithoutClientInput | AccountContractCreateOrConnectWithoutClientInput[]
+    upsert?: AccountContractUpsertWithWhereUniqueWithoutClientInput | AccountContractUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: AccountContractCreateManyClientInputEnvelope
+    set?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
+    disconnect?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
+    delete?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
+    connect?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
+    update?: AccountContractUpdateWithWhereUniqueWithoutClientInput | AccountContractUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: AccountContractUpdateManyWithWhereWithoutClientInput | AccountContractUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: AccountContractScalarWhereInput | AccountContractScalarWhereInput[]
+  }
+
   export type BankAccountUncheckedUpdateManyWithoutClientNestedInput = {
     create?: XOR<BankAccountCreateWithoutClientInput, BankAccountUncheckedCreateWithoutClientInput> | BankAccountCreateWithoutClientInput[] | BankAccountUncheckedCreateWithoutClientInput[]
     connectOrCreate?: BankAccountCreateOrConnectWithoutClientInput | BankAccountCreateOrConnectWithoutClientInput[]
@@ -16342,10 +16504,38 @@ export namespace Prisma {
     deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
   }
 
-  export type BankAccountCreateNestedOneWithoutContractInput = {
-    create?: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput>
-    connectOrCreate?: BankAccountCreateOrConnectWithoutContractInput
-    connect?: BankAccountWhereUniqueInput
+  export type AccountContractUncheckedUpdateManyWithoutClientNestedInput = {
+    create?: XOR<AccountContractCreateWithoutClientInput, AccountContractUncheckedCreateWithoutClientInput> | AccountContractCreateWithoutClientInput[] | AccountContractUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: AccountContractCreateOrConnectWithoutClientInput | AccountContractCreateOrConnectWithoutClientInput[]
+    upsert?: AccountContractUpsertWithWhereUniqueWithoutClientInput | AccountContractUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: AccountContractCreateManyClientInputEnvelope
+    set?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
+    disconnect?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
+    delete?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
+    connect?: AccountContractWhereUniqueInput | AccountContractWhereUniqueInput[]
+    update?: AccountContractUpdateWithWhereUniqueWithoutClientInput | AccountContractUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: AccountContractUpdateManyWithWhereWithoutClientInput | AccountContractUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: AccountContractScalarWhereInput | AccountContractScalarWhereInput[]
+  }
+
+  export type ClientCreateNestedOneWithoutContractsInput = {
+    create?: XOR<ClientCreateWithoutContractsInput, ClientUncheckedCreateWithoutContractsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutContractsInput
+    connect?: ClientWhereUniqueInput
+  }
+
+  export type BankAccountCreateNestedManyWithoutContractInput = {
+    create?: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput> | BankAccountCreateWithoutContractInput[] | BankAccountUncheckedCreateWithoutContractInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutContractInput | BankAccountCreateOrConnectWithoutContractInput[]
+    createMany?: BankAccountCreateManyContractInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type BankAccountUncheckedCreateNestedManyWithoutContractInput = {
+    create?: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput> | BankAccountCreateWithoutContractInput[] | BankAccountUncheckedCreateWithoutContractInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutContractInput | BankAccountCreateOrConnectWithoutContractInput[]
+    createMany?: BankAccountCreateManyContractInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -16360,12 +16550,40 @@ export namespace Prisma {
     set?: boolean | null
   }
 
-  export type BankAccountUpdateOneRequiredWithoutContractNestedInput = {
-    create?: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput>
-    connectOrCreate?: BankAccountCreateOrConnectWithoutContractInput
-    upsert?: BankAccountUpsertWithoutContractInput
-    connect?: BankAccountWhereUniqueInput
-    update?: XOR<XOR<BankAccountUpdateToOneWithWhereWithoutContractInput, BankAccountUpdateWithoutContractInput>, BankAccountUncheckedUpdateWithoutContractInput>
+  export type ClientUpdateOneRequiredWithoutContractsNestedInput = {
+    create?: XOR<ClientCreateWithoutContractsInput, ClientUncheckedCreateWithoutContractsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutContractsInput
+    upsert?: ClientUpsertWithoutContractsInput
+    connect?: ClientWhereUniqueInput
+    update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutContractsInput, ClientUpdateWithoutContractsInput>, ClientUncheckedUpdateWithoutContractsInput>
+  }
+
+  export type BankAccountUpdateManyWithoutContractNestedInput = {
+    create?: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput> | BankAccountCreateWithoutContractInput[] | BankAccountUncheckedCreateWithoutContractInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutContractInput | BankAccountCreateOrConnectWithoutContractInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutContractInput | BankAccountUpsertWithWhereUniqueWithoutContractInput[]
+    createMany?: BankAccountCreateManyContractInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutContractInput | BankAccountUpdateWithWhereUniqueWithoutContractInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutContractInput | BankAccountUpdateManyWithWhereWithoutContractInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type BankAccountUncheckedUpdateManyWithoutContractNestedInput = {
+    create?: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput> | BankAccountCreateWithoutContractInput[] | BankAccountUncheckedCreateWithoutContractInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutContractInput | BankAccountCreateOrConnectWithoutContractInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutContractInput | BankAccountUpsertWithWhereUniqueWithoutContractInput[]
+    createMany?: BankAccountCreateManyContractInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutContractInput | BankAccountUpdateWithWhereUniqueWithoutContractInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutContractInput | BankAccountUpdateManyWithWhereWithoutContractInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutStaffAccountAssignmentInput = {
@@ -17611,9 +17829,9 @@ export namespace Prisma {
     currency: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    contract?: AccountContractCreateNestedOneWithoutBankAccountInput
-    staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
     client: ClientCreateNestedOneWithoutAccountsInput
+    contract?: AccountContractCreateNestedOneWithoutBankAccountsInput
+    staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutTransactionsInput = {
@@ -17624,9 +17842,9 @@ export namespace Prisma {
     accountType: $Enums.AccountType
     currency: string
     clientId: string
+    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    contract?: AccountContractUncheckedCreateNestedOneWithoutBankAccountInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutBankAccountInput
   }
 
@@ -17794,9 +18012,9 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contract?: AccountContractUpdateOneWithoutBankAccountNestedInput
-    staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
     client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
+    contract?: AccountContractUpdateOneWithoutBankAccountsNestedInput
+    staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutTransactionsInput = {
@@ -17807,9 +18025,9 @@ export namespace Prisma {
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
+    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contract?: AccountContractUncheckedUpdateOneWithoutBankAccountNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutBankAccountNestedInput
   }
 
@@ -17923,8 +18141,72 @@ export namespace Prisma {
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutUploadedTransactionsInput>
   }
 
-  export type AccountContractCreateWithoutBankAccountInput = {
+  export type ClientCreateWithoutAccountsInput = {
     id?: string
+    firstName: string
+    lastName: string
+    companyName: string
+    email: string
+    address?: string | null
+    phone?: string | null
+    country?: string | null
+    state?: string | null
+    city?: string | null
+    avatarUrl?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contracts?: AccountContractCreateNestedManyWithoutClientInput
+  }
+
+  export type ClientUncheckedCreateWithoutAccountsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    companyName: string
+    email: string
+    address?: string | null
+    phone?: string | null
+    country?: string | null
+    state?: string | null
+    city?: string | null
+    avatarUrl?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contracts?: AccountContractUncheckedCreateNestedManyWithoutClientInput
+  }
+
+  export type ClientCreateOrConnectWithoutAccountsInput = {
+    where: ClientWhereUniqueInput
+    create: XOR<ClientCreateWithoutAccountsInput, ClientUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type AccountContractCreateWithoutBankAccountsInput = {
+    id?: string
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    creditInterestRate?: number | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    effectiveFrom?: Date | string | null
+    effectiveTo?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    client: ClientCreateNestedOneWithoutContractsInput
+  }
+
+  export type AccountContractUncheckedCreateWithoutBankAccountsInput = {
+    id?: string
+    clientId: string
     returnChargeRate?: number | null
     returnChargeLimit?: number | null
     cotCovenantRate?: number | null
@@ -17946,32 +18228,9 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type AccountContractUncheckedCreateWithoutBankAccountInput = {
-    id?: string
-    returnChargeRate?: number | null
-    returnChargeLimit?: number | null
-    cotCovenantRate?: number | null
-    cotOffCoverRate?: number | null
-    cotOICRate?: number | null
-    turnoverLimit?: number | null
-    cotCovenantFrequency?: string | null
-    chargeCOTOnShortfall?: boolean | null
-    creditInterestRate?: number | null
-    debitRate?: number | null
-    excessRate?: number | null
-    excessRateType?: string | null
-    vatRate?: number | null
-    whtRate?: number | null
-    rateType?: string | null
-    effectiveFrom?: Date | string | null
-    effectiveTo?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type AccountContractCreateOrConnectWithoutBankAccountInput = {
+  export type AccountContractCreateOrConnectWithoutBankAccountsInput = {
     where: AccountContractWhereUniqueInput
-    create: XOR<AccountContractCreateWithoutBankAccountInput, AccountContractUncheckedCreateWithoutBankAccountInput>
+    create: XOR<AccountContractCreateWithoutBankAccountsInput, AccountContractUncheckedCreateWithoutBankAccountsInput>
   }
 
   export type StaffAccountAssignmentCreateWithoutBankAccountInput = {
@@ -18050,55 +18309,63 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ClientCreateWithoutAccountsInput = {
-    id?: string
-    firstName: string
-    lastName: string
-    companyName: string
-    email: string
-    address?: string | null
-    phone?: string | null
-    country?: string | null
-    state?: string | null
-    city?: string | null
-    avatarUrl?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ClientUncheckedCreateWithoutAccountsInput = {
-    id?: string
-    firstName: string
-    lastName: string
-    companyName: string
-    email: string
-    address?: string | null
-    phone?: string | null
-    country?: string | null
-    state?: string | null
-    city?: string | null
-    avatarUrl?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ClientCreateOrConnectWithoutAccountsInput = {
-    where: ClientWhereUniqueInput
+  export type ClientUpsertWithoutAccountsInput = {
+    update: XOR<ClientUpdateWithoutAccountsInput, ClientUncheckedUpdateWithoutAccountsInput>
     create: XOR<ClientCreateWithoutAccountsInput, ClientUncheckedCreateWithoutAccountsInput>
+    where?: ClientWhereInput
   }
 
-  export type AccountContractUpsertWithoutBankAccountInput = {
-    update: XOR<AccountContractUpdateWithoutBankAccountInput, AccountContractUncheckedUpdateWithoutBankAccountInput>
-    create: XOR<AccountContractCreateWithoutBankAccountInput, AccountContractUncheckedCreateWithoutBankAccountInput>
+  export type ClientUpdateToOneWithWhereWithoutAccountsInput = {
+    where?: ClientWhereInput
+    data: XOR<ClientUpdateWithoutAccountsInput, ClientUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type ClientUpdateWithoutAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contracts?: AccountContractUpdateManyWithoutClientNestedInput
+  }
+
+  export type ClientUncheckedUpdateWithoutAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contracts?: AccountContractUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type AccountContractUpsertWithoutBankAccountsInput = {
+    update: XOR<AccountContractUpdateWithoutBankAccountsInput, AccountContractUncheckedUpdateWithoutBankAccountsInput>
+    create: XOR<AccountContractCreateWithoutBankAccountsInput, AccountContractUncheckedCreateWithoutBankAccountsInput>
     where?: AccountContractWhereInput
   }
 
-  export type AccountContractUpdateToOneWithWhereWithoutBankAccountInput = {
+  export type AccountContractUpdateToOneWithWhereWithoutBankAccountsInput = {
     where?: AccountContractWhereInput
-    data: XOR<AccountContractUpdateWithoutBankAccountInput, AccountContractUncheckedUpdateWithoutBankAccountInput>
+    data: XOR<AccountContractUpdateWithoutBankAccountsInput, AccountContractUncheckedUpdateWithoutBankAccountsInput>
   }
 
-  export type AccountContractUpdateWithoutBankAccountInput = {
+  export type AccountContractUpdateWithoutBankAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
     returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
     returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -18119,10 +18386,12 @@ export namespace Prisma {
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: ClientUpdateOneRequiredWithoutContractsNestedInput
   }
 
-  export type AccountContractUncheckedUpdateWithoutBankAccountInput = {
+  export type AccountContractUncheckedUpdateWithoutBankAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
     returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
     returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
     cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -18176,49 +18445,6 @@ export namespace Prisma {
     data: XOR<BankTransactionUpdateManyMutationInput, BankTransactionUncheckedUpdateManyWithoutBankAccountInput>
   }
 
-  export type ClientUpsertWithoutAccountsInput = {
-    update: XOR<ClientUpdateWithoutAccountsInput, ClientUncheckedUpdateWithoutAccountsInput>
-    create: XOR<ClientCreateWithoutAccountsInput, ClientUncheckedCreateWithoutAccountsInput>
-    where?: ClientWhereInput
-  }
-
-  export type ClientUpdateToOneWithWhereWithoutAccountsInput = {
-    where?: ClientWhereInput
-    data: XOR<ClientUpdateWithoutAccountsInput, ClientUncheckedUpdateWithoutAccountsInput>
-  }
-
-  export type ClientUpdateWithoutAccountsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    companyName?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    state?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    avatarUrl?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ClientUncheckedUpdateWithoutAccountsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    companyName?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    state?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    avatarUrl?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type BankAccountCreateWithoutClientInput = {
     id?: string
     accountCode: string
@@ -18228,7 +18454,7 @@ export namespace Prisma {
     currency: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    contract?: AccountContractCreateNestedOneWithoutBankAccountInput
+    contract?: AccountContractCreateNestedOneWithoutBankAccountsInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
     transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
   }
@@ -18240,9 +18466,9 @@ export namespace Prisma {
     accountName: string
     accountType: $Enums.AccountType
     currency: string
+    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    contract?: AccountContractUncheckedCreateNestedOneWithoutBankAccountInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutBankAccountInput
     transactions?: BankTransactionUncheckedCreateNestedManyWithoutBankAccountInput
   }
@@ -18254,6 +18480,64 @@ export namespace Prisma {
 
   export type BankAccountCreateManyClientInputEnvelope = {
     data: BankAccountCreateManyClientInput | BankAccountCreateManyClientInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AccountContractCreateWithoutClientInput = {
+    id?: string
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    creditInterestRate?: number | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    effectiveFrom?: Date | string | null
+    effectiveTo?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bankAccounts?: BankAccountCreateNestedManyWithoutContractInput
+  }
+
+  export type AccountContractUncheckedCreateWithoutClientInput = {
+    id?: string
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    creditInterestRate?: number | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    effectiveFrom?: Date | string | null
+    effectiveTo?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutContractInput
+  }
+
+  export type AccountContractCreateOrConnectWithoutClientInput = {
+    where: AccountContractWhereUniqueInput
+    create: XOR<AccountContractCreateWithoutClientInput, AccountContractUncheckedCreateWithoutClientInput>
+  }
+
+  export type AccountContractCreateManyClientInputEnvelope = {
+    data: AccountContractCreateManyClientInput | AccountContractCreateManyClientInput[]
     skipDuplicates?: boolean
   }
 
@@ -18284,8 +18568,91 @@ export namespace Prisma {
     accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
     currency?: StringFilter<"BankAccount"> | string
     clientId?: StringFilter<"BankAccount"> | string
+    contractId?: StringNullableFilter<"BankAccount"> | string | null
     createdAt?: DateTimeFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
+  }
+
+  export type AccountContractUpsertWithWhereUniqueWithoutClientInput = {
+    where: AccountContractWhereUniqueInput
+    update: XOR<AccountContractUpdateWithoutClientInput, AccountContractUncheckedUpdateWithoutClientInput>
+    create: XOR<AccountContractCreateWithoutClientInput, AccountContractUncheckedCreateWithoutClientInput>
+  }
+
+  export type AccountContractUpdateWithWhereUniqueWithoutClientInput = {
+    where: AccountContractWhereUniqueInput
+    data: XOR<AccountContractUpdateWithoutClientInput, AccountContractUncheckedUpdateWithoutClientInput>
+  }
+
+  export type AccountContractUpdateManyWithWhereWithoutClientInput = {
+    where: AccountContractScalarWhereInput
+    data: XOR<AccountContractUpdateManyMutationInput, AccountContractUncheckedUpdateManyWithoutClientInput>
+  }
+
+  export type AccountContractScalarWhereInput = {
+    AND?: AccountContractScalarWhereInput | AccountContractScalarWhereInput[]
+    OR?: AccountContractScalarWhereInput[]
+    NOT?: AccountContractScalarWhereInput | AccountContractScalarWhereInput[]
+    id?: StringFilter<"AccountContract"> | string
+    clientId?: StringFilter<"AccountContract"> | string
+    returnChargeRate?: FloatNullableFilter<"AccountContract"> | number | null
+    returnChargeLimit?: FloatNullableFilter<"AccountContract"> | number | null
+    cotCovenantRate?: FloatNullableFilter<"AccountContract"> | number | null
+    cotOffCoverRate?: FloatNullableFilter<"AccountContract"> | number | null
+    cotOICRate?: FloatNullableFilter<"AccountContract"> | number | null
+    turnoverLimit?: FloatNullableFilter<"AccountContract"> | number | null
+    cotCovenantFrequency?: StringNullableFilter<"AccountContract"> | string | null
+    chargeCOTOnShortfall?: BoolNullableFilter<"AccountContract"> | boolean | null
+    creditInterestRate?: FloatNullableFilter<"AccountContract"> | number | null
+    debitRate?: FloatNullableFilter<"AccountContract"> | number | null
+    excessRate?: FloatNullableFilter<"AccountContract"> | number | null
+    excessRateType?: StringNullableFilter<"AccountContract"> | string | null
+    vatRate?: FloatNullableFilter<"AccountContract"> | number | null
+    whtRate?: FloatNullableFilter<"AccountContract"> | number | null
+    rateType?: StringNullableFilter<"AccountContract"> | string | null
+    effectiveFrom?: DateTimeNullableFilter<"AccountContract"> | Date | string | null
+    effectiveTo?: DateTimeNullableFilter<"AccountContract"> | Date | string | null
+    createdAt?: DateTimeFilter<"AccountContract"> | Date | string
+    updatedAt?: DateTimeFilter<"AccountContract"> | Date | string
+  }
+
+  export type ClientCreateWithoutContractsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    companyName: string
+    email: string
+    address?: string | null
+    phone?: string | null
+    country?: string | null
+    state?: string | null
+    city?: string | null
+    avatarUrl?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: BankAccountCreateNestedManyWithoutClientInput
+  }
+
+  export type ClientUncheckedCreateWithoutContractsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    companyName: string
+    email: string
+    address?: string | null
+    phone?: string | null
+    country?: string | null
+    state?: string | null
+    city?: string | null
+    avatarUrl?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: BankAccountUncheckedCreateNestedManyWithoutClientInput
+  }
+
+  export type ClientCreateOrConnectWithoutContractsInput = {
+    where: ClientWhereUniqueInput
+    create: XOR<ClientCreateWithoutContractsInput, ClientUncheckedCreateWithoutContractsInput>
   }
 
   export type BankAccountCreateWithoutContractInput = {
@@ -18297,9 +18664,9 @@ export namespace Prisma {
     currency: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    client: ClientCreateNestedOneWithoutAccountsInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
     transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
-    client: ClientCreateNestedOneWithoutAccountsInput
   }
 
   export type BankAccountUncheckedCreateWithoutContractInput = {
@@ -18321,43 +18688,70 @@ export namespace Prisma {
     create: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput>
   }
 
-  export type BankAccountUpsertWithoutContractInput = {
-    update: XOR<BankAccountUpdateWithoutContractInput, BankAccountUncheckedUpdateWithoutContractInput>
-    create: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput>
-    where?: BankAccountWhereInput
+  export type BankAccountCreateManyContractInputEnvelope = {
+    data: BankAccountCreateManyContractInput | BankAccountCreateManyContractInput[]
+    skipDuplicates?: boolean
   }
 
-  export type BankAccountUpdateToOneWithWhereWithoutContractInput = {
-    where?: BankAccountWhereInput
+  export type ClientUpsertWithoutContractsInput = {
+    update: XOR<ClientUpdateWithoutContractsInput, ClientUncheckedUpdateWithoutContractsInput>
+    create: XOR<ClientCreateWithoutContractsInput, ClientUncheckedCreateWithoutContractsInput>
+    where?: ClientWhereInput
+  }
+
+  export type ClientUpdateToOneWithWhereWithoutContractsInput = {
+    where?: ClientWhereInput
+    data: XOR<ClientUpdateWithoutContractsInput, ClientUncheckedUpdateWithoutContractsInput>
+  }
+
+  export type ClientUpdateWithoutContractsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: BankAccountUpdateManyWithoutClientNestedInput
+  }
+
+  export type ClientUncheckedUpdateWithoutContractsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: BankAccountUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type BankAccountUpsertWithWhereUniqueWithoutContractInput = {
+    where: BankAccountWhereUniqueInput
+    update: XOR<BankAccountUpdateWithoutContractInput, BankAccountUncheckedUpdateWithoutContractInput>
+    create: XOR<BankAccountCreateWithoutContractInput, BankAccountUncheckedCreateWithoutContractInput>
+  }
+
+  export type BankAccountUpdateWithWhereUniqueWithoutContractInput = {
+    where: BankAccountWhereUniqueInput
     data: XOR<BankAccountUpdateWithoutContractInput, BankAccountUncheckedUpdateWithoutContractInput>
   }
 
-  export type BankAccountUpdateWithoutContractInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
-    accountNumber?: StringFieldUpdateOperationsInput | string
-    accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
-    currency?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
-    transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
-    client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
-  }
-
-  export type BankAccountUncheckedUpdateWithoutContractInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
-    accountNumber?: StringFieldUpdateOperationsInput | string
-    accountName?: StringFieldUpdateOperationsInput | string
-    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
-    currency?: StringFieldUpdateOperationsInput | string
-    clientId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutBankAccountNestedInput
-    transactions?: BankTransactionUncheckedUpdateManyWithoutBankAccountNestedInput
+  export type BankAccountUpdateManyWithWhereWithoutContractInput = {
+    where: BankAccountScalarWhereInput
+    data: XOR<BankAccountUpdateManyMutationInput, BankAccountUncheckedUpdateManyWithoutContractInput>
   }
 
   export type UserCreateWithoutStaffAccountAssignmentInput = {
@@ -18426,9 +18820,9 @@ export namespace Prisma {
     currency: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    contract?: AccountContractCreateNestedOneWithoutBankAccountInput
-    transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
     client: ClientCreateNestedOneWithoutAccountsInput
+    contract?: AccountContractCreateNestedOneWithoutBankAccountsInput
+    transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutStaffAssignmentsInput = {
@@ -18439,9 +18833,9 @@ export namespace Prisma {
     accountType: $Enums.AccountType
     currency: string
     clientId: string
+    contractId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    contract?: AccountContractUncheckedCreateNestedOneWithoutBankAccountInput
     transactions?: BankTransactionUncheckedCreateNestedManyWithoutBankAccountInput
   }
 
@@ -18647,9 +19041,9 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contract?: AccountContractUpdateOneWithoutBankAccountNestedInput
-    transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
     client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
+    contract?: AccountContractUpdateOneWithoutBankAccountsNestedInput
+    transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutStaffAssignmentsInput = {
@@ -18660,9 +19054,9 @@ export namespace Prisma {
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
+    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contract?: AccountContractUncheckedUpdateOneWithoutBankAccountNestedInput
     transactions?: BankTransactionUncheckedUpdateManyWithoutBankAccountNestedInput
   }
 
@@ -19443,6 +19837,30 @@ export namespace Prisma {
     accountName: string
     accountType: $Enums.AccountType
     currency: string
+    contractId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccountContractCreateManyClientInput = {
+    id?: string
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    creditInterestRate?: number | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    effectiveFrom?: Date | string | null
+    effectiveTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19456,7 +19874,7 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contract?: AccountContractUpdateOneWithoutBankAccountNestedInput
+    contract?: AccountContractUpdateOneWithoutBankAccountsNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
     transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
   }
@@ -19468,9 +19886,9 @@ export namespace Prisma {
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
+    contractId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contract?: AccountContractUncheckedUpdateOneWithoutBankAccountNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutBankAccountNestedInput
     transactions?: BankTransactionUncheckedUpdateManyWithoutBankAccountNestedInput
   }
@@ -19482,6 +19900,130 @@ export namespace Prisma {
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
+    contractId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountContractUpdateWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    creditInterestRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bankAccounts?: BankAccountUpdateManyWithoutContractNestedInput
+  }
+
+  export type AccountContractUncheckedUpdateWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    creditInterestRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutContractNestedInput
+  }
+
+  export type AccountContractUncheckedUpdateManyWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    creditInterestRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BankAccountCreateManyContractInput = {
+    id?: string
+    accountCode: string
+    accountNumber: string
+    accountName: string
+    accountType: $Enums.AccountType
+    currency: string
+    clientId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BankAccountUpdateWithoutContractInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountName?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
+    staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
+    transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateWithoutContractInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountName?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    currency?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutBankAccountNestedInput
+    transactions?: BankTransactionUncheckedUpdateManyWithoutBankAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateManyWithoutContractInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountCode?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountName?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    currency?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

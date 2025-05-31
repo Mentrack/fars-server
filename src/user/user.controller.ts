@@ -30,6 +30,7 @@ import {
 } from './dto/deactivate-user.dto';
 import { RequestWithUser } from 'src/auth/types/request-with-user';
 import { ActivateUserResponseDto } from './dto/activate-user.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiBearerAuth()
 @Controller('users')
@@ -37,7 +38,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
   private readonly logger = new MyLoggerService(UserController.name);
 
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @Public()
+  // @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Create a new user' })
   @ApiCreatedResponse({
     description: 'User created successfully',

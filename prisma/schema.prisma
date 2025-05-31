@@ -174,22 +174,23 @@ enum AccountType {
 }
 
 model BankAccount {
-  id              String                  @id @default(uuid())
-  accountCode     String                  @unique
-  accountNumber   String                  @unique
-  accountName     String
-  accountType     AccountType
-  currency        String
-  clientId        String
-  contract          AccountContract?      @relation("BankAccountToContract")
-  staffAssignments StaffAccountAssignment[]
-  transactions    BankTransaction[]
-  createdAt       DateTime               @default(now())
-  updatedAt       DateTime               @updatedAt
+  id               String                  @id @default(uuid())
+  accountCode      String                  @unique
+  accountNumber    String                  @unique
+  accountName      String
+  accountType      AccountType
+  currency         String
+  clientId         String
+  contractId       String?
 
-  // Client that owns this account
-  client          Client                  @relation(fields: [clientId], references: [id])
-  
+  client           Client                  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  contract         AccountContract?        @relation(fields: [contractId], references: [id])
+
+  staffAssignments StaffAccountAssignment[]
+  transactions     BankTransaction[]
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+
   @@map("bank_accounts")
 }
 
@@ -206,15 +207,17 @@ model Client {
   city      String?
   avatarUrl String         @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
   accounts  BankAccount[]
+  contracts AccountContract[]
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
+  
 
   @@map("clients")
 }
 
 model AccountContract {
-  id                     String   @id @default(uuid())
-  bankAccountId          String   @unique
+  id                     String         @id @default(uuid())
+  clientId               String         // 👈 links to client
   returnChargeRate       Float?
   returnChargeLimit      Float?
   cotCovenantRate        Float?
@@ -232,11 +235,11 @@ model AccountContract {
   rateType               String?
   effectiveFrom          DateTime?
   effectiveTo            DateTime?
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
 
-  bankAccount BankAccount @relation("BankAccountToContract", fields: [bankAccountId], references: [id], onDelete: Cascade)
-
+  client                 Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  bankAccounts           BankAccount[]  // one contract → many accounts
 
   @@map("account_contracts")
 }
