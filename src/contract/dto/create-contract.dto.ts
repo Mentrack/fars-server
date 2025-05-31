@@ -10,17 +10,17 @@ import {
   IsNotEmpty,
 } from 'class-validator';
 
-export class CreateAccountContractDto {
+export class CreateContractDto {
   @ApiProperty({
-    description: 'ID of the bank account',
+    description: 'ID of the client',
     example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @IsString()
   @IsNotEmpty()
   @IsUUID()
-  bankAccountId: string;
+  clientId: string;
 
-  @ApiProperty({ description: 'Retukrn charge rate', example: 0.05 })
+  @ApiProperty({ description: 'Return charge rate', example: 0.05 })
   @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
@@ -140,7 +140,7 @@ export class CreateAccountContractResponseDto {
   @IsString()
   @IsNotEmpty()
   @IsUUID()
-  bankAccountId: string;
+  clientId: string;
 
   @ApiProperty({ example: 0.05 })
   @ApiPropertyOptional()
