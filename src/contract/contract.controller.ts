@@ -20,6 +20,8 @@ import {
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
+import { Role } from 'src/auth/enum/role.enum';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiBearerAuth()
 @Controller('contracts')
@@ -74,6 +76,7 @@ export class ContractController {
     description: 'The contract has been successfully deleted.',
     type: CreateAccountContractResponseDto,
   })
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.contractService.remove(id);
