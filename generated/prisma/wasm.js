@@ -192,6 +192,7 @@ exports.Prisma.BankAccountScalarFieldEnum = {
   accountType: 'accountType',
   currency: 'currency',
   clientId: 'clientId',
+  contractId: 'contractId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -214,7 +215,7 @@ exports.Prisma.ClientScalarFieldEnum = {
 
 exports.Prisma.AccountContractScalarFieldEnum = {
   id: 'id',
-  bankAccountId: 'bankAccountId',
+  clientId: 'clientId',
   returnChargeRate: 'returnChargeRate',
   returnChargeLimit: 'returnChargeLimit',
   cotCovenantRate: 'cotCovenantRate',
