@@ -181,7 +181,7 @@ model BankAccount {
   clientId      String
   contractId    String?
 
-  client   Client           @relation(fields: [clientId], references: [id])
+  client   Client           @relation(fields: [clientId], references: [id], onDelete: Cascade)
   contract AccountContract? @relation(fields: [contractId], references: [id])
 
   staffAssignments StaffAccountAssignment[]
@@ -235,7 +235,7 @@ model AccountContract {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 
-  client       Client        @relation(fields: [clientId], references: [id])
+  client       Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   bankAccounts BankAccount[] // one contract → many accounts
 
   @@map("account_contracts")

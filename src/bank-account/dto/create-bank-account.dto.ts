@@ -1,16 +1,12 @@
 import {
+  IsDateString,
   IsEnum,
+  IsOptional,
   IsString,
   IsUUID,
   Matches,
   MinLength,
-  ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
-import {
-  CreateAccountContractDto,
-  CreateAccountContractResponseDto,
-} from './create-account-contract.dto';
 import { AccountType } from '../enums/account-type.enum';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
@@ -51,16 +47,18 @@ export class CreateBankAccountDto {
   @IsUUID()
   clientId: string;
 
-  @ApiProperty({ description: 'Bank contract' })
-  @ApiPropertyOptional()
-  @ValidateNested()
-  @Type(() => CreateAccountContractDto)
-  contract?: CreateAccountContractDto;
+  @ApiPropertyOptional({
+    description: 'ID of the contract associated with the bank account',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @IsOptional()
+  contractId?: string;
 }
 
 export class CreateBankAccountResponseDto {
   @ApiProperty({
-    example: 'BAC12345678',
+    description: 'Unique identifier for the bank account',
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @IsString()
   accountCode: string;
@@ -98,9 +96,22 @@ export class CreateBankAccountResponseDto {
   @IsUUID()
   clientId: string;
 
-  @ApiProperty({ description: 'Bank contract' })
+  @ApiPropertyOptional({
+    example: '123e4567-e89b-12d3-a456-426614174012',
+  })
+  @IsString()
+  @IsUUID()
+  contractId?: string;
+
+  @ApiProperty({ example: '2023-01-01' })
   @ApiPropertyOptional()
-  @ValidateNested()
-  @Type(() => CreateAccountContractResponseDto)
-  contract?: CreateAccountContractResponseDto;
+  @IsDateString()
+  @IsOptional()
+  createdAt?: string;
+
+  @ApiProperty({ example: '2023-01-01' })
+  @ApiPropertyOptional()
+  @IsDateString()
+  @IsOptional()
+  updatedAt?: string;
 }
