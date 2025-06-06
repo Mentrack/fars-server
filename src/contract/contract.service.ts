@@ -63,11 +63,12 @@ export class ContractService {
 
   async update(id: string, updateContractDto: UpdateContractDto) {
     //Check if the contract exists
-    const contractExists =
-      await this.databaseService.accountContract.findUnique({
+    const contractExist = await this.databaseService.accountContract.findUnique(
+      {
         where: { id },
-      });
-    if (!contractExists) {
+      },
+    );
+    if (!contractExist) {
       throw new NotFoundException('Contract not found');
     }
 
@@ -83,14 +84,15 @@ export class ContractService {
 
   async remove(id: string) {
     // Check if the contract exists
-    const contractExists =
-      await this.databaseService.accountContract.findUnique({
+    const contractExist = await this.databaseService.accountContract.findUnique(
+      {
         where: { id },
         include: {
           client: true, // Include client details in the response
         },
-      });
-    if (!contractExists) {
+      },
+    );
+    if (!contractExist) {
       throw new NotFoundException('Contract not found');
     }
 

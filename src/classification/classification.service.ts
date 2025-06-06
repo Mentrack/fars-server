@@ -23,7 +23,7 @@ export class ClassificationService {
         throw new ConflictException('Classification already exists');
       }
       // Handle other errors
-      throw new BadRequestException(`Failed to create classification`);
+      throw error;
     }
   }
 
@@ -43,7 +43,7 @@ export class ClassificationService {
         throw new NotFoundException(`No classifications found`);
       }
       // Handle other errors
-      throw new BadRequestException(`Failed to retrieve classifications`);
+      throw error;
     }
   }
 
@@ -66,7 +66,7 @@ export class ClassificationService {
         throw new NotFoundException(`Classification not found`);
       }
       // Handle other errors
-      throw new BadRequestException(`Failed to retrieve classification`);
+      throw error;
     }
   }
 
@@ -86,7 +86,7 @@ export class ClassificationService {
         throw new NotFoundException(`Classification not found`);
       }
       // Handle other errors
-      throw new BadRequestException(`Failed to update classification`);
+      throw error;
     }
   }
 
@@ -101,7 +101,7 @@ export class ClassificationService {
         throw new NotFoundException(`Classification not found`);
       }
       // Handle other errors
-      throw new BadRequestException(`Failed to delete classification`);
+      throw error;
     }
   }
 }

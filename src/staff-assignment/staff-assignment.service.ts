@@ -86,9 +86,7 @@ export class StaffAssignmentService {
         throw new NotFoundException('Bank account or user not found');
       }
       // Handle other potential errors
-      throw new BadRequestException(
-        'An error occurred while assigning staff to the bank account',
-      );
+      throw error;
     }
   }
 
@@ -202,9 +200,9 @@ export class StaffAssignmentService {
 
     return bankAccountsAssignedToStaff.map((assignment) => ({
       id: assignment.bankAccount.id,
-      firstName: assignment.bankAccount.accountName,
-      lastName: assignment.bankAccount.accountNumber,
-      email: assignment.bankAccount.accountType,
+      accountName: assignment.bankAccount.accountName,
+      accountNumber: assignment.bankAccount.accountNumber,
+      accountType: assignment.bankAccount.accountType,
       clientId: assignment.bankAccount.clientId,
     }));
   }
