@@ -79,6 +79,6 @@ export class ContractController {
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.contractService.remove(id);
+    return await this.contractService.remove(id);
   }
 }

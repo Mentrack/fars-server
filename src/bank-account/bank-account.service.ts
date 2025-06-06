@@ -43,6 +43,7 @@ export class BankAccountService {
       const existing = await this.databaseService.bankAccount.findUnique({
         where: { accountCode: candidate },
       });
+
       if (!existing) {
         accountCode = candidate;
         break;

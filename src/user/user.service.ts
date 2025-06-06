@@ -204,6 +204,7 @@ export class UserService {
       data: { refreshToken },
     });
   }
+
   async updatePassword(id: string, password: string) {
     return await this.databaseService.user.update({
       where: { id },

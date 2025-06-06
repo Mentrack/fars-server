@@ -40,11 +40,14 @@ export class StaffAssignmentController {
     type: AssignStaffResponseDto,
   })
   @Post()
-  create(
+  async create(
     @Request() req: RequestWithUser,
     @Body() assignStaffDto: AssignStaffDto,
   ) {
-    return this.staffAssignmentService.create(req.user.id, assignStaffDto);
+    return await this.staffAssignmentService.create(
+      req.user.id,
+      assignStaffDto,
+    );
   }
 
   @ApiOperation({ summary: 'Get all staff assignments' })
@@ -53,8 +56,8 @@ export class StaffAssignmentController {
     type: [GetAllAssignmentsResponseDto],
   })
   @Get()
-  findAll() {
-    return this.staffAssignmentService.findAll();
+  async findAll() {
+    return await this.staffAssignmentService.findAll();
   }
 
   @ApiOperation({ summary: 'Get staff assigned to a specific bank account' })
@@ -64,10 +67,10 @@ export class StaffAssignmentController {
     type: [GetAllStaffAssignedToBankAccountResponseDto],
   })
   @Get('bank-account/:id')
-  findStaffAssignedToBankAccount(
+  async findStaffAssignedToBankAccount(
     @Param('id', ParseUUIDPipe) accountId: string,
   ) {
-    return this.staffAssignmentService.findStaffAssignedToBankAccount(
+    return await this.staffAssignmentService.findStaffAssignedToBankAccount(
       accountId,
     );
   }
@@ -79,8 +82,12 @@ export class StaffAssignmentController {
     type: [GetAllBankAccountsAssignedToStaffResponseDto],
   })
   @Get('staff/:id')
-  findBankAccountsAssignedToStaff(@Param('id', ParseUUIDPipe) staffId: string) {
-    return this.staffAssignmentService.findBankAccountsAssignedToStaff(staffId);
+  async findBankAccountsAssignedToStaff(
+    @Param('id', ParseUUIDPipe) staffId: string,
+  ) {
+    return await this.staffAssignmentService.findBankAccountsAssignedToStaff(
+      staffId,
+    );
   }
 
   @ApiOperation({ summary: 'Unassign staff from a bank account' })
@@ -90,10 +97,10 @@ export class StaffAssignmentController {
     type: UnassignStaffResponseDto,
   })
   @Delete(':id')
-  remove(
+  async remove(
     @Param('id', ParseUUIDPipe) userId: string,
     @Body() unassignStaffDto: UnassignStaffDto,
   ) {
-    return this.staffAssignmentService.remove(userId, unassignStaffDto);
+    return await this.staffAssignmentService.remove(userId, unassignStaffDto);
   }
 }

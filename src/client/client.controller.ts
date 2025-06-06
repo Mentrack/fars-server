@@ -52,8 +52,8 @@ export class ClientController {
     type: CreateClientResponseDto,
   })
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.clientService.findOne(id);
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.clientService.findOne(id);
   }
 
   @ApiOperation({ summary: 'Update a client by ID' })

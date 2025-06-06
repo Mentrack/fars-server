@@ -31,9 +31,25 @@ export class ClientService {
   }
 
   async findOne(id: string) {
-    return await this.databaseService.client.findUnique({
-      where: { id },
-    });
+    try {
+      const client = await this.databaseService.client.findUnique({
+        where: { id },
+      });
+
+      // Handle not found case
+      if (!client) {
+        throw new NotFoundException(`Client with ID ${id} not found`);
+      }
+
+      return client;
+    } catch (error) {
+      // Handle specific error codes from Prisma
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Client not found`);
+      }
+
+      throw error;
+    }
   }
 
   async update(id: string, updateClientDto: UpdateClientDto) {
@@ -54,13 +70,26 @@ export class ClientService {
         throw new NotFoundException(`User not found`);
       }
       // Handle other errors
-      throw new BadRequestException(`Failed to update client`);
+      throw error;
     }
   }
 
   async remove(id: string) {
-    return await this.databaseService.client.delete({
-      where: { id },
-    });
+    try {
+      const client = await this.databaseService.client.delete({
+        where: { id },
+      });
+
+      if (!client) {
+        throw new NotFoundException(`Client with ID ${id} not found`);
+      }
+    } catch (error) {
+      // Handle specific error codes from Prisma
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Client not found`);
+      }
+      // Handle other errors
+      throw error;
+    }
   }
 }
