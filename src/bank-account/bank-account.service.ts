@@ -25,10 +25,9 @@ export class BankAccountService {
 
     // Check if the contract exists, if provided
     if (createBankAccountDto.contractId) {
-      const contractExists =
-        await this.databaseService.accountContract.findUnique({
-          where: { id: createBankAccountDto.contractId },
-        });
+      const contractExists = await this.databaseService.accountRate.findUnique({
+        where: { id: createBankAccountDto.contractId },
+      });
       if (!contractExists) {
         throw new NotFoundException('Contract not found');
       }
@@ -62,7 +61,7 @@ export class BankAccountService {
   async findAll() {
     const bankAccounts = await this.databaseService.bankAccount.findMany({
       include: {
-        contract: true,
+        rate: true,
       },
     });
 
@@ -77,7 +76,7 @@ export class BankAccountService {
     const bankAccount = await this.databaseService.bankAccount.findUnique({
       where: { id },
       include: {
-        contract: true,
+        rate: true,
       },
     });
 

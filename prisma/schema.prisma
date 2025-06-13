@@ -120,7 +120,6 @@ enum ClassificationCode {
 enum Category {
   DEPOSIT
   WITHDRAWAL
-  FEE
 }
 
 model TransactionClassification {
@@ -181,10 +180,10 @@ model BankAccount {
   accountType      AccountType
   currency         String
   clientId         String
-  contractId       String?
+  rateId          String?
 
   client           Client                  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  contract         AccountContract?        @relation(fields: [contractId], references: [id])
+  rate             AccountRate?            @relation(fields: [rateId], references: [id])
 
   staffAssignments StaffAccountAssignment[]
   transactions     BankTransaction[]
@@ -207,7 +206,7 @@ model Client {
   city      String?
   avatarUrl String         @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
   accounts  BankAccount[]
-  contracts AccountContract[]
+  rates     AccountRate[]
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   
@@ -215,33 +214,41 @@ model Client {
   @@map("clients")
 }
 
-model AccountContract {
-  id                     String         @id @default(uuid())
-  clientId               String         // 👈 links to client
-  returnChargeRate       Float?
-  returnChargeLimit      Float?
-  cotCovenantRate        Float?
-  cotOffCoverRate        Float?
-  cotOICRate             Float?
-  turnoverLimit          Float?
-  cotCovenantFrequency   String?
-  chargeCOTOnShortfall   Boolean?
-  creditInterestRate     Float?
-  debitRate              Float?
-  excessRate             Float?
-  excessRateType         String?
-  vatRate                Float?
-  whtRate                Float?
-  rateType               String?
-  effectiveFrom          DateTime?
-  effectiveTo            DateTime?
-  createdAt              DateTime       @default(now())
-  updatedAt              DateTime       @updatedAt
+model AccountRate {
+  id                       String        @id @default(uuid())
+  clientId                 String        // 👈 links to client
 
-  client                 Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  bankAccounts           BankAccount[]  // one contract → many accounts
+  drRates                  Json?         // array of { rate, effectiveFrom, effectiveTo }
+  loanInterestRates        Json?
+  lcCommissions            Json?
+  preNegotiationRates      Json?
+  postNegotiationRates     Json?
+  creditInterestRates      Json?
 
-  @@map("account_contracts")
+  returnChargeRate         Float?
+  returnChargeLimit        Float?
+  cotCovenantRate          Float?
+  cotOffCoverRate          Float?
+  cotOICRate               Float?
+  turnoverLimit            Float?
+  cotCovenantFrequency     String?
+  chargeCOTOnShortfall     Boolean?
+  debitRate                Float?
+  excessRate               Float?
+  excessRateType           String?
+  vatRate                  Float?
+  whtRate                  Float?
+  rateType                 String?
+  currency                 String?
+  effectiveFrom            DateTime?
+  effectiveTo              DateTime?
+  createdAt                DateTime      @default(now())
+  updatedAt                DateTime      @updatedAt
+
+  client                   Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  bankAccounts             BankAccount[] // one rate config → many bank accounts
+
+  @@map("account_rates")
 }
 
 model StaffAccountAssignment {

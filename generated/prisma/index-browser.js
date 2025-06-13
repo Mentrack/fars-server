@@ -192,7 +192,7 @@ exports.Prisma.BankAccountScalarFieldEnum = {
   accountType: 'accountType',
   currency: 'currency',
   clientId: 'clientId',
-  contractId: 'contractId',
+  rateId: 'rateId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -213,9 +213,15 @@ exports.Prisma.ClientScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.AccountContractScalarFieldEnum = {
+exports.Prisma.AccountRateScalarFieldEnum = {
   id: 'id',
   clientId: 'clientId',
+  drRates: 'drRates',
+  loanInterestRates: 'loanInterestRates',
+  lcCommissions: 'lcCommissions',
+  preNegotiationRates: 'preNegotiationRates',
+  postNegotiationRates: 'postNegotiationRates',
+  creditInterestRates: 'creditInterestRates',
   returnChargeRate: 'returnChargeRate',
   returnChargeLimit: 'returnChargeLimit',
   cotCovenantRate: 'cotCovenantRate',
@@ -224,13 +230,13 @@ exports.Prisma.AccountContractScalarFieldEnum = {
   turnoverLimit: 'turnoverLimit',
   cotCovenantFrequency: 'cotCovenantFrequency',
   chargeCOTOnShortfall: 'chargeCOTOnShortfall',
-  creditInterestRate: 'creditInterestRate',
   debitRate: 'debitRate',
   excessRate: 'excessRate',
   excessRateType: 'excessRateType',
   vatRate: 'vatRate',
   whtRate: 'whtRate',
   rateType: 'rateType',
+  currency: 'currency',
   effectiveFrom: 'effectiveFrom',
   effectiveTo: 'effectiveTo',
   createdAt: 'createdAt',
@@ -251,6 +257,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -259,6 +270,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.UserRole = exports.$Enums.UserRole = {
   SUPER_ADMIN: 'SUPER_ADMIN',
@@ -288,8 +305,7 @@ exports.ClassificationCode = exports.$Enums.ClassificationCode = {
 
 exports.Category = exports.$Enums.Category = {
   DEPOSIT: 'DEPOSIT',
-  WITHDRAWAL: 'WITHDRAWAL',
-  FEE: 'FEE'
+  WITHDRAWAL: 'WITHDRAWAL'
 };
 
 exports.TransactionType = exports.$Enums.TransactionType = {
@@ -310,7 +326,7 @@ exports.Prisma.ModelName = {
   BankTransaction: 'BankTransaction',
   BankAccount: 'BankAccount',
   Client: 'Client',
-  AccountContract: 'AccountContract',
+  AccountRate: 'AccountRate',
   StaffAccountAssignment: 'StaffAccountAssignment'
 };
 
