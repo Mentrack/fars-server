@@ -14,7 +14,7 @@ import { ClientModule } from './client/client.module';
 import { BankAccountModule } from './bank-account/bank-account.module';
 import { StaffAssignmentModule } from './staff-assignment/staff-assignment.module';
 import { ClassificationModule } from './classification/classification.module';
-import { ContractModule } from './contract/contract.module';
+import { RateModule } from './rate/rate.module';
 
 @Module({
   imports: [
@@ -44,7 +44,7 @@ import { ContractModule } from './contract/contract.module';
     BankAccountModule,
     StaffAssignmentModule,
     ClassificationModule,
-    ContractModule,
+    RateModule,
   ],
   controllers: [AppController],
   providers: [
