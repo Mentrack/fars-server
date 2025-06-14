@@ -186,13 +186,22 @@ exports.Prisma.BankTransactionScalarFieldEnum = {
 
 exports.Prisma.BankAccountScalarFieldEnum = {
   id: 'id',
-  accountCode: 'accountCode',
+  code: 'code',
+  bankId: 'bankId',
   accountNumber: 'accountNumber',
   accountName: 'accountName',
   accountType: 'accountType',
   currency: 'currency',
   clientId: 'clientId',
   rateId: 'rateId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BankScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -216,6 +225,7 @@ exports.Prisma.ClientScalarFieldEnum = {
 exports.Prisma.AccountRateScalarFieldEnum = {
   id: 'id',
   clientId: 'clientId',
+  code: 'code',
   drRates: 'drRates',
   loanInterestRates: 'loanInterestRates',
   lcCommissions: 'lcCommissions',
@@ -239,6 +249,17 @@ exports.Prisma.AccountRateScalarFieldEnum = {
   currency: 'currency',
   effectiveFrom: 'effectiveFrom',
   effectiveTo: 'effectiveTo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DocumentScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  title: 'title',
+  url: 'url',
+  type: 'type',
+  uploadedById: 'uploadedById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -318,6 +339,11 @@ exports.AccountType = exports.$Enums.AccountType = {
   SAVINGS: 'SAVINGS'
 };
 
+exports.DocumentType = exports.$Enums.DocumentType = {
+  CONTRACT: 'CONTRACT',
+  BANK_STATEMENT: 'BANK_STATEMENT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Permission: 'Permission',
@@ -325,8 +351,10 @@ exports.Prisma.ModelName = {
   TransactionClassification: 'TransactionClassification',
   BankTransaction: 'BankTransaction',
   BankAccount: 'BankAccount',
+  Bank: 'Bank',
   Client: 'Client',
   AccountRate: 'AccountRate',
+  Document: 'Document',
   StaffAccountAssignment: 'StaffAccountAssignment'
 };
 

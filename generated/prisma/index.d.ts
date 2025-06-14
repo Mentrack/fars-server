@@ -44,6 +44,11 @@ export type BankTransaction = $Result.DefaultSelection<Prisma.$BankTransactionPa
  */
 export type BankAccount = $Result.DefaultSelection<Prisma.$BankAccountPayload>
 /**
+ * Model Bank
+ * 
+ */
+export type Bank = $Result.DefaultSelection<Prisma.$BankPayload>
+/**
  * Model Client
  * 
  */
@@ -53,6 +58,11 @@ export type Client = $Result.DefaultSelection<Prisma.$ClientPayload>
  * 
  */
 export type AccountRate = $Result.DefaultSelection<Prisma.$AccountRatePayload>
+/**
+ * Model Document
+ * 
+ */
+export type Document = $Result.DefaultSelection<Prisma.$DocumentPayload>
 /**
  * Model StaffAccountAssignment
  * 
@@ -118,6 +128,14 @@ export const AccountType: {
 
 export type AccountType = (typeof AccountType)[keyof typeof AccountType]
 
+
+export const DocumentType: {
+  CONTRACT: 'CONTRACT',
+  BANK_STATEMENT: 'BANK_STATEMENT'
+};
+
+export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -139,6 +157,10 @@ export const TransactionType: typeof $Enums.TransactionType
 export type AccountType = $Enums.AccountType
 
 export const AccountType: typeof $Enums.AccountType
+
+export type DocumentType = $Enums.DocumentType
+
+export const DocumentType: typeof $Enums.DocumentType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -326,6 +348,16 @@ export class PrismaClient<
   get bankAccount(): Prisma.BankAccountDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.bank`: Exposes CRUD operations for the **Bank** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Banks
+    * const banks = await prisma.bank.findMany()
+    * ```
+    */
+  get bank(): Prisma.BankDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.client`: Exposes CRUD operations for the **Client** model.
     * Example usage:
     * ```ts
@@ -344,6 +376,16 @@ export class PrismaClient<
     * ```
     */
   get accountRate(): Prisma.AccountRateDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.document`: Exposes CRUD operations for the **Document** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Documents
+    * const documents = await prisma.document.findMany()
+    * ```
+    */
+  get document(): Prisma.DocumentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.staffAccountAssignment`: Exposes CRUD operations for the **StaffAccountAssignment** model.
@@ -800,8 +842,10 @@ export namespace Prisma {
     TransactionClassification: 'TransactionClassification',
     BankTransaction: 'BankTransaction',
     BankAccount: 'BankAccount',
+    Bank: 'Bank',
     Client: 'Client',
     AccountRate: 'AccountRate',
+    Document: 'Document',
     StaffAccountAssignment: 'StaffAccountAssignment'
   };
 
@@ -821,7 +865,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "permission" | "token" | "transactionClassification" | "bankTransaction" | "bankAccount" | "client" | "accountRate" | "staffAccountAssignment"
+      modelProps: "user" | "permission" | "token" | "transactionClassification" | "bankTransaction" | "bankAccount" | "bank" | "client" | "accountRate" | "document" | "staffAccountAssignment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1269,6 +1313,80 @@ export namespace Prisma {
           }
         }
       }
+      Bank: {
+        payload: Prisma.$BankPayload<ExtArgs>
+        fields: Prisma.BankFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BankFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BankFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload>
+          }
+          findFirst: {
+            args: Prisma.BankFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BankFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload>
+          }
+          findMany: {
+            args: Prisma.BankFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload>[]
+          }
+          create: {
+            args: Prisma.BankCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload>
+          }
+          createMany: {
+            args: Prisma.BankCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BankCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload>[]
+          }
+          delete: {
+            args: Prisma.BankDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload>
+          }
+          update: {
+            args: Prisma.BankUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload>
+          }
+          deleteMany: {
+            args: Prisma.BankDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BankUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BankUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload>[]
+          }
+          upsert: {
+            args: Prisma.BankUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BankPayload>
+          }
+          aggregate: {
+            args: Prisma.BankAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBank>
+          }
+          groupBy: {
+            args: Prisma.BankGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BankGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BankCountArgs<ExtArgs>
+            result: $Utils.Optional<BankCountAggregateOutputType> | number
+          }
+        }
+      }
       Client: {
         payload: Prisma.$ClientPayload<ExtArgs>
         fields: Prisma.ClientFieldRefs
@@ -1414,6 +1532,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AccountRateCountArgs<ExtArgs>
             result: $Utils.Optional<AccountRateCountAggregateOutputType> | number
+          }
+        }
+      }
+      Document: {
+        payload: Prisma.$DocumentPayload<ExtArgs>
+        fields: Prisma.DocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DocumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DocumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.DocumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DocumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          findMany: {
+            args: Prisma.DocumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>[]
+          }
+          create: {
+            args: Prisma.DocumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          createMany: {
+            args: Prisma.DocumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DocumentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>[]
+          }
+          delete: {
+            args: Prisma.DocumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          update: {
+            args: Prisma.DocumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.DocumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DocumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DocumentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>[]
+          }
+          upsert: {
+            args: Prisma.DocumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.DocumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDocument>
+          }
+          groupBy: {
+            args: Prisma.DocumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DocumentCountArgs<ExtArgs>
+            result: $Utils.Optional<DocumentCountAggregateOutputType> | number
           }
         }
       }
@@ -1581,8 +1773,10 @@ export namespace Prisma {
     transactionClassification?: TransactionClassificationOmit
     bankTransaction?: BankTransactionOmit
     bankAccount?: BankAccountOmit
+    bank?: BankOmit
     client?: ClientOmit
     accountRate?: AccountRateOmit
+    document?: DocumentOmit
     staffAccountAssignment?: StaffAccountAssignmentOmit
   }
 
@@ -1685,6 +1879,7 @@ export namespace Prisma {
     uploadedTransactions: number
     staffAssignments: number
     assignedStaffAccounts: number
+    uploadedDocuments: number
     deactivatedUsers: number
   }
 
@@ -1696,6 +1891,7 @@ export namespace Prisma {
     uploadedTransactions?: boolean | UserCountOutputTypeCountUploadedTransactionsArgs
     staffAssignments?: boolean | UserCountOutputTypeCountStaffAssignmentsArgs
     assignedStaffAccounts?: boolean | UserCountOutputTypeCountAssignedStaffAccountsArgs
+    uploadedDocuments?: boolean | UserCountOutputTypeCountUploadedDocumentsArgs
     deactivatedUsers?: boolean | UserCountOutputTypeCountDeactivatedUsersArgs
   }
 
@@ -1757,6 +1953,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAssignedStaffAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StaffAccountAssignmentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUploadedDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
   }
 
   /**
@@ -1901,6 +2104,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type BankCountOutputType
+   */
+
+  export type BankCountOutputType = {
+    bankAccounts: number
+  }
+
+  export type BankCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bankAccounts?: boolean | BankCountOutputTypeCountBankAccountsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BankCountOutputType without action
+   */
+  export type BankCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankCountOutputType
+     */
+    select?: BankCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BankCountOutputType without action
+   */
+  export type BankCountOutputTypeCountBankAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BankAccountWhereInput
+  }
+
+
+  /**
    * Count Type ClientCountOutputType
    */
 
@@ -1946,10 +2180,12 @@ export namespace Prisma {
 
   export type AccountRateCountOutputType = {
     bankAccounts: number
+    documents: number
   }
 
   export type AccountRateCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bankAccounts?: boolean | AccountRateCountOutputTypeCountBankAccountsArgs
+    documents?: boolean | AccountRateCountOutputTypeCountDocumentsArgs
   }
 
   // Custom InputTypes
@@ -1968,6 +2204,44 @@ export namespace Prisma {
    */
   export type AccountRateCountOutputTypeCountBankAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BankAccountWhereInput
+  }
+
+  /**
+   * AccountRateCountOutputType without action
+   */
+  export type AccountRateCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+  }
+
+
+  /**
+   * Count Type DocumentCountOutputType
+   */
+
+  export type DocumentCountOutputType = {
+    rates: number
+  }
+
+  export type DocumentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rates?: boolean | DocumentCountOutputTypeCountRatesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DocumentCountOutputType without action
+   */
+  export type DocumentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentCountOutputType
+     */
+    select?: DocumentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DocumentCountOutputType without action
+   */
+  export type DocumentCountOutputTypeCountRatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccountRateWhereInput
   }
 
 
@@ -2265,6 +2539,7 @@ export namespace Prisma {
     uploadedTransactions?: boolean | User$uploadedTransactionsArgs<ExtArgs>
     staffAssignments?: boolean | User$staffAssignmentsArgs<ExtArgs>
     assignedStaffAccounts?: boolean | User$assignedStaffAccountsArgs<ExtArgs>
+    uploadedDocuments?: boolean | User$uploadedDocumentsArgs<ExtArgs>
     deactivatedBy?: boolean | User$deactivatedByArgs<ExtArgs>
     deactivatedUsers?: boolean | User$deactivatedUsersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2338,6 +2613,7 @@ export namespace Prisma {
     uploadedTransactions?: boolean | User$uploadedTransactionsArgs<ExtArgs>
     staffAssignments?: boolean | User$staffAssignmentsArgs<ExtArgs>
     assignedStaffAccounts?: boolean | User$assignedStaffAccountsArgs<ExtArgs>
+    uploadedDocuments?: boolean | User$uploadedDocumentsArgs<ExtArgs>
     deactivatedBy?: boolean | User$deactivatedByArgs<ExtArgs>
     deactivatedUsers?: boolean | User$deactivatedUsersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2359,6 +2635,7 @@ export namespace Prisma {
       uploadedTransactions: Prisma.$BankTransactionPayload<ExtArgs>[]
       staffAssignments: Prisma.$StaffAccountAssignmentPayload<ExtArgs>[]
       assignedStaffAccounts: Prisma.$StaffAccountAssignmentPayload<ExtArgs>[]
+      uploadedDocuments: Prisma.$DocumentPayload<ExtArgs>[]
       deactivatedBy: Prisma.$UserPayload<ExtArgs> | null
       deactivatedUsers: Prisma.$UserPayload<ExtArgs>[]
     }
@@ -2780,6 +3057,7 @@ export namespace Prisma {
     uploadedTransactions<T extends User$uploadedTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     staffAssignments<T extends User$staffAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$staffAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffAccountAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assignedStaffAccounts<T extends User$assignedStaffAccountsArgs<ExtArgs> = {}>(args?: Subset<T, User$assignedStaffAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffAccountAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    uploadedDocuments<T extends User$uploadedDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     deactivatedBy<T extends User$deactivatedByArgs<ExtArgs> = {}>(args?: Subset<T, User$deactivatedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     deactivatedUsers<T extends User$deactivatedUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$deactivatedUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -3388,6 +3666,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StaffAccountAssignmentScalarFieldEnum | StaffAccountAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * User.uploadedDocuments
+   */
+  export type User$uploadedDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    cursor?: DocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
   }
 
   /**
@@ -7969,7 +8271,8 @@ export namespace Prisma {
 
   export type BankAccountMinAggregateOutputType = {
     id: string | null
-    accountCode: string | null
+    code: string | null
+    bankId: string | null
     accountNumber: string | null
     accountName: string | null
     accountType: $Enums.AccountType | null
@@ -7982,7 +8285,8 @@ export namespace Prisma {
 
   export type BankAccountMaxAggregateOutputType = {
     id: string | null
-    accountCode: string | null
+    code: string | null
+    bankId: string | null
     accountNumber: string | null
     accountName: string | null
     accountType: $Enums.AccountType | null
@@ -7995,7 +8299,8 @@ export namespace Prisma {
 
   export type BankAccountCountAggregateOutputType = {
     id: number
-    accountCode: number
+    code: number
+    bankId: number
     accountNumber: number
     accountName: number
     accountType: number
@@ -8010,7 +8315,8 @@ export namespace Prisma {
 
   export type BankAccountMinAggregateInputType = {
     id?: true
-    accountCode?: true
+    code?: true
+    bankId?: true
     accountNumber?: true
     accountName?: true
     accountType?: true
@@ -8023,7 +8329,8 @@ export namespace Prisma {
 
   export type BankAccountMaxAggregateInputType = {
     id?: true
-    accountCode?: true
+    code?: true
+    bankId?: true
     accountNumber?: true
     accountName?: true
     accountType?: true
@@ -8036,7 +8343,8 @@ export namespace Prisma {
 
   export type BankAccountCountAggregateInputType = {
     id?: true
-    accountCode?: true
+    code?: true
+    bankId?: true
     accountNumber?: true
     accountName?: true
     accountType?: true
@@ -8122,7 +8430,8 @@ export namespace Prisma {
 
   export type BankAccountGroupByOutputType = {
     id: string
-    accountCode: string
+    code: string
+    bankId: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -8152,7 +8461,8 @@ export namespace Prisma {
 
   export type BankAccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    accountCode?: boolean
+    code?: boolean
+    bankId?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8163,6 +8473,7 @@ export namespace Prisma {
     updatedAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
     rate?: boolean | BankAccount$rateArgs<ExtArgs>
+    bank?: boolean | BankDefaultArgs<ExtArgs>
     staffAssignments?: boolean | BankAccount$staffAssignmentsArgs<ExtArgs>
     transactions?: boolean | BankAccount$transactionsArgs<ExtArgs>
     _count?: boolean | BankAccountCountOutputTypeDefaultArgs<ExtArgs>
@@ -8170,7 +8481,8 @@ export namespace Prisma {
 
   export type BankAccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    accountCode?: boolean
+    code?: boolean
+    bankId?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8181,11 +8493,13 @@ export namespace Prisma {
     updatedAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
     rate?: boolean | BankAccount$rateArgs<ExtArgs>
+    bank?: boolean | BankDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bankAccount"]>
 
   export type BankAccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    accountCode?: boolean
+    code?: boolean
+    bankId?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8196,11 +8510,13 @@ export namespace Prisma {
     updatedAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
     rate?: boolean | BankAccount$rateArgs<ExtArgs>
+    bank?: boolean | BankDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bankAccount"]>
 
   export type BankAccountSelectScalar = {
     id?: boolean
-    accountCode?: boolean
+    code?: boolean
+    bankId?: boolean
     accountNumber?: boolean
     accountName?: boolean
     accountType?: boolean
@@ -8211,10 +8527,11 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountCode" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "rateId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
+  export type BankAccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "bankId" | "accountNumber" | "accountName" | "accountType" | "currency" | "clientId" | "rateId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankAccount"]>
   export type BankAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | ClientDefaultArgs<ExtArgs>
     rate?: boolean | BankAccount$rateArgs<ExtArgs>
+    bank?: boolean | BankDefaultArgs<ExtArgs>
     staffAssignments?: boolean | BankAccount$staffAssignmentsArgs<ExtArgs>
     transactions?: boolean | BankAccount$transactionsArgs<ExtArgs>
     _count?: boolean | BankAccountCountOutputTypeDefaultArgs<ExtArgs>
@@ -8222,10 +8539,12 @@ export namespace Prisma {
   export type BankAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | ClientDefaultArgs<ExtArgs>
     rate?: boolean | BankAccount$rateArgs<ExtArgs>
+    bank?: boolean | BankDefaultArgs<ExtArgs>
   }
   export type BankAccountIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | ClientDefaultArgs<ExtArgs>
     rate?: boolean | BankAccount$rateArgs<ExtArgs>
+    bank?: boolean | BankDefaultArgs<ExtArgs>
   }
 
   export type $BankAccountPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8233,12 +8552,14 @@ export namespace Prisma {
     objects: {
       client: Prisma.$ClientPayload<ExtArgs>
       rate: Prisma.$AccountRatePayload<ExtArgs> | null
+      bank: Prisma.$BankPayload<ExtArgs>
       staffAssignments: Prisma.$StaffAccountAssignmentPayload<ExtArgs>[]
       transactions: Prisma.$BankTransactionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      accountCode: string
+      code: string
+      bankId: string
       accountNumber: string
       accountName: string
       accountType: $Enums.AccountType
@@ -8643,6 +8964,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     client<T extends ClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClientDefaultArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     rate<T extends BankAccount$rateArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$rateArgs<ExtArgs>>): Prisma__AccountRateClient<$Result.GetResult<Prisma.$AccountRatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    bank<T extends BankDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BankDefaultArgs<ExtArgs>>): Prisma__BankClient<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     staffAssignments<T extends BankAccount$staffAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$staffAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffAccountAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transactions<T extends BankAccount$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -8675,7 +8997,8 @@ export namespace Prisma {
    */
   interface BankAccountFieldRefs {
     readonly id: FieldRef<"BankAccount", 'String'>
-    readonly accountCode: FieldRef<"BankAccount", 'String'>
+    readonly code: FieldRef<"BankAccount", 'String'>
+    readonly bankId: FieldRef<"BankAccount", 'String'>
     readonly accountNumber: FieldRef<"BankAccount", 'String'>
     readonly accountName: FieldRef<"BankAccount", 'String'>
     readonly accountType: FieldRef<"BankAccount", 'AccountType'>
@@ -9162,6 +9485,1076 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BankAccountInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Bank
+   */
+
+  export type AggregateBank = {
+    _count: BankCountAggregateOutputType | null
+    _min: BankMinAggregateOutputType | null
+    _max: BankMaxAggregateOutputType | null
+  }
+
+  export type BankMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    code: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BankMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    code: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BankCountAggregateOutputType = {
+    id: number
+    name: number
+    code: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BankMinAggregateInputType = {
+    id?: true
+    name?: true
+    code?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BankMaxAggregateInputType = {
+    id?: true
+    name?: true
+    code?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BankCountAggregateInputType = {
+    id?: true
+    name?: true
+    code?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BankAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Bank to aggregate.
+     */
+    where?: BankWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Banks to fetch.
+     */
+    orderBy?: BankOrderByWithRelationInput | BankOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BankWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Banks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Banks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Banks
+    **/
+    _count?: true | BankCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BankMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BankMaxAggregateInputType
+  }
+
+  export type GetBankAggregateType<T extends BankAggregateArgs> = {
+        [P in keyof T & keyof AggregateBank]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBank[P]>
+      : GetScalarType<T[P], AggregateBank[P]>
+  }
+
+
+
+
+  export type BankGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BankWhereInput
+    orderBy?: BankOrderByWithAggregationInput | BankOrderByWithAggregationInput[]
+    by: BankScalarFieldEnum[] | BankScalarFieldEnum
+    having?: BankScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BankCountAggregateInputType | true
+    _min?: BankMinAggregateInputType
+    _max?: BankMaxAggregateInputType
+  }
+
+  export type BankGroupByOutputType = {
+    id: string
+    name: string
+    code: string
+    createdAt: Date
+    updatedAt: Date
+    _count: BankCountAggregateOutputType | null
+    _min: BankMinAggregateOutputType | null
+    _max: BankMaxAggregateOutputType | null
+  }
+
+  type GetBankGroupByPayload<T extends BankGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BankGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BankGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BankGroupByOutputType[P]>
+            : GetScalarType<T[P], BankGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BankSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    bankAccounts?: boolean | Bank$bankAccountsArgs<ExtArgs>
+    _count?: boolean | BankCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bank"]>
+
+  export type BankSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["bank"]>
+
+  export type BankSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["bank"]>
+
+  export type BankSelectScalar = {
+    id?: boolean
+    name?: boolean
+    code?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BankOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "code" | "createdAt" | "updatedAt", ExtArgs["result"]["bank"]>
+  export type BankInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bankAccounts?: boolean | Bank$bankAccountsArgs<ExtArgs>
+    _count?: boolean | BankCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BankIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type BankIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $BankPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Bank"
+    objects: {
+      bankAccounts: Prisma.$BankAccountPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      code: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bank"]>
+    composites: {}
+  }
+
+  type BankGetPayload<S extends boolean | null | undefined | BankDefaultArgs> = $Result.GetResult<Prisma.$BankPayload, S>
+
+  type BankCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BankFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BankCountAggregateInputType | true
+    }
+
+  export interface BankDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Bank'], meta: { name: 'Bank' } }
+    /**
+     * Find zero or one Bank that matches the filter.
+     * @param {BankFindUniqueArgs} args - Arguments to find a Bank
+     * @example
+     * // Get one Bank
+     * const bank = await prisma.bank.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BankFindUniqueArgs>(args: SelectSubset<T, BankFindUniqueArgs<ExtArgs>>): Prisma__BankClient<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Bank that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BankFindUniqueOrThrowArgs} args - Arguments to find a Bank
+     * @example
+     * // Get one Bank
+     * const bank = await prisma.bank.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BankFindUniqueOrThrowArgs>(args: SelectSubset<T, BankFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BankClient<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Bank that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankFindFirstArgs} args - Arguments to find a Bank
+     * @example
+     * // Get one Bank
+     * const bank = await prisma.bank.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BankFindFirstArgs>(args?: SelectSubset<T, BankFindFirstArgs<ExtArgs>>): Prisma__BankClient<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Bank that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankFindFirstOrThrowArgs} args - Arguments to find a Bank
+     * @example
+     * // Get one Bank
+     * const bank = await prisma.bank.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BankFindFirstOrThrowArgs>(args?: SelectSubset<T, BankFindFirstOrThrowArgs<ExtArgs>>): Prisma__BankClient<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Banks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Banks
+     * const banks = await prisma.bank.findMany()
+     * 
+     * // Get first 10 Banks
+     * const banks = await prisma.bank.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bankWithIdOnly = await prisma.bank.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BankFindManyArgs>(args?: SelectSubset<T, BankFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Bank.
+     * @param {BankCreateArgs} args - Arguments to create a Bank.
+     * @example
+     * // Create one Bank
+     * const Bank = await prisma.bank.create({
+     *   data: {
+     *     // ... data to create a Bank
+     *   }
+     * })
+     * 
+     */
+    create<T extends BankCreateArgs>(args: SelectSubset<T, BankCreateArgs<ExtArgs>>): Prisma__BankClient<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Banks.
+     * @param {BankCreateManyArgs} args - Arguments to create many Banks.
+     * @example
+     * // Create many Banks
+     * const bank = await prisma.bank.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BankCreateManyArgs>(args?: SelectSubset<T, BankCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Banks and returns the data saved in the database.
+     * @param {BankCreateManyAndReturnArgs} args - Arguments to create many Banks.
+     * @example
+     * // Create many Banks
+     * const bank = await prisma.bank.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Banks and only return the `id`
+     * const bankWithIdOnly = await prisma.bank.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BankCreateManyAndReturnArgs>(args?: SelectSubset<T, BankCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Bank.
+     * @param {BankDeleteArgs} args - Arguments to delete one Bank.
+     * @example
+     * // Delete one Bank
+     * const Bank = await prisma.bank.delete({
+     *   where: {
+     *     // ... filter to delete one Bank
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BankDeleteArgs>(args: SelectSubset<T, BankDeleteArgs<ExtArgs>>): Prisma__BankClient<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Bank.
+     * @param {BankUpdateArgs} args - Arguments to update one Bank.
+     * @example
+     * // Update one Bank
+     * const bank = await prisma.bank.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BankUpdateArgs>(args: SelectSubset<T, BankUpdateArgs<ExtArgs>>): Prisma__BankClient<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Banks.
+     * @param {BankDeleteManyArgs} args - Arguments to filter Banks to delete.
+     * @example
+     * // Delete a few Banks
+     * const { count } = await prisma.bank.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BankDeleteManyArgs>(args?: SelectSubset<T, BankDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Banks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Banks
+     * const bank = await prisma.bank.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BankUpdateManyArgs>(args: SelectSubset<T, BankUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Banks and returns the data updated in the database.
+     * @param {BankUpdateManyAndReturnArgs} args - Arguments to update many Banks.
+     * @example
+     * // Update many Banks
+     * const bank = await prisma.bank.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Banks and only return the `id`
+     * const bankWithIdOnly = await prisma.bank.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BankUpdateManyAndReturnArgs>(args: SelectSubset<T, BankUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Bank.
+     * @param {BankUpsertArgs} args - Arguments to update or create a Bank.
+     * @example
+     * // Update or create a Bank
+     * const bank = await prisma.bank.upsert({
+     *   create: {
+     *     // ... data to create a Bank
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Bank we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BankUpsertArgs>(args: SelectSubset<T, BankUpsertArgs<ExtArgs>>): Prisma__BankClient<$Result.GetResult<Prisma.$BankPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Banks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankCountArgs} args - Arguments to filter Banks to count.
+     * @example
+     * // Count the number of Banks
+     * const count = await prisma.bank.count({
+     *   where: {
+     *     // ... the filter for the Banks we want to count
+     *   }
+     * })
+    **/
+    count<T extends BankCountArgs>(
+      args?: Subset<T, BankCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BankCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Bank.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BankAggregateArgs>(args: Subset<T, BankAggregateArgs>): Prisma.PrismaPromise<GetBankAggregateType<T>>
+
+    /**
+     * Group by Bank.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BankGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BankGroupByArgs['orderBy'] }
+        : { orderBy?: BankGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BankGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBankGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Bank model
+   */
+  readonly fields: BankFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Bank.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BankClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    bankAccounts<T extends Bank$bankAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Bank$bankAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Bank model
+   */
+  interface BankFieldRefs {
+    readonly id: FieldRef<"Bank", 'String'>
+    readonly name: FieldRef<"Bank", 'String'>
+    readonly code: FieldRef<"Bank", 'String'>
+    readonly createdAt: FieldRef<"Bank", 'DateTime'>
+    readonly updatedAt: FieldRef<"Bank", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Bank findUnique
+   */
+  export type BankFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
+    /**
+     * Filter, which Bank to fetch.
+     */
+    where: BankWhereUniqueInput
+  }
+
+  /**
+   * Bank findUniqueOrThrow
+   */
+  export type BankFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
+    /**
+     * Filter, which Bank to fetch.
+     */
+    where: BankWhereUniqueInput
+  }
+
+  /**
+   * Bank findFirst
+   */
+  export type BankFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
+    /**
+     * Filter, which Bank to fetch.
+     */
+    where?: BankWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Banks to fetch.
+     */
+    orderBy?: BankOrderByWithRelationInput | BankOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Banks.
+     */
+    cursor?: BankWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Banks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Banks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Banks.
+     */
+    distinct?: BankScalarFieldEnum | BankScalarFieldEnum[]
+  }
+
+  /**
+   * Bank findFirstOrThrow
+   */
+  export type BankFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
+    /**
+     * Filter, which Bank to fetch.
+     */
+    where?: BankWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Banks to fetch.
+     */
+    orderBy?: BankOrderByWithRelationInput | BankOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Banks.
+     */
+    cursor?: BankWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Banks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Banks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Banks.
+     */
+    distinct?: BankScalarFieldEnum | BankScalarFieldEnum[]
+  }
+
+  /**
+   * Bank findMany
+   */
+  export type BankFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
+    /**
+     * Filter, which Banks to fetch.
+     */
+    where?: BankWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Banks to fetch.
+     */
+    orderBy?: BankOrderByWithRelationInput | BankOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Banks.
+     */
+    cursor?: BankWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Banks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Banks.
+     */
+    skip?: number
+    distinct?: BankScalarFieldEnum | BankScalarFieldEnum[]
+  }
+
+  /**
+   * Bank create
+   */
+  export type BankCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Bank.
+     */
+    data: XOR<BankCreateInput, BankUncheckedCreateInput>
+  }
+
+  /**
+   * Bank createMany
+   */
+  export type BankCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Banks.
+     */
+    data: BankCreateManyInput | BankCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Bank createManyAndReturn
+   */
+  export type BankCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * The data used to create many Banks.
+     */
+    data: BankCreateManyInput | BankCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Bank update
+   */
+  export type BankUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Bank.
+     */
+    data: XOR<BankUpdateInput, BankUncheckedUpdateInput>
+    /**
+     * Choose, which Bank to update.
+     */
+    where: BankWhereUniqueInput
+  }
+
+  /**
+   * Bank updateMany
+   */
+  export type BankUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Banks.
+     */
+    data: XOR<BankUpdateManyMutationInput, BankUncheckedUpdateManyInput>
+    /**
+     * Filter which Banks to update
+     */
+    where?: BankWhereInput
+    /**
+     * Limit how many Banks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bank updateManyAndReturn
+   */
+  export type BankUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * The data used to update Banks.
+     */
+    data: XOR<BankUpdateManyMutationInput, BankUncheckedUpdateManyInput>
+    /**
+     * Filter which Banks to update
+     */
+    where?: BankWhereInput
+    /**
+     * Limit how many Banks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bank upsert
+   */
+  export type BankUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Bank to update in case it exists.
+     */
+    where: BankWhereUniqueInput
+    /**
+     * In case the Bank found by the `where` argument doesn't exist, create a new Bank with this data.
+     */
+    create: XOR<BankCreateInput, BankUncheckedCreateInput>
+    /**
+     * In case the Bank was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BankUpdateInput, BankUncheckedUpdateInput>
+  }
+
+  /**
+   * Bank delete
+   */
+  export type BankDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
+    /**
+     * Filter which Bank to delete.
+     */
+    where: BankWhereUniqueInput
+  }
+
+  /**
+   * Bank deleteMany
+   */
+  export type BankDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Banks to delete
+     */
+    where?: BankWhereInput
+    /**
+     * Limit how many Banks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bank.bankAccounts
+   */
+  export type Bank$bankAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BankAccount
+     */
+    omit?: BankAccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    where?: BankAccountWhereInput
+    orderBy?: BankAccountOrderByWithRelationInput | BankAccountOrderByWithRelationInput[]
+    cursor?: BankAccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BankAccountScalarFieldEnum | BankAccountScalarFieldEnum[]
+  }
+
+  /**
+   * Bank without action
+   */
+  export type BankDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bank
+     */
+    select?: BankSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bank
+     */
+    omit?: BankOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BankInclude<ExtArgs> | null
   }
 
 
@@ -10408,6 +11801,7 @@ export namespace Prisma {
   export type AccountRateMinAggregateOutputType = {
     id: string | null
     clientId: string | null
+    code: string | null
     returnChargeRate: number | null
     returnChargeLimit: number | null
     cotCovenantRate: number | null
@@ -10432,6 +11826,7 @@ export namespace Prisma {
   export type AccountRateMaxAggregateOutputType = {
     id: string | null
     clientId: string | null
+    code: string | null
     returnChargeRate: number | null
     returnChargeLimit: number | null
     cotCovenantRate: number | null
@@ -10456,6 +11851,7 @@ export namespace Prisma {
   export type AccountRateCountAggregateOutputType = {
     id: number
     clientId: number
+    code: number
     drRates: number
     loanInterestRates: number
     lcCommissions: number
@@ -10514,6 +11910,7 @@ export namespace Prisma {
   export type AccountRateMinAggregateInputType = {
     id?: true
     clientId?: true
+    code?: true
     returnChargeRate?: true
     returnChargeLimit?: true
     cotCovenantRate?: true
@@ -10538,6 +11935,7 @@ export namespace Prisma {
   export type AccountRateMaxAggregateInputType = {
     id?: true
     clientId?: true
+    code?: true
     returnChargeRate?: true
     returnChargeLimit?: true
     cotCovenantRate?: true
@@ -10562,6 +11960,7 @@ export namespace Prisma {
   export type AccountRateCountAggregateInputType = {
     id?: true
     clientId?: true
+    code?: true
     drRates?: true
     loanInterestRates?: true
     lcCommissions?: true
@@ -10679,6 +12078,7 @@ export namespace Prisma {
   export type AccountRateGroupByOutputType = {
     id: string
     clientId: string
+    code: string
     drRates: JsonValue | null
     loanInterestRates: JsonValue | null
     lcCommissions: JsonValue | null
@@ -10728,6 +12128,7 @@ export namespace Prisma {
   export type AccountRateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     clientId?: boolean
+    code?: boolean
     drRates?: boolean
     loanInterestRates?: boolean
     lcCommissions?: boolean
@@ -10755,12 +12156,14 @@ export namespace Prisma {
     updatedAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
     bankAccounts?: boolean | AccountRate$bankAccountsArgs<ExtArgs>
+    documents?: boolean | AccountRate$documentsArgs<ExtArgs>
     _count?: boolean | AccountRateCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["accountRate"]>
 
   export type AccountRateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     clientId?: boolean
+    code?: boolean
     drRates?: boolean
     loanInterestRates?: boolean
     lcCommissions?: boolean
@@ -10792,6 +12195,7 @@ export namespace Prisma {
   export type AccountRateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     clientId?: boolean
+    code?: boolean
     drRates?: boolean
     loanInterestRates?: boolean
     lcCommissions?: boolean
@@ -10823,6 +12227,7 @@ export namespace Prisma {
   export type AccountRateSelectScalar = {
     id?: boolean
     clientId?: boolean
+    code?: boolean
     drRates?: boolean
     loanInterestRates?: boolean
     lcCommissions?: boolean
@@ -10850,10 +12255,11 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AccountRateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clientId" | "drRates" | "loanInterestRates" | "lcCommissions" | "preNegotiationRates" | "postNegotiationRates" | "creditInterestRates" | "returnChargeRate" | "returnChargeLimit" | "cotCovenantRate" | "cotOffCoverRate" | "cotOICRate" | "turnoverLimit" | "cotCovenantFrequency" | "chargeCOTOnShortfall" | "debitRate" | "excessRate" | "excessRateType" | "vatRate" | "whtRate" | "rateType" | "currency" | "effectiveFrom" | "effectiveTo" | "createdAt" | "updatedAt", ExtArgs["result"]["accountRate"]>
+  export type AccountRateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clientId" | "code" | "drRates" | "loanInterestRates" | "lcCommissions" | "preNegotiationRates" | "postNegotiationRates" | "creditInterestRates" | "returnChargeRate" | "returnChargeLimit" | "cotCovenantRate" | "cotOffCoverRate" | "cotOICRate" | "turnoverLimit" | "cotCovenantFrequency" | "chargeCOTOnShortfall" | "debitRate" | "excessRate" | "excessRateType" | "vatRate" | "whtRate" | "rateType" | "currency" | "effectiveFrom" | "effectiveTo" | "createdAt" | "updatedAt", ExtArgs["result"]["accountRate"]>
   export type AccountRateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | ClientDefaultArgs<ExtArgs>
     bankAccounts?: boolean | AccountRate$bankAccountsArgs<ExtArgs>
+    documents?: boolean | AccountRate$documentsArgs<ExtArgs>
     _count?: boolean | AccountRateCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AccountRateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10868,10 +12274,12 @@ export namespace Prisma {
     objects: {
       client: Prisma.$ClientPayload<ExtArgs>
       bankAccounts: Prisma.$BankAccountPayload<ExtArgs>[]
+      documents: Prisma.$DocumentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       clientId: string
+      code: string
       drRates: Prisma.JsonValue | null
       loanInterestRates: Prisma.JsonValue | null
       lcCommissions: Prisma.JsonValue | null
@@ -11293,6 +12701,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     client<T extends ClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClientDefaultArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     bankAccounts<T extends AccountRate$bankAccountsArgs<ExtArgs> = {}>(args?: Subset<T, AccountRate$bankAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documents<T extends AccountRate$documentsArgs<ExtArgs> = {}>(args?: Subset<T, AccountRate$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11324,6 +12733,7 @@ export namespace Prisma {
   interface AccountRateFieldRefs {
     readonly id: FieldRef<"AccountRate", 'String'>
     readonly clientId: FieldRef<"AccountRate", 'String'>
+    readonly code: FieldRef<"AccountRate", 'String'>
     readonly drRates: FieldRef<"AccountRate", 'Json'>
     readonly loanInterestRates: FieldRef<"AccountRate", 'Json'>
     readonly lcCommissions: FieldRef<"AccountRate", 'Json'>
@@ -11769,6 +13179,30 @@ export namespace Prisma {
   }
 
   /**
+   * AccountRate.documents
+   */
+  export type AccountRate$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    cursor?: DocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
    * AccountRate without action
    */
   export type AccountRateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11784,6 +13218,1133 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AccountRateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Document
+   */
+
+  export type AggregateDocument = {
+    _count: DocumentCountAggregateOutputType | null
+    _min: DocumentMinAggregateOutputType | null
+    _max: DocumentMaxAggregateOutputType | null
+  }
+
+  export type DocumentMinAggregateOutputType = {
+    id: string | null
+    code: string | null
+    title: string | null
+    url: string | null
+    type: $Enums.DocumentType | null
+    uploadedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DocumentMaxAggregateOutputType = {
+    id: string | null
+    code: string | null
+    title: string | null
+    url: string | null
+    type: $Enums.DocumentType | null
+    uploadedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DocumentCountAggregateOutputType = {
+    id: number
+    code: number
+    title: number
+    url: number
+    type: number
+    uploadedById: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DocumentMinAggregateInputType = {
+    id?: true
+    code?: true
+    title?: true
+    url?: true
+    type?: true
+    uploadedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DocumentMaxAggregateInputType = {
+    id?: true
+    code?: true
+    title?: true
+    url?: true
+    type?: true
+    uploadedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DocumentCountAggregateInputType = {
+    id?: true
+    code?: true
+    title?: true
+    url?: true
+    type?: true
+    uploadedById?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Document to aggregate.
+     */
+    where?: DocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Documents to fetch.
+     */
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Documents
+    **/
+    _count?: true | DocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DocumentMaxAggregateInputType
+  }
+
+  export type GetDocumentAggregateType<T extends DocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDocument[P]>
+      : GetScalarType<T[P], AggregateDocument[P]>
+  }
+
+
+
+
+  export type DocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithAggregationInput | DocumentOrderByWithAggregationInput[]
+    by: DocumentScalarFieldEnum[] | DocumentScalarFieldEnum
+    having?: DocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DocumentCountAggregateInputType | true
+    _min?: DocumentMinAggregateInputType
+    _max?: DocumentMaxAggregateInputType
+  }
+
+  export type DocumentGroupByOutputType = {
+    id: string
+    code: string
+    title: string
+    url: string
+    type: $Enums.DocumentType
+    uploadedById: string
+    createdAt: Date
+    updatedAt: Date
+    _count: DocumentCountAggregateOutputType | null
+    _min: DocumentMinAggregateOutputType | null
+    _max: DocumentMaxAggregateOutputType | null
+  }
+
+  type GetDocumentGroupByPayload<T extends DocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], DocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    title?: boolean
+    url?: boolean
+    type?: boolean
+    uploadedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+    rates?: boolean | Document$ratesArgs<ExtArgs>
+    _count?: boolean | DocumentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["document"]>
+
+  export type DocumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    title?: boolean
+    url?: boolean
+    type?: boolean
+    uploadedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["document"]>
+
+  export type DocumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    title?: boolean
+    url?: boolean
+    type?: boolean
+    uploadedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["document"]>
+
+  export type DocumentSelectScalar = {
+    id?: boolean
+    code?: boolean
+    title?: boolean
+    url?: boolean
+    type?: boolean
+    uploadedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "title" | "url" | "type" | "uploadedById" | "createdAt" | "updatedAt", ExtArgs["result"]["document"]>
+  export type DocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+    rates?: boolean | Document$ratesArgs<ExtArgs>
+    _count?: boolean | DocumentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DocumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Document"
+    objects: {
+      uploadedBy: Prisma.$UserPayload<ExtArgs>
+      rates: Prisma.$AccountRatePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      code: string
+      title: string
+      url: string
+      type: $Enums.DocumentType
+      uploadedById: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["document"]>
+    composites: {}
+  }
+
+  type DocumentGetPayload<S extends boolean | null | undefined | DocumentDefaultArgs> = $Result.GetResult<Prisma.$DocumentPayload, S>
+
+  type DocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DocumentCountAggregateInputType | true
+    }
+
+  export interface DocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Document'], meta: { name: 'Document' } }
+    /**
+     * Find zero or one Document that matches the filter.
+     * @param {DocumentFindUniqueArgs} args - Arguments to find a Document
+     * @example
+     * // Get one Document
+     * const document = await prisma.document.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DocumentFindUniqueArgs>(args: SelectSubset<T, DocumentFindUniqueArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Document that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DocumentFindUniqueOrThrowArgs} args - Arguments to find a Document
+     * @example
+     * // Get one Document
+     * const document = await prisma.document.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DocumentFindUniqueOrThrowArgs>(args: SelectSubset<T, DocumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Document that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentFindFirstArgs} args - Arguments to find a Document
+     * @example
+     * // Get one Document
+     * const document = await prisma.document.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DocumentFindFirstArgs>(args?: SelectSubset<T, DocumentFindFirstArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Document that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentFindFirstOrThrowArgs} args - Arguments to find a Document
+     * @example
+     * // Get one Document
+     * const document = await prisma.document.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DocumentFindFirstOrThrowArgs>(args?: SelectSubset<T, DocumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Documents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Documents
+     * const documents = await prisma.document.findMany()
+     * 
+     * // Get first 10 Documents
+     * const documents = await prisma.document.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const documentWithIdOnly = await prisma.document.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DocumentFindManyArgs>(args?: SelectSubset<T, DocumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Document.
+     * @param {DocumentCreateArgs} args - Arguments to create a Document.
+     * @example
+     * // Create one Document
+     * const Document = await prisma.document.create({
+     *   data: {
+     *     // ... data to create a Document
+     *   }
+     * })
+     * 
+     */
+    create<T extends DocumentCreateArgs>(args: SelectSubset<T, DocumentCreateArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Documents.
+     * @param {DocumentCreateManyArgs} args - Arguments to create many Documents.
+     * @example
+     * // Create many Documents
+     * const document = await prisma.document.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DocumentCreateManyArgs>(args?: SelectSubset<T, DocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Documents and returns the data saved in the database.
+     * @param {DocumentCreateManyAndReturnArgs} args - Arguments to create many Documents.
+     * @example
+     * // Create many Documents
+     * const document = await prisma.document.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Documents and only return the `id`
+     * const documentWithIdOnly = await prisma.document.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DocumentCreateManyAndReturnArgs>(args?: SelectSubset<T, DocumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Document.
+     * @param {DocumentDeleteArgs} args - Arguments to delete one Document.
+     * @example
+     * // Delete one Document
+     * const Document = await prisma.document.delete({
+     *   where: {
+     *     // ... filter to delete one Document
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DocumentDeleteArgs>(args: SelectSubset<T, DocumentDeleteArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Document.
+     * @param {DocumentUpdateArgs} args - Arguments to update one Document.
+     * @example
+     * // Update one Document
+     * const document = await prisma.document.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DocumentUpdateArgs>(args: SelectSubset<T, DocumentUpdateArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Documents.
+     * @param {DocumentDeleteManyArgs} args - Arguments to filter Documents to delete.
+     * @example
+     * // Delete a few Documents
+     * const { count } = await prisma.document.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DocumentDeleteManyArgs>(args?: SelectSubset<T, DocumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Documents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Documents
+     * const document = await prisma.document.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DocumentUpdateManyArgs>(args: SelectSubset<T, DocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Documents and returns the data updated in the database.
+     * @param {DocumentUpdateManyAndReturnArgs} args - Arguments to update many Documents.
+     * @example
+     * // Update many Documents
+     * const document = await prisma.document.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Documents and only return the `id`
+     * const documentWithIdOnly = await prisma.document.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DocumentUpdateManyAndReturnArgs>(args: SelectSubset<T, DocumentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Document.
+     * @param {DocumentUpsertArgs} args - Arguments to update or create a Document.
+     * @example
+     * // Update or create a Document
+     * const document = await prisma.document.upsert({
+     *   create: {
+     *     // ... data to create a Document
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Document we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DocumentUpsertArgs>(args: SelectSubset<T, DocumentUpsertArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Documents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentCountArgs} args - Arguments to filter Documents to count.
+     * @example
+     * // Count the number of Documents
+     * const count = await prisma.document.count({
+     *   where: {
+     *     // ... the filter for the Documents we want to count
+     *   }
+     * })
+    **/
+    count<T extends DocumentCountArgs>(
+      args?: Subset<T, DocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Document.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DocumentAggregateArgs>(args: Subset<T, DocumentAggregateArgs>): Prisma.PrismaPromise<GetDocumentAggregateType<T>>
+
+    /**
+     * Group by Document.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DocumentGroupByArgs['orderBy'] }
+        : { orderBy?: DocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Document model
+   */
+  readonly fields: DocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Document.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    uploadedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    rates<T extends Document$ratesArgs<ExtArgs> = {}>(args?: Subset<T, Document$ratesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountRatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Document model
+   */
+  interface DocumentFieldRefs {
+    readonly id: FieldRef<"Document", 'String'>
+    readonly code: FieldRef<"Document", 'String'>
+    readonly title: FieldRef<"Document", 'String'>
+    readonly url: FieldRef<"Document", 'String'>
+    readonly type: FieldRef<"Document", 'DocumentType'>
+    readonly uploadedById: FieldRef<"Document", 'String'>
+    readonly createdAt: FieldRef<"Document", 'DateTime'>
+    readonly updatedAt: FieldRef<"Document", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Document findUnique
+   */
+  export type DocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Document to fetch.
+     */
+    where: DocumentWhereUniqueInput
+  }
+
+  /**
+   * Document findUniqueOrThrow
+   */
+  export type DocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Document to fetch.
+     */
+    where: DocumentWhereUniqueInput
+  }
+
+  /**
+   * Document findFirst
+   */
+  export type DocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Document to fetch.
+     */
+    where?: DocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Documents to fetch.
+     */
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Documents.
+     */
+    cursor?: DocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Documents.
+     */
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Document findFirstOrThrow
+   */
+  export type DocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Document to fetch.
+     */
+    where?: DocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Documents to fetch.
+     */
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Documents.
+     */
+    cursor?: DocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Documents.
+     */
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Document findMany
+   */
+  export type DocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Documents to fetch.
+     */
+    where?: DocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Documents to fetch.
+     */
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Documents.
+     */
+    cursor?: DocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Documents.
+     */
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Document create
+   */
+  export type DocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Document.
+     */
+    data: XOR<DocumentCreateInput, DocumentUncheckedCreateInput>
+  }
+
+  /**
+   * Document createMany
+   */
+  export type DocumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Documents.
+     */
+    data: DocumentCreateManyInput | DocumentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Document createManyAndReturn
+   */
+  export type DocumentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Documents.
+     */
+    data: DocumentCreateManyInput | DocumentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Document update
+   */
+  export type DocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Document.
+     */
+    data: XOR<DocumentUpdateInput, DocumentUncheckedUpdateInput>
+    /**
+     * Choose, which Document to update.
+     */
+    where: DocumentWhereUniqueInput
+  }
+
+  /**
+   * Document updateMany
+   */
+  export type DocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Documents.
+     */
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which Documents to update
+     */
+    where?: DocumentWhereInput
+    /**
+     * Limit how many Documents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Document updateManyAndReturn
+   */
+  export type DocumentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * The data used to update Documents.
+     */
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which Documents to update
+     */
+    where?: DocumentWhereInput
+    /**
+     * Limit how many Documents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Document upsert
+   */
+  export type DocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Document to update in case it exists.
+     */
+    where: DocumentWhereUniqueInput
+    /**
+     * In case the Document found by the `where` argument doesn't exist, create a new Document with this data.
+     */
+    create: XOR<DocumentCreateInput, DocumentUncheckedCreateInput>
+    /**
+     * In case the Document was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DocumentUpdateInput, DocumentUncheckedUpdateInput>
+  }
+
+  /**
+   * Document delete
+   */
+  export type DocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter which Document to delete.
+     */
+    where: DocumentWhereUniqueInput
+  }
+
+  /**
+   * Document deleteMany
+   */
+  export type DocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Documents to delete
+     */
+    where?: DocumentWhereInput
+    /**
+     * Limit how many Documents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Document.rates
+   */
+  export type Document$ratesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccountRate
+     */
+    select?: AccountRateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccountRate
+     */
+    omit?: AccountRateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountRateInclude<ExtArgs> | null
+    where?: AccountRateWhereInput
+    orderBy?: AccountRateOrderByWithRelationInput | AccountRateOrderByWithRelationInput[]
+    cursor?: AccountRateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AccountRateScalarFieldEnum | AccountRateScalarFieldEnum[]
+  }
+
+  /**
+   * Document without action
+   */
+  export type DocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
   }
 
 
@@ -12999,7 +15560,8 @@ export namespace Prisma {
 
   export const BankAccountScalarFieldEnum: {
     id: 'id',
-    accountCode: 'accountCode',
+    code: 'code',
+    bankId: 'bankId',
     accountNumber: 'accountNumber',
     accountName: 'accountName',
     accountType: 'accountType',
@@ -13011,6 +15573,17 @@ export namespace Prisma {
   };
 
   export type BankAccountScalarFieldEnum = (typeof BankAccountScalarFieldEnum)[keyof typeof BankAccountScalarFieldEnum]
+
+
+  export const BankScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    code: 'code',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BankScalarFieldEnum = (typeof BankScalarFieldEnum)[keyof typeof BankScalarFieldEnum]
 
 
   export const ClientScalarFieldEnum: {
@@ -13035,6 +15608,7 @@ export namespace Prisma {
   export const AccountRateScalarFieldEnum: {
     id: 'id',
     clientId: 'clientId',
+    code: 'code',
     drRates: 'drRates',
     loanInterestRates: 'loanInterestRates',
     lcCommissions: 'lcCommissions',
@@ -13063,6 +15637,20 @@ export namespace Prisma {
   };
 
   export type AccountRateScalarFieldEnum = (typeof AccountRateScalarFieldEnum)[keyof typeof AccountRateScalarFieldEnum]
+
+
+  export const DocumentScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    title: 'title',
+    url: 'url',
+    type: 'type',
+    uploadedById: 'uploadedById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
   export const StaffAccountAssignmentScalarFieldEnum: {
@@ -13257,6 +15845,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DocumentType'
+   */
+  export type EnumDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentType'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentType[]'
+   */
+  export type ListEnumDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -13300,6 +15902,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionListRelationFilter
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     assignedStaffAccounts?: StaffAccountAssignmentListRelationFilter
+    uploadedDocuments?: DocumentListRelationFilter
     deactivatedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     deactivatedUsers?: UserListRelationFilter
   }
@@ -13328,6 +15931,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionOrderByRelationAggregateInput
     staffAssignments?: StaffAccountAssignmentOrderByRelationAggregateInput
     assignedStaffAccounts?: StaffAccountAssignmentOrderByRelationAggregateInput
+    uploadedDocuments?: DocumentOrderByRelationAggregateInput
     deactivatedBy?: UserOrderByWithRelationInput
     deactivatedUsers?: UserOrderByRelationAggregateInput
   }
@@ -13359,6 +15963,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionListRelationFilter
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     assignedStaffAccounts?: StaffAccountAssignmentListRelationFilter
+    uploadedDocuments?: DocumentListRelationFilter
     deactivatedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     deactivatedUsers?: UserListRelationFilter
   }, "id" | "username" | "phone" | "email">
@@ -13708,7 +16313,8 @@ export namespace Prisma {
     OR?: BankAccountWhereInput[]
     NOT?: BankAccountWhereInput | BankAccountWhereInput[]
     id?: StringFilter<"BankAccount"> | string
-    accountCode?: StringFilter<"BankAccount"> | string
+    code?: StringFilter<"BankAccount"> | string
+    bankId?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
     accountName?: StringFilter<"BankAccount"> | string
     accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
@@ -13719,13 +16325,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
     rate?: XOR<AccountRateNullableScalarRelationFilter, AccountRateWhereInput> | null
+    bank?: XOR<BankScalarRelationFilter, BankWhereInput>
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     transactions?: BankTransactionListRelationFilter
   }
 
   export type BankAccountOrderByWithRelationInput = {
     id?: SortOrder
-    accountCode?: SortOrder
+    code?: SortOrder
+    bankId?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -13736,17 +16344,19 @@ export namespace Prisma {
     updatedAt?: SortOrder
     client?: ClientOrderByWithRelationInput
     rate?: AccountRateOrderByWithRelationInput
+    bank?: BankOrderByWithRelationInput
     staffAssignments?: StaffAccountAssignmentOrderByRelationAggregateInput
     transactions?: BankTransactionOrderByRelationAggregateInput
   }
 
   export type BankAccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    accountCode?: string
+    code?: string
     accountNumber?: string
     AND?: BankAccountWhereInput | BankAccountWhereInput[]
     OR?: BankAccountWhereInput[]
     NOT?: BankAccountWhereInput | BankAccountWhereInput[]
+    bankId?: StringFilter<"BankAccount"> | string
     accountName?: StringFilter<"BankAccount"> | string
     accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
     currency?: StringFilter<"BankAccount"> | string
@@ -13756,13 +16366,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
     rate?: XOR<AccountRateNullableScalarRelationFilter, AccountRateWhereInput> | null
+    bank?: XOR<BankScalarRelationFilter, BankWhereInput>
     staffAssignments?: StaffAccountAssignmentListRelationFilter
     transactions?: BankTransactionListRelationFilter
-  }, "id" | "accountCode" | "accountNumber">
+  }, "id" | "code" | "accountNumber">
 
   export type BankAccountOrderByWithAggregationInput = {
     id?: SortOrder
-    accountCode?: SortOrder
+    code?: SortOrder
+    bankId?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -13781,7 +16393,8 @@ export namespace Prisma {
     OR?: BankAccountScalarWhereWithAggregatesInput[]
     NOT?: BankAccountScalarWhereWithAggregatesInput | BankAccountScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"BankAccount"> | string
-    accountCode?: StringWithAggregatesFilter<"BankAccount"> | string
+    code?: StringWithAggregatesFilter<"BankAccount"> | string
+    bankId?: StringWithAggregatesFilter<"BankAccount"> | string
     accountNumber?: StringWithAggregatesFilter<"BankAccount"> | string
     accountName?: StringWithAggregatesFilter<"BankAccount"> | string
     accountType?: EnumAccountTypeWithAggregatesFilter<"BankAccount"> | $Enums.AccountType
@@ -13790,6 +16403,61 @@ export namespace Prisma {
     rateId?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
+  }
+
+  export type BankWhereInput = {
+    AND?: BankWhereInput | BankWhereInput[]
+    OR?: BankWhereInput[]
+    NOT?: BankWhereInput | BankWhereInput[]
+    id?: StringFilter<"Bank"> | string
+    name?: StringFilter<"Bank"> | string
+    code?: StringFilter<"Bank"> | string
+    createdAt?: DateTimeFilter<"Bank"> | Date | string
+    updatedAt?: DateTimeFilter<"Bank"> | Date | string
+    bankAccounts?: BankAccountListRelationFilter
+  }
+
+  export type BankOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    bankAccounts?: BankAccountOrderByRelationAggregateInput
+  }
+
+  export type BankWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: BankWhereInput | BankWhereInput[]
+    OR?: BankWhereInput[]
+    NOT?: BankWhereInput | BankWhereInput[]
+    name?: StringFilter<"Bank"> | string
+    createdAt?: DateTimeFilter<"Bank"> | Date | string
+    updatedAt?: DateTimeFilter<"Bank"> | Date | string
+    bankAccounts?: BankAccountListRelationFilter
+  }, "id" | "code">
+
+  export type BankOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BankCountOrderByAggregateInput
+    _max?: BankMaxOrderByAggregateInput
+    _min?: BankMinOrderByAggregateInput
+  }
+
+  export type BankScalarWhereWithAggregatesInput = {
+    AND?: BankScalarWhereWithAggregatesInput | BankScalarWhereWithAggregatesInput[]
+    OR?: BankScalarWhereWithAggregatesInput[]
+    NOT?: BankScalarWhereWithAggregatesInput | BankScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Bank"> | string
+    name?: StringWithAggregatesFilter<"Bank"> | string
+    code?: StringWithAggregatesFilter<"Bank"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Bank"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Bank"> | Date | string
   }
 
   export type ClientWhereInput = {
@@ -13896,6 +16564,7 @@ export namespace Prisma {
     NOT?: AccountRateWhereInput | AccountRateWhereInput[]
     id?: StringFilter<"AccountRate"> | string
     clientId?: StringFilter<"AccountRate"> | string
+    code?: StringFilter<"AccountRate"> | string
     drRates?: JsonNullableFilter<"AccountRate">
     loanInterestRates?: JsonNullableFilter<"AccountRate">
     lcCommissions?: JsonNullableFilter<"AccountRate">
@@ -13923,11 +16592,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"AccountRate"> | Date | string
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
     bankAccounts?: BankAccountListRelationFilter
+    documents?: DocumentListRelationFilter
   }
 
   export type AccountRateOrderByWithRelationInput = {
     id?: SortOrder
     clientId?: SortOrder
+    code?: SortOrder
     drRates?: SortOrderInput | SortOrder
     loanInterestRates?: SortOrderInput | SortOrder
     lcCommissions?: SortOrderInput | SortOrder
@@ -13955,10 +16626,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
     client?: ClientOrderByWithRelationInput
     bankAccounts?: BankAccountOrderByRelationAggregateInput
+    documents?: DocumentOrderByRelationAggregateInput
   }
 
   export type AccountRateWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    code?: string
     AND?: AccountRateWhereInput | AccountRateWhereInput[]
     OR?: AccountRateWhereInput[]
     NOT?: AccountRateWhereInput | AccountRateWhereInput[]
@@ -13990,11 +16663,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"AccountRate"> | Date | string
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
     bankAccounts?: BankAccountListRelationFilter
-  }, "id">
+    documents?: DocumentListRelationFilter
+  }, "id" | "code">
 
   export type AccountRateOrderByWithAggregationInput = {
     id?: SortOrder
     clientId?: SortOrder
+    code?: SortOrder
     drRates?: SortOrderInput | SortOrder
     loanInterestRates?: SortOrderInput | SortOrder
     lcCommissions?: SortOrderInput | SortOrder
@@ -14033,6 +16708,7 @@ export namespace Prisma {
     NOT?: AccountRateScalarWhereWithAggregatesInput | AccountRateScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AccountRate"> | string
     clientId?: StringWithAggregatesFilter<"AccountRate"> | string
+    code?: StringWithAggregatesFilter<"AccountRate"> | string
     drRates?: JsonNullableWithAggregatesFilter<"AccountRate">
     loanInterestRates?: JsonNullableWithAggregatesFilter<"AccountRate">
     lcCommissions?: JsonNullableWithAggregatesFilter<"AccountRate">
@@ -14058,6 +16734,79 @@ export namespace Prisma {
     effectiveTo?: DateTimeNullableWithAggregatesFilter<"AccountRate"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AccountRate"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AccountRate"> | Date | string
+  }
+
+  export type DocumentWhereInput = {
+    AND?: DocumentWhereInput | DocumentWhereInput[]
+    OR?: DocumentWhereInput[]
+    NOT?: DocumentWhereInput | DocumentWhereInput[]
+    id?: StringFilter<"Document"> | string
+    code?: StringFilter<"Document"> | string
+    title?: StringFilter<"Document"> | string
+    url?: StringFilter<"Document"> | string
+    type?: EnumDocumentTypeFilter<"Document"> | $Enums.DocumentType
+    uploadedById?: StringFilter<"Document"> | string
+    createdAt?: DateTimeFilter<"Document"> | Date | string
+    updatedAt?: DateTimeFilter<"Document"> | Date | string
+    uploadedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rates?: AccountRateListRelationFilter
+  }
+
+  export type DocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    uploadedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    uploadedBy?: UserOrderByWithRelationInput
+    rates?: AccountRateOrderByRelationAggregateInput
+  }
+
+  export type DocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: DocumentWhereInput | DocumentWhereInput[]
+    OR?: DocumentWhereInput[]
+    NOT?: DocumentWhereInput | DocumentWhereInput[]
+    title?: StringFilter<"Document"> | string
+    url?: StringFilter<"Document"> | string
+    type?: EnumDocumentTypeFilter<"Document"> | $Enums.DocumentType
+    uploadedById?: StringFilter<"Document"> | string
+    createdAt?: DateTimeFilter<"Document"> | Date | string
+    updatedAt?: DateTimeFilter<"Document"> | Date | string
+    uploadedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rates?: AccountRateListRelationFilter
+  }, "id" | "code">
+
+  export type DocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    uploadedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DocumentCountOrderByAggregateInput
+    _max?: DocumentMaxOrderByAggregateInput
+    _min?: DocumentMinOrderByAggregateInput
+  }
+
+  export type DocumentScalarWhereWithAggregatesInput = {
+    AND?: DocumentScalarWhereWithAggregatesInput | DocumentScalarWhereWithAggregatesInput[]
+    OR?: DocumentScalarWhereWithAggregatesInput[]
+    NOT?: DocumentScalarWhereWithAggregatesInput | DocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Document"> | string
+    code?: StringWithAggregatesFilter<"Document"> | string
+    title?: StringWithAggregatesFilter<"Document"> | string
+    url?: StringWithAggregatesFilter<"Document"> | string
+    type?: EnumDocumentTypeWithAggregatesFilter<"Document"> | $Enums.DocumentType
+    uploadedById?: StringWithAggregatesFilter<"Document"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
   }
 
   export type StaffAccountAssignmentWhereInput = {
@@ -14153,6 +16902,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
     deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
@@ -14181,6 +16931,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -14207,6 +16958,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
     deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
@@ -14235,6 +16987,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
@@ -14619,7 +17372,7 @@ export namespace Prisma {
 
   export type BankAccountCreateInput = {
     id?: string
-    accountCode: string
+    code: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -14628,13 +17381,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     client: ClientCreateNestedOneWithoutAccountsInput
     rate?: AccountRateCreateNestedOneWithoutBankAccountsInput
+    bank: BankCreateNestedOneWithoutBankAccountsInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
     transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateInput = {
     id?: string
-    accountCode: string
+    code: string
+    bankId: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -14649,7 +17404,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14658,13 +17413,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
     rate?: AccountRateUpdateOneWithoutBankAccountsNestedInput
+    bank?: BankUpdateOneRequiredWithoutBankAccountsNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
     transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    bankId?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14679,7 +17436,8 @@ export namespace Prisma {
 
   export type BankAccountCreateManyInput = {
     id?: string
-    accountCode: string
+    code: string
+    bankId: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -14692,7 +17450,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -14703,13 +17461,74 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    bankId?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
     rateId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BankCreateInput = {
+    id?: string
+    name: string
+    code: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bankAccounts?: BankAccountCreateNestedManyWithoutBankInput
+  }
+
+  export type BankUncheckedCreateInput = {
+    id?: string
+    name: string
+    code: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutBankInput
+  }
+
+  export type BankUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bankAccounts?: BankAccountUpdateManyWithoutBankNestedInput
+  }
+
+  export type BankUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutBankNestedInput
+  }
+
+  export type BankCreateManyInput = {
+    id?: string
+    name: string
+    code: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BankUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BankUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14836,6 +17655,7 @@ export namespace Prisma {
 
   export type AccountRateCreateInput = {
     id?: string
+    code: string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -14863,11 +17683,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     client: ClientCreateNestedOneWithoutRatesInput
     bankAccounts?: BankAccountCreateNestedManyWithoutRateInput
+    documents?: DocumentCreateNestedManyWithoutRatesInput
   }
 
   export type AccountRateUncheckedCreateInput = {
     id?: string
     clientId: string
+    code: string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -14894,10 +17716,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutRateInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutRatesInput
   }
 
   export type AccountRateUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -14925,11 +17749,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: ClientUpdateOneRequiredWithoutRatesNestedInput
     bankAccounts?: BankAccountUpdateManyWithoutRateNestedInput
+    documents?: DocumentUpdateManyWithoutRatesNestedInput
   }
 
   export type AccountRateUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -14956,11 +17782,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutRateNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutRatesNestedInput
   }
 
   export type AccountRateCreateManyInput = {
     id?: string
     clientId: string
+    code: string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -14990,6 +17818,7 @@ export namespace Prisma {
 
   export type AccountRateUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -15020,6 +17849,7 @@ export namespace Prisma {
   export type AccountRateUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -15043,6 +17873,86 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentCreateInput = {
+    id?: string
+    code: string
+    title: string
+    url: string
+    type: $Enums.DocumentType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    uploadedBy: UserCreateNestedOneWithoutUploadedDocumentsInput
+    rates?: AccountRateCreateNestedManyWithoutDocumentsInput
+  }
+
+  export type DocumentUncheckedCreateInput = {
+    id?: string
+    code: string
+    title: string
+    url: string
+    type: $Enums.DocumentType
+    uploadedById: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rates?: AccountRateUncheckedCreateNestedManyWithoutDocumentsInput
+  }
+
+  export type DocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadedBy?: UserUpdateOneRequiredWithoutUploadedDocumentsNestedInput
+    rates?: AccountRateUpdateManyWithoutDocumentsNestedInput
+  }
+
+  export type DocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    uploadedById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rates?: AccountRateUncheckedUpdateManyWithoutDocumentsNestedInput
+  }
+
+  export type DocumentCreateManyInput = {
+    id?: string
+    code: string
+    title: string
+    url: string
+    type: $Enums.DocumentType
+    uploadedById: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    uploadedById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15199,6 +18109,12 @@ export namespace Prisma {
     none?: PermissionWhereInput
   }
 
+  export type DocumentListRelationFilter = {
+    every?: DocumentWhereInput
+    some?: DocumentWhereInput
+    none?: DocumentWhereInput
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -15228,6 +18144,10 @@ export namespace Prisma {
   }
 
   export type PermissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DocumentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15627,9 +18547,15 @@ export namespace Prisma {
     isNot?: AccountRateWhereInput | null
   }
 
+  export type BankScalarRelationFilter = {
+    is?: BankWhereInput
+    isNot?: BankWhereInput
+  }
+
   export type BankAccountCountOrderByAggregateInput = {
     id?: SortOrder
-    accountCode?: SortOrder
+    code?: SortOrder
+    bankId?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -15642,7 +18568,8 @@ export namespace Prisma {
 
   export type BankAccountMaxOrderByAggregateInput = {
     id?: SortOrder
-    accountCode?: SortOrder
+    code?: SortOrder
+    bankId?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -15655,7 +18582,8 @@ export namespace Prisma {
 
   export type BankAccountMinOrderByAggregateInput = {
     id?: SortOrder
-    accountCode?: SortOrder
+    code?: SortOrder
+    bankId?: SortOrder
     accountNumber?: SortOrder
     accountName?: SortOrder
     accountType?: SortOrder
@@ -15682,14 +18610,38 @@ export namespace Prisma {
     none?: BankAccountWhereInput
   }
 
+  export type BankAccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BankCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BankMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BankMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    code?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type AccountRateListRelationFilter = {
     every?: AccountRateWhereInput
     some?: AccountRateWhereInput
     none?: AccountRateWhereInput
-  }
-
-  export type BankAccountOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type AccountRateOrderByRelationAggregateInput = {
@@ -15786,6 +18738,7 @@ export namespace Prisma {
   export type AccountRateCountOrderByAggregateInput = {
     id?: SortOrder
     clientId?: SortOrder
+    code?: SortOrder
     drRates?: SortOrder
     loanInterestRates?: SortOrder
     lcCommissions?: SortOrder
@@ -15829,6 +18782,7 @@ export namespace Prisma {
   export type AccountRateMaxOrderByAggregateInput = {
     id?: SortOrder
     clientId?: SortOrder
+    code?: SortOrder
     returnChargeRate?: SortOrder
     returnChargeLimit?: SortOrder
     cotCovenantRate?: SortOrder
@@ -15853,6 +18807,7 @@ export namespace Prisma {
   export type AccountRateMinOrderByAggregateInput = {
     id?: SortOrder
     clientId?: SortOrder
+    code?: SortOrder
     returnChargeRate?: SortOrder
     returnChargeLimit?: SortOrder
     cotCovenantRate?: SortOrder
@@ -15937,6 +18892,56 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type EnumDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeFilter<$PrismaModel> | $Enums.DocumentType
+  }
+
+  export type DocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    uploadedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    uploadedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    uploadedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.DocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumDocumentTypeFilter<$PrismaModel>
+  }
+
   export type StaffAccountAssignmentUserIdAccountIdCompoundUniqueInput = {
     userId: string
     accountId: string
@@ -16015,6 +19020,13 @@ export namespace Prisma {
     connect?: StaffAccountAssignmentWhereUniqueInput | StaffAccountAssignmentWhereUniqueInput[]
   }
 
+  export type DocumentCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<DocumentCreateWithoutUploadedByInput, DocumentUncheckedCreateWithoutUploadedByInput> | DocumentCreateWithoutUploadedByInput[] | DocumentUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutUploadedByInput | DocumentCreateOrConnectWithoutUploadedByInput[]
+    createMany?: DocumentCreateManyUploadedByInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutDeactivatedUsersInput = {
     create?: XOR<UserCreateWithoutDeactivatedUsersInput, UserUncheckedCreateWithoutDeactivatedUsersInput>
     connectOrCreate?: UserCreateOrConnectWithoutDeactivatedUsersInput
@@ -16072,6 +19084,13 @@ export namespace Prisma {
     connectOrCreate?: StaffAccountAssignmentCreateOrConnectWithoutAssignedByInput | StaffAccountAssignmentCreateOrConnectWithoutAssignedByInput[]
     createMany?: StaffAccountAssignmentCreateManyAssignedByInputEnvelope
     connect?: StaffAccountAssignmentWhereUniqueInput | StaffAccountAssignmentWhereUniqueInput[]
+  }
+
+  export type DocumentUncheckedCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<DocumentCreateWithoutUploadedByInput, DocumentUncheckedCreateWithoutUploadedByInput> | DocumentCreateWithoutUploadedByInput[] | DocumentUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutUploadedByInput | DocumentCreateOrConnectWithoutUploadedByInput[]
+    createMany?: DocumentCreateManyUploadedByInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutDeactivatedByInput = {
@@ -16200,6 +19219,20 @@ export namespace Prisma {
     deleteMany?: StaffAccountAssignmentScalarWhereInput | StaffAccountAssignmentScalarWhereInput[]
   }
 
+  export type DocumentUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<DocumentCreateWithoutUploadedByInput, DocumentUncheckedCreateWithoutUploadedByInput> | DocumentCreateWithoutUploadedByInput[] | DocumentUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutUploadedByInput | DocumentCreateOrConnectWithoutUploadedByInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutUploadedByInput | DocumentUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: DocumentCreateManyUploadedByInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutUploadedByInput | DocumentUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutUploadedByInput | DocumentUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type UserUpdateOneWithoutDeactivatedUsersNestedInput = {
     create?: XOR<UserCreateWithoutDeactivatedUsersInput, UserUncheckedCreateWithoutDeactivatedUsersInput>
     connectOrCreate?: UserCreateOrConnectWithoutDeactivatedUsersInput
@@ -16317,6 +19350,20 @@ export namespace Prisma {
     update?: StaffAccountAssignmentUpdateWithWhereUniqueWithoutAssignedByInput | StaffAccountAssignmentUpdateWithWhereUniqueWithoutAssignedByInput[]
     updateMany?: StaffAccountAssignmentUpdateManyWithWhereWithoutAssignedByInput | StaffAccountAssignmentUpdateManyWithWhereWithoutAssignedByInput[]
     deleteMany?: StaffAccountAssignmentScalarWhereInput | StaffAccountAssignmentScalarWhereInput[]
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<DocumentCreateWithoutUploadedByInput, DocumentUncheckedCreateWithoutUploadedByInput> | DocumentCreateWithoutUploadedByInput[] | DocumentUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutUploadedByInput | DocumentCreateOrConnectWithoutUploadedByInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutUploadedByInput | DocumentUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: DocumentCreateManyUploadedByInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutUploadedByInput | DocumentUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutUploadedByInput | DocumentUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
   }
 
   export type UserUncheckedUpdateManyWithoutDeactivatedByNestedInput = {
@@ -16539,6 +19586,12 @@ export namespace Prisma {
     connect?: AccountRateWhereUniqueInput
   }
 
+  export type BankCreateNestedOneWithoutBankAccountsInput = {
+    create?: XOR<BankCreateWithoutBankAccountsInput, BankUncheckedCreateWithoutBankAccountsInput>
+    connectOrCreate?: BankCreateOrConnectWithoutBankAccountsInput
+    connect?: BankWhereUniqueInput
+  }
+
   export type StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput = {
     create?: XOR<StaffAccountAssignmentCreateWithoutBankAccountInput, StaffAccountAssignmentUncheckedCreateWithoutBankAccountInput> | StaffAccountAssignmentCreateWithoutBankAccountInput[] | StaffAccountAssignmentUncheckedCreateWithoutBankAccountInput[]
     connectOrCreate?: StaffAccountAssignmentCreateOrConnectWithoutBankAccountInput | StaffAccountAssignmentCreateOrConnectWithoutBankAccountInput[]
@@ -16587,6 +19640,14 @@ export namespace Prisma {
     delete?: AccountRateWhereInput | boolean
     connect?: AccountRateWhereUniqueInput
     update?: XOR<XOR<AccountRateUpdateToOneWithWhereWithoutBankAccountsInput, AccountRateUpdateWithoutBankAccountsInput>, AccountRateUncheckedUpdateWithoutBankAccountsInput>
+  }
+
+  export type BankUpdateOneRequiredWithoutBankAccountsNestedInput = {
+    create?: XOR<BankCreateWithoutBankAccountsInput, BankUncheckedCreateWithoutBankAccountsInput>
+    connectOrCreate?: BankCreateOrConnectWithoutBankAccountsInput
+    upsert?: BankUpsertWithoutBankAccountsInput
+    connect?: BankWhereUniqueInput
+    update?: XOR<XOR<BankUpdateToOneWithWhereWithoutBankAccountsInput, BankUpdateWithoutBankAccountsInput>, BankUncheckedUpdateWithoutBankAccountsInput>
   }
 
   export type StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput = {
@@ -16643,6 +19704,48 @@ export namespace Prisma {
     update?: BankTransactionUpdateWithWhereUniqueWithoutBankAccountInput | BankTransactionUpdateWithWhereUniqueWithoutBankAccountInput[]
     updateMany?: BankTransactionUpdateManyWithWhereWithoutBankAccountInput | BankTransactionUpdateManyWithWhereWithoutBankAccountInput[]
     deleteMany?: BankTransactionScalarWhereInput | BankTransactionScalarWhereInput[]
+  }
+
+  export type BankAccountCreateNestedManyWithoutBankInput = {
+    create?: XOR<BankAccountCreateWithoutBankInput, BankAccountUncheckedCreateWithoutBankInput> | BankAccountCreateWithoutBankInput[] | BankAccountUncheckedCreateWithoutBankInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutBankInput | BankAccountCreateOrConnectWithoutBankInput[]
+    createMany?: BankAccountCreateManyBankInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type BankAccountUncheckedCreateNestedManyWithoutBankInput = {
+    create?: XOR<BankAccountCreateWithoutBankInput, BankAccountUncheckedCreateWithoutBankInput> | BankAccountCreateWithoutBankInput[] | BankAccountUncheckedCreateWithoutBankInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutBankInput | BankAccountCreateOrConnectWithoutBankInput[]
+    createMany?: BankAccountCreateManyBankInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type BankAccountUpdateManyWithoutBankNestedInput = {
+    create?: XOR<BankAccountCreateWithoutBankInput, BankAccountUncheckedCreateWithoutBankInput> | BankAccountCreateWithoutBankInput[] | BankAccountUncheckedCreateWithoutBankInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutBankInput | BankAccountCreateOrConnectWithoutBankInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutBankInput | BankAccountUpsertWithWhereUniqueWithoutBankInput[]
+    createMany?: BankAccountCreateManyBankInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutBankInput | BankAccountUpdateWithWhereUniqueWithoutBankInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutBankInput | BankAccountUpdateManyWithWhereWithoutBankInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type BankAccountUncheckedUpdateManyWithoutBankNestedInput = {
+    create?: XOR<BankAccountCreateWithoutBankInput, BankAccountUncheckedCreateWithoutBankInput> | BankAccountCreateWithoutBankInput[] | BankAccountUncheckedCreateWithoutBankInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutBankInput | BankAccountCreateOrConnectWithoutBankInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutBankInput | BankAccountUpsertWithWhereUniqueWithoutBankInput[]
+    createMany?: BankAccountCreateManyBankInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutBankInput | BankAccountUpdateWithWhereUniqueWithoutBankInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutBankInput | BankAccountUpdateManyWithWhereWithoutBankInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
   }
 
   export type BankAccountCreateNestedManyWithoutClientInput = {
@@ -16742,11 +19845,23 @@ export namespace Prisma {
     connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
   }
 
+  export type DocumentCreateNestedManyWithoutRatesInput = {
+    create?: XOR<DocumentCreateWithoutRatesInput, DocumentUncheckedCreateWithoutRatesInput> | DocumentCreateWithoutRatesInput[] | DocumentUncheckedCreateWithoutRatesInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutRatesInput | DocumentCreateOrConnectWithoutRatesInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
   export type BankAccountUncheckedCreateNestedManyWithoutRateInput = {
     create?: XOR<BankAccountCreateWithoutRateInput, BankAccountUncheckedCreateWithoutRateInput> | BankAccountCreateWithoutRateInput[] | BankAccountUncheckedCreateWithoutRateInput[]
     connectOrCreate?: BankAccountCreateOrConnectWithoutRateInput | BankAccountCreateOrConnectWithoutRateInput[]
     createMany?: BankAccountCreateManyRateInputEnvelope
     connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type DocumentUncheckedCreateNestedManyWithoutRatesInput = {
+    create?: XOR<DocumentCreateWithoutRatesInput, DocumentUncheckedCreateWithoutRatesInput> | DocumentCreateWithoutRatesInput[] | DocumentUncheckedCreateWithoutRatesInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutRatesInput | DocumentCreateOrConnectWithoutRatesInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -16783,6 +19898,19 @@ export namespace Prisma {
     deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
   }
 
+  export type DocumentUpdateManyWithoutRatesNestedInput = {
+    create?: XOR<DocumentCreateWithoutRatesInput, DocumentUncheckedCreateWithoutRatesInput> | DocumentCreateWithoutRatesInput[] | DocumentUncheckedCreateWithoutRatesInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutRatesInput | DocumentCreateOrConnectWithoutRatesInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutRatesInput | DocumentUpsertWithWhereUniqueWithoutRatesInput[]
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutRatesInput | DocumentUpdateWithWhereUniqueWithoutRatesInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutRatesInput | DocumentUpdateManyWithWhereWithoutRatesInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type BankAccountUncheckedUpdateManyWithoutRateNestedInput = {
     create?: XOR<BankAccountCreateWithoutRateInput, BankAccountUncheckedCreateWithoutRateInput> | BankAccountCreateWithoutRateInput[] | BankAccountUncheckedCreateWithoutRateInput[]
     connectOrCreate?: BankAccountCreateOrConnectWithoutRateInput | BankAccountCreateOrConnectWithoutRateInput[]
@@ -16795,6 +19923,75 @@ export namespace Prisma {
     update?: BankAccountUpdateWithWhereUniqueWithoutRateInput | BankAccountUpdateWithWhereUniqueWithoutRateInput[]
     updateMany?: BankAccountUpdateManyWithWhereWithoutRateInput | BankAccountUpdateManyWithWhereWithoutRateInput[]
     deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutRatesNestedInput = {
+    create?: XOR<DocumentCreateWithoutRatesInput, DocumentUncheckedCreateWithoutRatesInput> | DocumentCreateWithoutRatesInput[] | DocumentUncheckedCreateWithoutRatesInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutRatesInput | DocumentCreateOrConnectWithoutRatesInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutRatesInput | DocumentUpsertWithWhereUniqueWithoutRatesInput[]
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutRatesInput | DocumentUpdateWithWhereUniqueWithoutRatesInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutRatesInput | DocumentUpdateManyWithWhereWithoutRatesInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutUploadedDocumentsInput = {
+    create?: XOR<UserCreateWithoutUploadedDocumentsInput, UserUncheckedCreateWithoutUploadedDocumentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedDocumentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AccountRateCreateNestedManyWithoutDocumentsInput = {
+    create?: XOR<AccountRateCreateWithoutDocumentsInput, AccountRateUncheckedCreateWithoutDocumentsInput> | AccountRateCreateWithoutDocumentsInput[] | AccountRateUncheckedCreateWithoutDocumentsInput[]
+    connectOrCreate?: AccountRateCreateOrConnectWithoutDocumentsInput | AccountRateCreateOrConnectWithoutDocumentsInput[]
+    connect?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+  }
+
+  export type AccountRateUncheckedCreateNestedManyWithoutDocumentsInput = {
+    create?: XOR<AccountRateCreateWithoutDocumentsInput, AccountRateUncheckedCreateWithoutDocumentsInput> | AccountRateCreateWithoutDocumentsInput[] | AccountRateUncheckedCreateWithoutDocumentsInput[]
+    connectOrCreate?: AccountRateCreateOrConnectWithoutDocumentsInput | AccountRateCreateOrConnectWithoutDocumentsInput[]
+    connect?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+  }
+
+  export type EnumDocumentTypeFieldUpdateOperationsInput = {
+    set?: $Enums.DocumentType
+  }
+
+  export type UserUpdateOneRequiredWithoutUploadedDocumentsNestedInput = {
+    create?: XOR<UserCreateWithoutUploadedDocumentsInput, UserUncheckedCreateWithoutUploadedDocumentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedDocumentsInput
+    upsert?: UserUpsertWithoutUploadedDocumentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUploadedDocumentsInput, UserUpdateWithoutUploadedDocumentsInput>, UserUncheckedUpdateWithoutUploadedDocumentsInput>
+  }
+
+  export type AccountRateUpdateManyWithoutDocumentsNestedInput = {
+    create?: XOR<AccountRateCreateWithoutDocumentsInput, AccountRateUncheckedCreateWithoutDocumentsInput> | AccountRateCreateWithoutDocumentsInput[] | AccountRateUncheckedCreateWithoutDocumentsInput[]
+    connectOrCreate?: AccountRateCreateOrConnectWithoutDocumentsInput | AccountRateCreateOrConnectWithoutDocumentsInput[]
+    upsert?: AccountRateUpsertWithWhereUniqueWithoutDocumentsInput | AccountRateUpsertWithWhereUniqueWithoutDocumentsInput[]
+    set?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+    disconnect?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+    delete?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+    connect?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+    update?: AccountRateUpdateWithWhereUniqueWithoutDocumentsInput | AccountRateUpdateWithWhereUniqueWithoutDocumentsInput[]
+    updateMany?: AccountRateUpdateManyWithWhereWithoutDocumentsInput | AccountRateUpdateManyWithWhereWithoutDocumentsInput[]
+    deleteMany?: AccountRateScalarWhereInput | AccountRateScalarWhereInput[]
+  }
+
+  export type AccountRateUncheckedUpdateManyWithoutDocumentsNestedInput = {
+    create?: XOR<AccountRateCreateWithoutDocumentsInput, AccountRateUncheckedCreateWithoutDocumentsInput> | AccountRateCreateWithoutDocumentsInput[] | AccountRateUncheckedCreateWithoutDocumentsInput[]
+    connectOrCreate?: AccountRateCreateOrConnectWithoutDocumentsInput | AccountRateCreateOrConnectWithoutDocumentsInput[]
+    upsert?: AccountRateUpsertWithWhereUniqueWithoutDocumentsInput | AccountRateUpsertWithWhereUniqueWithoutDocumentsInput[]
+    set?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+    disconnect?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+    delete?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+    connect?: AccountRateWhereUniqueInput | AccountRateWhereUniqueInput[]
+    update?: AccountRateUpdateWithWhereUniqueWithoutDocumentsInput | AccountRateUpdateWithWhereUniqueWithoutDocumentsInput[]
+    updateMany?: AccountRateUpdateManyWithWhereWithoutDocumentsInput | AccountRateUpdateManyWithWhereWithoutDocumentsInput[]
+    deleteMany?: AccountRateScalarWhereInput | AccountRateScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutStaffAccountAssignmentInput = {
@@ -17199,6 +20396,23 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeFilter<$PrismaModel> | $Enums.DocumentType
+  }
+
+  export type NestedEnumDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.DocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumDocumentTypeFilter<$PrismaModel>
+  }
+
   export type TokenCreateWithoutUserInput = {
     id?: string
     token: string
@@ -17409,6 +20623,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DocumentCreateWithoutUploadedByInput = {
+    id?: string
+    code: string
+    title: string
+    url: string
+    type: $Enums.DocumentType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rates?: AccountRateCreateNestedManyWithoutDocumentsInput
+  }
+
+  export type DocumentUncheckedCreateWithoutUploadedByInput = {
+    id?: string
+    code: string
+    title: string
+    url: string
+    type: $Enums.DocumentType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rates?: AccountRateUncheckedCreateNestedManyWithoutDocumentsInput
+  }
+
+  export type DocumentCreateOrConnectWithoutUploadedByInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutUploadedByInput, DocumentUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type DocumentCreateManyUploadedByInputEnvelope = {
+    data: DocumentCreateManyUploadedByInput | DocumentCreateManyUploadedByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutDeactivatedUsersInput = {
     id?: string
     firstName: string
@@ -17432,6 +20678,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
   }
 
@@ -17459,6 +20706,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
   }
 
   export type UserCreateOrConnectWithoutDeactivatedUsersInput = {
@@ -17489,6 +20737,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -17515,6 +20764,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -17696,6 +20946,36 @@ export namespace Prisma {
     data: XOR<StaffAccountAssignmentUpdateManyMutationInput, StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByInput>
   }
 
+  export type DocumentUpsertWithWhereUniqueWithoutUploadedByInput = {
+    where: DocumentWhereUniqueInput
+    update: XOR<DocumentUpdateWithoutUploadedByInput, DocumentUncheckedUpdateWithoutUploadedByInput>
+    create: XOR<DocumentCreateWithoutUploadedByInput, DocumentUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type DocumentUpdateWithWhereUniqueWithoutUploadedByInput = {
+    where: DocumentWhereUniqueInput
+    data: XOR<DocumentUpdateWithoutUploadedByInput, DocumentUncheckedUpdateWithoutUploadedByInput>
+  }
+
+  export type DocumentUpdateManyWithWhereWithoutUploadedByInput = {
+    where: DocumentScalarWhereInput
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutUploadedByInput>
+  }
+
+  export type DocumentScalarWhereInput = {
+    AND?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+    OR?: DocumentScalarWhereInput[]
+    NOT?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+    id?: StringFilter<"Document"> | string
+    code?: StringFilter<"Document"> | string
+    title?: StringFilter<"Document"> | string
+    url?: StringFilter<"Document"> | string
+    type?: EnumDocumentTypeFilter<"Document"> | $Enums.DocumentType
+    uploadedById?: StringFilter<"Document"> | string
+    createdAt?: DateTimeFilter<"Document"> | Date | string
+    updatedAt?: DateTimeFilter<"Document"> | Date | string
+  }
+
   export type UserUpsertWithoutDeactivatedUsersInput = {
     update: XOR<UserUpdateWithoutDeactivatedUsersInput, UserUncheckedUpdateWithoutDeactivatedUsersInput>
     create: XOR<UserCreateWithoutDeactivatedUsersInput, UserUncheckedCreateWithoutDeactivatedUsersInput>
@@ -17730,6 +21010,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
   }
 
@@ -17757,6 +21038,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutDeactivatedByInput = {
@@ -17819,6 +21101,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
     deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
@@ -17846,6 +21129,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -17892,6 +21176,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
     deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
@@ -17919,6 +21204,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -17960,6 +21246,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
     deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
@@ -17987,6 +21274,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
@@ -18056,7 +21344,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutTransactionsInput = {
     id?: string
-    accountCode: string
+    code: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18065,12 +21353,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     client: ClientCreateNestedOneWithoutAccountsInput
     rate?: AccountRateCreateNestedOneWithoutBankAccountsInput
+    bank: BankCreateNestedOneWithoutBankAccountsInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutTransactionsInput = {
     id?: string
-    accountCode: string
+    code: string
+    bankId: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18109,6 +21399,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
     deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
@@ -18136,6 +21427,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -18191,6 +21483,7 @@ export namespace Prisma {
     permissions?: PermissionCreateNestedManyWithoutUsersInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
     deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
@@ -18218,6 +21511,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedCreateNestedManyWithoutUsersInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -18239,7 +21533,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18248,12 +21542,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
     rate?: AccountRateUpdateOneWithoutBankAccountsNestedInput
+    bank?: BankUpdateOneRequiredWithoutBankAccountsNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    bankId?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -18298,6 +21594,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
     deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
@@ -18325,6 +21622,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
@@ -18416,6 +21714,7 @@ export namespace Prisma {
 
   export type AccountRateCreateWithoutBankAccountsInput = {
     id?: string
+    code: string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -18442,11 +21741,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     client: ClientCreateNestedOneWithoutRatesInput
+    documents?: DocumentCreateNestedManyWithoutRatesInput
   }
 
   export type AccountRateUncheckedCreateWithoutBankAccountsInput = {
     id?: string
     clientId: string
+    code: string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -18472,11 +21773,33 @@ export namespace Prisma {
     effectiveTo?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    documents?: DocumentUncheckedCreateNestedManyWithoutRatesInput
   }
 
   export type AccountRateCreateOrConnectWithoutBankAccountsInput = {
     where: AccountRateWhereUniqueInput
     create: XOR<AccountRateCreateWithoutBankAccountsInput, AccountRateUncheckedCreateWithoutBankAccountsInput>
+  }
+
+  export type BankCreateWithoutBankAccountsInput = {
+    id?: string
+    name: string
+    code: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BankUncheckedCreateWithoutBankAccountsInput = {
+    id?: string
+    name: string
+    code: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BankCreateOrConnectWithoutBankAccountsInput = {
+    where: BankWhereUniqueInput
+    create: XOR<BankCreateWithoutBankAccountsInput, BankUncheckedCreateWithoutBankAccountsInput>
   }
 
   export type StaffAccountAssignmentCreateWithoutBankAccountInput = {
@@ -18613,6 +21936,7 @@ export namespace Prisma {
 
   export type AccountRateUpdateWithoutBankAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -18639,11 +21963,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: ClientUpdateOneRequiredWithoutRatesNestedInput
+    documents?: DocumentUpdateManyWithoutRatesNestedInput
   }
 
   export type AccountRateUncheckedUpdateWithoutBankAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -18667,6 +21993,34 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: DocumentUncheckedUpdateManyWithoutRatesNestedInput
+  }
+
+  export type BankUpsertWithoutBankAccountsInput = {
+    update: XOR<BankUpdateWithoutBankAccountsInput, BankUncheckedUpdateWithoutBankAccountsInput>
+    create: XOR<BankCreateWithoutBankAccountsInput, BankUncheckedCreateWithoutBankAccountsInput>
+    where?: BankWhereInput
+  }
+
+  export type BankUpdateToOneWithWhereWithoutBankAccountsInput = {
+    where?: BankWhereInput
+    data: XOR<BankUpdateWithoutBankAccountsInput, BankUncheckedUpdateWithoutBankAccountsInput>
+  }
+
+  export type BankUpdateWithoutBankAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BankUncheckedUpdateWithoutBankAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18703,9 +22057,82 @@ export namespace Prisma {
     data: XOR<BankTransactionUpdateManyMutationInput, BankTransactionUncheckedUpdateManyWithoutBankAccountInput>
   }
 
+  export type BankAccountCreateWithoutBankInput = {
+    id?: string
+    code: string
+    accountNumber: string
+    accountName: string
+    accountType: $Enums.AccountType
+    currency: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    client: ClientCreateNestedOneWithoutAccountsInput
+    rate?: AccountRateCreateNestedOneWithoutBankAccountsInput
+    staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
+    transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
+  }
+
+  export type BankAccountUncheckedCreateWithoutBankInput = {
+    id?: string
+    code: string
+    accountNumber: string
+    accountName: string
+    accountType: $Enums.AccountType
+    currency: string
+    clientId: string
+    rateId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutBankAccountInput
+    transactions?: BankTransactionUncheckedCreateNestedManyWithoutBankAccountInput
+  }
+
+  export type BankAccountCreateOrConnectWithoutBankInput = {
+    where: BankAccountWhereUniqueInput
+    create: XOR<BankAccountCreateWithoutBankInput, BankAccountUncheckedCreateWithoutBankInput>
+  }
+
+  export type BankAccountCreateManyBankInputEnvelope = {
+    data: BankAccountCreateManyBankInput | BankAccountCreateManyBankInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BankAccountUpsertWithWhereUniqueWithoutBankInput = {
+    where: BankAccountWhereUniqueInput
+    update: XOR<BankAccountUpdateWithoutBankInput, BankAccountUncheckedUpdateWithoutBankInput>
+    create: XOR<BankAccountCreateWithoutBankInput, BankAccountUncheckedCreateWithoutBankInput>
+  }
+
+  export type BankAccountUpdateWithWhereUniqueWithoutBankInput = {
+    where: BankAccountWhereUniqueInput
+    data: XOR<BankAccountUpdateWithoutBankInput, BankAccountUncheckedUpdateWithoutBankInput>
+  }
+
+  export type BankAccountUpdateManyWithWhereWithoutBankInput = {
+    where: BankAccountScalarWhereInput
+    data: XOR<BankAccountUpdateManyMutationInput, BankAccountUncheckedUpdateManyWithoutBankInput>
+  }
+
+  export type BankAccountScalarWhereInput = {
+    AND?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+    OR?: BankAccountScalarWhereInput[]
+    NOT?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+    id?: StringFilter<"BankAccount"> | string
+    code?: StringFilter<"BankAccount"> | string
+    bankId?: StringFilter<"BankAccount"> | string
+    accountNumber?: StringFilter<"BankAccount"> | string
+    accountName?: StringFilter<"BankAccount"> | string
+    accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
+    currency?: StringFilter<"BankAccount"> | string
+    clientId?: StringFilter<"BankAccount"> | string
+    rateId?: StringNullableFilter<"BankAccount"> | string | null
+    createdAt?: DateTimeFilter<"BankAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
+  }
+
   export type BankAccountCreateWithoutClientInput = {
     id?: string
-    accountCode: string
+    code: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18713,13 +22140,15 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     rate?: AccountRateCreateNestedOneWithoutBankAccountsInput
+    bank: BankCreateNestedOneWithoutBankAccountsInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
     transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutClientInput = {
     id?: string
-    accountCode: string
+    code: string
+    bankId: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18743,6 +22172,7 @@ export namespace Prisma {
 
   export type AccountRateCreateWithoutClientInput = {
     id?: string
+    code: string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -18769,10 +22199,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bankAccounts?: BankAccountCreateNestedManyWithoutRateInput
+    documents?: DocumentCreateNestedManyWithoutRatesInput
   }
 
   export type AccountRateUncheckedCreateWithoutClientInput = {
     id?: string
+    code: string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -18799,6 +22231,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutRateInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutRatesInput
   }
 
   export type AccountRateCreateOrConnectWithoutClientInput = {
@@ -18827,22 +22260,6 @@ export namespace Prisma {
     data: XOR<BankAccountUpdateManyMutationInput, BankAccountUncheckedUpdateManyWithoutClientInput>
   }
 
-  export type BankAccountScalarWhereInput = {
-    AND?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
-    OR?: BankAccountScalarWhereInput[]
-    NOT?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
-    id?: StringFilter<"BankAccount"> | string
-    accountCode?: StringFilter<"BankAccount"> | string
-    accountNumber?: StringFilter<"BankAccount"> | string
-    accountName?: StringFilter<"BankAccount"> | string
-    accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
-    currency?: StringFilter<"BankAccount"> | string
-    clientId?: StringFilter<"BankAccount"> | string
-    rateId?: StringNullableFilter<"BankAccount"> | string | null
-    createdAt?: DateTimeFilter<"BankAccount"> | Date | string
-    updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
-  }
-
   export type AccountRateUpsertWithWhereUniqueWithoutClientInput = {
     where: AccountRateWhereUniqueInput
     update: XOR<AccountRateUpdateWithoutClientInput, AccountRateUncheckedUpdateWithoutClientInput>
@@ -18865,6 +22282,7 @@ export namespace Prisma {
     NOT?: AccountRateScalarWhereInput | AccountRateScalarWhereInput[]
     id?: StringFilter<"AccountRate"> | string
     clientId?: StringFilter<"AccountRate"> | string
+    code?: StringFilter<"AccountRate"> | string
     drRates?: JsonNullableFilter<"AccountRate">
     loanInterestRates?: JsonNullableFilter<"AccountRate">
     lcCommissions?: JsonNullableFilter<"AccountRate">
@@ -18933,7 +22351,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutRateInput = {
     id?: string
-    accountCode: string
+    code: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18941,13 +22359,15 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     client: ClientCreateNestedOneWithoutAccountsInput
+    bank: BankCreateNestedOneWithoutBankAccountsInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutBankAccountInput
     transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutRateInput = {
     id?: string
-    accountCode: string
+    code: string
+    bankId: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -18967,6 +22387,33 @@ export namespace Prisma {
   export type BankAccountCreateManyRateInputEnvelope = {
     data: BankAccountCreateManyRateInput | BankAccountCreateManyRateInput[]
     skipDuplicates?: boolean
+  }
+
+  export type DocumentCreateWithoutRatesInput = {
+    id?: string
+    code: string
+    title: string
+    url: string
+    type: $Enums.DocumentType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    uploadedBy: UserCreateNestedOneWithoutUploadedDocumentsInput
+  }
+
+  export type DocumentUncheckedCreateWithoutRatesInput = {
+    id?: string
+    code: string
+    title: string
+    url: string
+    type: $Enums.DocumentType
+    uploadedById: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentCreateOrConnectWithoutRatesInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutRatesInput, DocumentUncheckedCreateWithoutRatesInput>
   }
 
   export type ClientUpsertWithoutRatesInput = {
@@ -19030,6 +22477,231 @@ export namespace Prisma {
     data: XOR<BankAccountUpdateManyMutationInput, BankAccountUncheckedUpdateManyWithoutRateInput>
   }
 
+  export type DocumentUpsertWithWhereUniqueWithoutRatesInput = {
+    where: DocumentWhereUniqueInput
+    update: XOR<DocumentUpdateWithoutRatesInput, DocumentUncheckedUpdateWithoutRatesInput>
+    create: XOR<DocumentCreateWithoutRatesInput, DocumentUncheckedCreateWithoutRatesInput>
+  }
+
+  export type DocumentUpdateWithWhereUniqueWithoutRatesInput = {
+    where: DocumentWhereUniqueInput
+    data: XOR<DocumentUpdateWithoutRatesInput, DocumentUncheckedUpdateWithoutRatesInput>
+  }
+
+  export type DocumentUpdateManyWithWhereWithoutRatesInput = {
+    where: DocumentScalarWhereInput
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutRatesInput>
+  }
+
+  export type UserCreateWithoutUploadedDocumentsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    username: string
+    phone?: string | null
+    email: string
+    password: string
+    avatarUrl?: string
+    role?: $Enums.UserRole
+    isActive?: boolean
+    refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivationReason?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    BankTransaction?: BankTransactionCreateNestedManyWithoutUploadedByInput
+    StaffAccountAssignment?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
+    permissions?: PermissionCreateNestedManyWithoutUsersInput
+    uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
+    staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
+    assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
+    deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutUploadedDocumentsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    username: string
+    phone?: string | null
+    email: string
+    password: string
+    avatarUrl?: string
+    role?: $Enums.UserRole
+    isActive?: boolean
+    refreshToken?: string | null
+    deactivatedAt?: Date | string | null
+    deactivatedById?: string | null
+    deactivationReason?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    BankTransaction?: BankTransactionUncheckedCreateNestedManyWithoutUploadedByInput
+    StaffAccountAssignment?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutUsersInput
+    uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
+    staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
+    assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutUploadedDocumentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUploadedDocumentsInput, UserUncheckedCreateWithoutUploadedDocumentsInput>
+  }
+
+  export type AccountRateCreateWithoutDocumentsInput = {
+    id?: string
+    code: string
+    drRates?: NullableJsonNullValueInput | InputJsonValue
+    loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    lcCommissions?: NullableJsonNullValueInput | InputJsonValue
+    preNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    postNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    creditInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    currency?: string | null
+    effectiveFrom?: Date | string | null
+    effectiveTo?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    client: ClientCreateNestedOneWithoutRatesInput
+    bankAccounts?: BankAccountCreateNestedManyWithoutRateInput
+  }
+
+  export type AccountRateUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    clientId: string
+    code: string
+    drRates?: NullableJsonNullValueInput | InputJsonValue
+    loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    lcCommissions?: NullableJsonNullValueInput | InputJsonValue
+    preNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    postNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    creditInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    returnChargeRate?: number | null
+    returnChargeLimit?: number | null
+    cotCovenantRate?: number | null
+    cotOffCoverRate?: number | null
+    cotOICRate?: number | null
+    turnoverLimit?: number | null
+    cotCovenantFrequency?: string | null
+    chargeCOTOnShortfall?: boolean | null
+    debitRate?: number | null
+    excessRate?: number | null
+    excessRateType?: string | null
+    vatRate?: number | null
+    whtRate?: number | null
+    rateType?: string | null
+    currency?: string | null
+    effectiveFrom?: Date | string | null
+    effectiveTo?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bankAccounts?: BankAccountUncheckedCreateNestedManyWithoutRateInput
+  }
+
+  export type AccountRateCreateOrConnectWithoutDocumentsInput = {
+    where: AccountRateWhereUniqueInput
+    create: XOR<AccountRateCreateWithoutDocumentsInput, AccountRateUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type UserUpsertWithoutUploadedDocumentsInput = {
+    update: XOR<UserUpdateWithoutUploadedDocumentsInput, UserUncheckedUpdateWithoutUploadedDocumentsInput>
+    create: XOR<UserCreateWithoutUploadedDocumentsInput, UserUncheckedCreateWithoutUploadedDocumentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUploadedDocumentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUploadedDocumentsInput, UserUncheckedUpdateWithoutUploadedDocumentsInput>
+  }
+
+  export type UserUpdateWithoutUploadedDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    BankTransaction?: BankTransactionUpdateManyWithoutUploadedByNestedInput
+    StaffAccountAssignment?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
+    permissions?: PermissionUpdateManyWithoutUsersNestedInput
+    uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
+    staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
+    assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
+    deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUploadedDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deactivatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    deactivationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    BankTransaction?: BankTransactionUncheckedUpdateManyWithoutUploadedByNestedInput
+    StaffAccountAssignment?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutUsersNestedInput
+    uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
+    staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
+  }
+
+  export type AccountRateUpsertWithWhereUniqueWithoutDocumentsInput = {
+    where: AccountRateWhereUniqueInput
+    update: XOR<AccountRateUpdateWithoutDocumentsInput, AccountRateUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<AccountRateCreateWithoutDocumentsInput, AccountRateUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type AccountRateUpdateWithWhereUniqueWithoutDocumentsInput = {
+    where: AccountRateWhereUniqueInput
+    data: XOR<AccountRateUpdateWithoutDocumentsInput, AccountRateUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type AccountRateUpdateManyWithWhereWithoutDocumentsInput = {
+    where: AccountRateScalarWhereInput
+    data: XOR<AccountRateUpdateManyMutationInput, AccountRateUncheckedUpdateManyWithoutDocumentsInput>
+  }
+
   export type UserCreateWithoutStaffAccountAssignmentInput = {
     id?: string
     firstName: string
@@ -19052,6 +22724,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
     deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
@@ -19079,6 +22752,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -19089,7 +22763,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutStaffAssignmentsInput = {
     id?: string
-    accountCode: string
+    code: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -19098,12 +22772,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     client: ClientCreateNestedOneWithoutAccountsInput
     rate?: AccountRateCreateNestedOneWithoutBankAccountsInput
+    bank: BankCreateNestedOneWithoutBankAccountsInput
     transactions?: BankTransactionCreateNestedManyWithoutBankAccountInput
   }
 
   export type BankAccountUncheckedCreateWithoutStaffAssignmentsInput = {
     id?: string
-    accountCode: string
+    code: string
+    bankId: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -19142,6 +22818,7 @@ export namespace Prisma {
     permissions?: PermissionCreateNestedManyWithoutUsersInput
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentCreateNestedManyWithoutUserInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
     deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
@@ -19169,6 +22846,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedCreateNestedManyWithoutUsersInput
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     staffAssignments?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -19199,6 +22877,7 @@ export namespace Prisma {
     permissions?: PermissionCreateNestedManyWithoutUsersInput
     uploadedTransactions?: BankTransactionCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentCreateNestedManyWithoutUploadedByInput
     deactivatedBy?: UserCreateNestedOneWithoutDeactivatedUsersInput
     deactivatedUsers?: UserCreateNestedManyWithoutDeactivatedByInput
   }
@@ -19226,6 +22905,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedCreateNestedManyWithoutUsersInput
     uploadedTransactions?: BankTransactionUncheckedCreateNestedManyWithoutUserInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadedDocuments?: DocumentUncheckedCreateNestedManyWithoutUploadedByInput
     deactivatedUsers?: UserUncheckedCreateNestedManyWithoutDeactivatedByInput
   }
 
@@ -19267,6 +22947,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
     deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
@@ -19294,6 +22975,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
@@ -19310,7 +22992,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutStaffAssignmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -19319,12 +23001,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
     rate?: AccountRateUpdateOneWithoutBankAccountsNestedInput
+    bank?: BankUpdateOneRequiredWithoutBankAccountsNestedInput
     transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutStaffAssignmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    bankId?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -19369,6 +23053,7 @@ export namespace Prisma {
     permissions?: PermissionUpdateManyWithoutUsersNestedInput
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
     deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
@@ -19396,6 +23081,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedUpdateManyWithoutUsersNestedInput
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
@@ -19453,6 +23139,16 @@ export namespace Prisma {
     id?: string
     userId: string
     accountId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentCreateManyUploadedByInput = {
+    id?: string
+    code: string
+    title: string
+    url: string
+    type: $Enums.DocumentType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19712,6 +23408,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DocumentUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rates?: AccountRateUpdateManyWithoutDocumentsNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rates?: AccountRateUncheckedUpdateManyWithoutDocumentsNestedInput
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserUpdateWithoutDeactivatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: StringFieldUpdateOperationsInput | string
@@ -19735,6 +23463,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
 
@@ -19761,6 +23490,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
@@ -19804,6 +23534,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
     deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
@@ -19831,6 +23562,7 @@ export namespace Prisma {
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
@@ -19949,6 +23681,7 @@ export namespace Prisma {
     permissions?: PermissionUpdateManyWithoutUsersNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
     deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
@@ -19976,6 +23709,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedUpdateManyWithoutUsersNestedInput
     staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 
@@ -20106,9 +23840,66 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BankAccountCreateManyBankInput = {
+    id?: string
+    code: string
+    accountNumber: string
+    accountName: string
+    accountType: $Enums.AccountType
+    currency: string
+    clientId: string
+    rateId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BankAccountUpdateWithoutBankInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountName?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    currency?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
+    rate?: AccountRateUpdateOneWithoutBankAccountsNestedInput
+    staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
+    transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateWithoutBankInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountName?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    currency?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    rateId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    staffAssignments?: StaffAccountAssignmentUncheckedUpdateManyWithoutBankAccountNestedInput
+    transactions?: BankTransactionUncheckedUpdateManyWithoutBankAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateManyWithoutBankInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountName?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    currency?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    rateId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BankAccountCreateManyClientInput = {
     id?: string
-    accountCode: string
+    code: string
+    bankId: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -20120,6 +23911,7 @@ export namespace Prisma {
 
   export type AccountRateCreateManyClientInput = {
     id?: string
+    code: string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -20149,7 +23941,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -20157,13 +23949,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rate?: AccountRateUpdateOneWithoutBankAccountsNestedInput
+    bank?: BankUpdateOneRequiredWithoutBankAccountsNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
     transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    bankId?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -20177,7 +23971,8 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    bankId?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -20189,6 +23984,7 @@ export namespace Prisma {
 
   export type AccountRateUpdateWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -20215,10 +24011,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bankAccounts?: BankAccountUpdateManyWithoutRateNestedInput
+    documents?: DocumentUpdateManyWithoutRatesNestedInput
   }
 
   export type AccountRateUncheckedUpdateWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -20245,10 +24043,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bankAccounts?: BankAccountUncheckedUpdateManyWithoutRateNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutRatesNestedInput
   }
 
   export type AccountRateUncheckedUpdateManyWithoutClientInput = {
     id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     drRates?: NullableJsonNullValueInput | InputJsonValue
     loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
     lcCommissions?: NullableJsonNullValueInput | InputJsonValue
@@ -20278,7 +24078,8 @@ export namespace Prisma {
 
   export type BankAccountCreateManyRateInput = {
     id?: string
-    accountCode: string
+    code: string
+    bankId: string
     accountNumber: string
     accountName: string
     accountType: $Enums.AccountType
@@ -20290,7 +24091,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutRateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -20298,13 +24099,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: ClientUpdateOneRequiredWithoutAccountsNestedInput
+    bank?: BankUpdateOneRequiredWithoutBankAccountsNestedInput
     staffAssignments?: StaffAccountAssignmentUpdateManyWithoutBankAccountNestedInput
     transactions?: BankTransactionUpdateManyWithoutBankAccountNestedInput
   }
 
   export type BankAccountUncheckedUpdateWithoutRateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    bankId?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
@@ -20318,12 +24121,141 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyWithoutRateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    accountCode?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    bankId?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountName?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     currency?: StringFieldUpdateOperationsInput | string
     clientId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentUpdateWithoutRatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadedBy?: UserUpdateOneRequiredWithoutUploadedDocumentsNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutRatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    uploadedById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutRatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    uploadedById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccountRateUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    drRates?: NullableJsonNullValueInput | InputJsonValue
+    loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    lcCommissions?: NullableJsonNullValueInput | InputJsonValue
+    preNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    postNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    creditInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: ClientUpdateOneRequiredWithoutRatesNestedInput
+    bankAccounts?: BankAccountUpdateManyWithoutRateNestedInput
+  }
+
+  export type AccountRateUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    drRates?: NullableJsonNullValueInput | InputJsonValue
+    loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    lcCommissions?: NullableJsonNullValueInput | InputJsonValue
+    preNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    postNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    creditInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bankAccounts?: BankAccountUncheckedUpdateManyWithoutRateNestedInput
+  }
+
+  export type AccountRateUncheckedUpdateManyWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    drRates?: NullableJsonNullValueInput | InputJsonValue
+    loanInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    lcCommissions?: NullableJsonNullValueInput | InputJsonValue
+    preNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    postNegotiationRates?: NullableJsonNullValueInput | InputJsonValue
+    creditInterestRates?: NullableJsonNullValueInput | InputJsonValue
+    returnChargeRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    returnChargeLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOffCoverRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotOICRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    turnoverLimit?: NullableFloatFieldUpdateOperationsInput | number | null
+    cotCovenantFrequency?: NullableStringFieldUpdateOperationsInput | string | null
+    chargeCOTOnShortfall?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    debitRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    excessRateType?: NullableStringFieldUpdateOperationsInput | string | null
+    vatRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    whtRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    rateType?: NullableStringFieldUpdateOperationsInput | string | null
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    effectiveFrom?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    effectiveTo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20350,6 +24282,7 @@ export namespace Prisma {
     permissions?: PermissionUpdateManyWithoutUsersNestedInput
     uploadedTransactions?: BankTransactionUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUpdateManyWithoutUploadedByNestedInput
     deactivatedBy?: UserUpdateOneWithoutDeactivatedUsersNestedInput
     deactivatedUsers?: UserUpdateManyWithoutDeactivatedByNestedInput
   }
@@ -20377,6 +24310,7 @@ export namespace Prisma {
     permissions?: PermissionUncheckedUpdateManyWithoutUsersNestedInput
     uploadedTransactions?: BankTransactionUncheckedUpdateManyWithoutUserNestedInput
     assignedStaffAccounts?: StaffAccountAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadedDocuments?: DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
     deactivatedUsers?: UserUncheckedUpdateManyWithoutDeactivatedByNestedInput
   }
 

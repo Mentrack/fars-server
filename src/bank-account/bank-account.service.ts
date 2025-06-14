@@ -7,7 +7,7 @@ import {
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
 import { DatabaseService } from 'src/database/database.service';
-import { generateBankAccountCode } from 'src/utils/create-bankcode.util';
+import { generateCode } from 'src/utils/create-code.util';
 
 @Injectable()
 export class BankAccountService {
@@ -23,28 +23,28 @@ export class BankAccountService {
       throw new NotFoundException('Client not found');
     }
 
-    // Check if the contract exists, if provided
-    if (createBankAccountDto.contractId) {
-      const contractExists = await this.databaseService.accountRate.findUnique({
-        where: { id: createBankAccountDto.contractId },
+    // Check if the rate exists, if provided
+    if (createBankAccountDto.rateId) {
+      const rateExists = await this.databaseService.accountRate.findUnique({
+        where: { id: createBankAccountDto.rateId },
       });
-      if (!contractExists) {
-        throw new NotFoundException('Contract not found');
+      if (!rateExists) {
+        throw new NotFoundException('Rate not found');
       }
     }
 
     // Create a new bank account code
-    let accountCode: string;
+    let code: string;
 
     // Keep trying until we generate a code that doesn't exist
     while (true) {
-      const candidate = generateBankAccountCode();
+      const candidate = generateCode('BAC');
       const existing = await this.databaseService.bankAccount.findUnique({
-        where: { accountCode: candidate },
+        where: { code: candidate },
       });
 
       if (!existing) {
-        accountCode = candidate;
+        code = candidate;
         break;
       }
     }
@@ -53,7 +53,7 @@ export class BankAccountService {
     return await this.databaseService.bankAccount.create({
       data: {
         ...createBankAccountDto,
-        accountCode,
+        code,
       },
     });
   }

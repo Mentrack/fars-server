@@ -7,7 +7,7 @@ import {
 import { BaseExceptionFilter } from '@nestjs/core';
 import { MyLoggerService } from './my-logger/my-logger.service';
 import { Request, Response } from 'express';
-import { PrismaClientValidationError } from 'generated/prisma/runtime/library';
+import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 
 @Catch()
 export class AllExceptionsFilter extends BaseExceptionFilter {

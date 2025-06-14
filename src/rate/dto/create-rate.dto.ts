@@ -187,11 +187,27 @@ export class CreateRateDto {
 }
 
 export class CreateRateResponseDto {
+  @ApiProperty({
+    description: 'Unique identifier for the rate',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @IsUUID()
+  id: string;
+
   @ApiProperty({ example: '123e4567-e89b-12d3-a456-426614174000' })
   @IsString()
   @IsNotEmpty()
   @IsUUID()
   clientId: string;
+
+  @ApiProperty({
+    example: 'ARC-12345678',
+  })
+  @IsString()
+  @IsNotEmpty()
+  code: string;
 
   @ApiPropertyOptional({
     example: [

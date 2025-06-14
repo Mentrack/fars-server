@@ -71,7 +71,7 @@ export class StaffAssignmentService {
       if (assignmentDetails) {
         await this.mailService.sendBankAccountAssignmentNotification(
           assignmentDetails.user.email,
-          assignmentDetails.bankAccount.accountCode,
+          assignmentDetails.bankAccount.code,
           assignmentDetails.user.firstName,
           assignmentDetails.bankAccount.client.companyName,
         );
