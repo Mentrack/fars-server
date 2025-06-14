@@ -3,10 +3,18 @@ import { CreateRateDto } from './dto/create-rate.dto';
 import { UpdateRateDto } from './dto/update-rate.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { transformRateDtoToPrismaPayload } from './rate.transformer';
+import { UploadRateDocumentDto } from './dto/upload-rate-document.dto';
+import { RateS3Service } from './rate.s3.service';
+import { generateCode } from 'src/utils/create-code.util';
+import { DocumentType, Prisma } from '@prisma/client';
+import { UpdateRateDocumentDto } from './dto/update-rate-document.dto';
 
 @Injectable()
 export class RateService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly rateS3Service: RateS3Service,
+  ) {}
 
   async create(createRateDto: CreateRateDto) {
     //Check if the client exists
@@ -21,11 +29,28 @@ export class RateService {
 
     const data = transformRateDtoToPrismaPayload(createRateDto);
 
+    // Create a new account rate code
+    let code: string;
+
+    // Keep trying until we generate a code that doesn't exist
+    while (true) {
+      const candidate = generateCode('ARC');
+      const existing = await this.databaseService.accountRate.findUnique({
+        where: { code: candidate },
+      });
+
+      if (!existing) {
+        code = candidate;
+        break;
+      }
+    }
+
     // Create a new rate
     return await this.databaseService.accountRate.create({
       data: {
         ...data,
         clientId: createRateDto.clientId,
+        code,
       },
       include: {
         client: true, // Include client details in the response
@@ -102,6 +127,167 @@ export class RateService {
 
     return await this.databaseService.accountRate.delete({
       where: { id },
+    });
+  }
+
+  async uploadRateDocument(
+    file: Express.Multer.File,
+    uploadRateDocumentDto: UploadRateDocumentDto,
+    uploaderId: string,
+  ) {
+    // Create a new document code
+    let code: string;
+
+    // Keep trying until we generate a code that doesn't exist
+    while (true) {
+      const candidate = generateCode('RDC');
+      const existing = await this.databaseService.document.findUnique({
+        where: { code: candidate },
+      });
+
+      if (!existing) {
+        code = candidate;
+        break;
+      }
+    }
+
+    // Upload to S3
+    const key = `contract-documents/${code.toLocaleLowerCase()}`;
+    const fileUrl = await this.rateS3Service.uploadFile(file, key);
+    if (!fileUrl) {
+      throw new NotFoundException('File upload failed');
+    }
+
+    // Create document & link to rates
+    const document = await this.databaseService.document.create({
+      data: {
+        code,
+        title: uploadRateDocumentDto.title,
+        url: fileUrl,
+        type: DocumentType.CONTRACT,
+        uploadedById: uploaderId,
+        rates: {
+          connect: uploadRateDocumentDto.rateIds.map((id) => ({ id })),
+        },
+      },
+    });
+
+    // Assign the S3 URL to the document
+    document.url = await this.rateS3Service.getFileUrl(document.url);
+
+    return document;
+  }
+
+  async updateRateDocument(
+    id: string,
+    file: Express.Multer.File,
+    updateRateDocumentDto: UpdateRateDocumentDto,
+  ) {
+    // Check if the document exists
+    const documentExists = await this.databaseService.document.findUnique({
+      where: { id },
+    });
+
+    if (!documentExists) {
+      throw new NotFoundException('Document not found');
+    }
+
+    // If a file is provided, upload it to S3
+    let fileUrl: string | undefined;
+    if (file) {
+      const key = `contract-documents/${documentExists.code.toLocaleLowerCase()}`;
+      fileUrl = await this.rateS3Service.uploadFile(file, key);
+      if (!fileUrl) {
+        throw new NotFoundException('File upload failed');
+      }
+    }
+
+    const { title, rateIds } = updateRateDocumentDto;
+
+    const data: Prisma.DocumentUpdateInput = {
+      ...(title && { title }),
+      ...(file && { url: fileUrl }), // Update URL only if file is provided
+      ...(rateIds && {
+        rates: {
+          set: [], // disconnect all
+          connect: rateIds.map((id) => ({ id })),
+        },
+      }),
+    };
+
+    const document = await this.databaseService.document.update({
+      where: { id },
+      data,
+    });
+
+    // Assign the S3 URL to the document
+    document.url = await this.rateS3Service.getFileUrl(document.url);
+
+    return document;
+  }
+
+  async findAllDocuments() {
+    const documents = await this.databaseService.document.findMany({
+      where: {
+        type: DocumentType.CONTRACT,
+      },
+    });
+
+    // Check if there are any documents
+    if (documents.length === 0) {
+      throw new NotFoundException('No documents found');
+    }
+
+    const assignDocumentUrl = documents.map(async (document) => {
+      const url = await this.rateS3Service.getFileUrl(document.url);
+      return { ...document, url };
+    });
+
+    // Return the list of documents
+    return Promise.all(assignDocumentUrl);
+  }
+
+  async findAllRateDocuments(rateId: string) {
+    const rate = await this.databaseService.accountRate.findUnique({
+      where: { id: rateId },
+      include: {
+        documents: true,
+      },
+    });
+
+    // Check if the rate exists
+    if (!rate) {
+      throw new NotFoundException('Rate not found');
+    }
+
+    // Check if there are any documents for the rate
+    if (!rate.documents || rate.documents.length === 0) {
+      throw new NotFoundException('No documents found for this rate');
+    }
+
+    const assignDocumentUrl = rate.documents.map(async (document) => {
+      const url = await this.rateS3Service.getFileUrl(document.url);
+      return { ...document, url };
+    });
+
+    // Return the list of documents
+    return Promise.all(assignDocumentUrl);
+  }
+
+  async deleteDocument(documentId: string) {
+    // Check if the document exists
+    const documentExists = await this.databaseService.document.findUnique({
+      where: { id: documentId },
+    });
+    if (!documentExists) {
+      throw new NotFoundException('Document not found');
+    }
+    // Delete the document from S3
+    await this.rateS3Service.deleteFile(documentExists.url);
+
+    // Delete the document from the database
+    return await this.databaseService.document.delete({
+      where: { id: documentId },
     });
   }
 }

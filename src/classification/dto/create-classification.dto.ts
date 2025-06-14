@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Category, ClassificationCode } from '@prisma/client';
 import {
   IsEnum,
   IsNotEmpty,
@@ -6,7 +7,6 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { Category, ClassificationCode } from 'generated/prisma';
 
 export class CreateClassificationDto {
   @ApiProperty({

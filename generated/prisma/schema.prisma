@@ -64,6 +64,8 @@ model User {
   // 🧑‍🏫 Admins who assign staff to accounts
   assignedStaffAccounts StaffAccountAssignment[] @relation("AssignedBy")
 
+  uploadedDocuments Document[] // 👈 inverse relation: one user → many documents
+
   // 👤 User that deactivated this user
   deactivatedBy    User?  @relation("UserDeactivatedBy", fields: [deactivatedById], references: [id])
   deactivatedUsers User[] @relation("UserDeactivatedBy") // Users this user deactivated
@@ -172,7 +174,8 @@ enum AccountType {
 
 model BankAccount {
   id            String      @id @default(uuid())
-  accountCode   String      @unique
+  code          String      @unique
+  bankId        String
   accountNumber String      @unique
   accountName   String
   accountType   AccountType
@@ -182,6 +185,7 @@ model BankAccount {
 
   client Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
   rate   AccountRate? @relation(fields: [rateId], references: [id])
+  bank   Bank         @relation(fields: [bankId], references: [id])
 
   staffAssignments StaffAccountAssignment[]
   transactions     BankTransaction[]
@@ -189,6 +193,17 @@ model BankAccount {
   updatedAt        DateTime                 @updatedAt
 
   @@map("bank_accounts")
+}
+
+model Bank {
+  id           String        @id @default(uuid())
+  name         String
+  code         String        @unique
+  bankAccounts BankAccount[] // One-to-many relation
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("banks")
 }
 
 model Client {
@@ -212,9 +227,9 @@ model Client {
 }
 
 model AccountRate {
-  id       String @id @default(uuid())
-  clientId String // 👈 links to client
-
+  id                   String @id @default(uuid())
+  clientId             String // 👈 links to client
+  code                 String @unique // Unique code for the rate configuration
   drRates              Json? // array of { rate, effectiveFrom, effectiveTo }
   loanInterestRates    Json?
   lcCommissions        Json?
@@ -244,8 +259,31 @@ model AccountRate {
 
   client       Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   bankAccounts BankAccount[] // one rate config → many bank accounts
+  documents    Document[]    @relation("RateDocuments")
 
   @@map("account_rates")
+}
+
+enum DocumentType {
+  CONTRACT
+  BANK_STATEMENT
+}
+
+model Document {
+  id           String       @id @default(uuid())
+  code         String       @unique
+  title        String
+  url          String
+  type         DocumentType
+  uploadedById String
+  uploadedBy   User         @relation(fields: [uploadedById], references: [id])
+
+  rates AccountRate[] @relation("RateDocuments")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("documents")
 }
 
 model StaffAccountAssignment {
