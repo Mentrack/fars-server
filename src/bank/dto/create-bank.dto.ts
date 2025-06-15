@@ -1,0 +1,27 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsUUID } from 'class-validator';
+
+export class CreateBankDto {
+  @ApiProperty({ example: 'My Bank' })
+  @IsString()
+  name: string;
+
+  @ApiProperty({ example: '123' })
+  @IsString()
+  code: string;
+}
+
+export class CreateBankResponseDto {
+  @ApiProperty({ example: '123e4567-e89b-12d3-a456-426614174000' })
+  @IsUUID()
+  @IsString()
+  id: string;
+
+  @ApiProperty({ example: 'My Bank' })
+  @IsString()
+  name: string;
+
+  @ApiProperty({ example: '0023' })
+  @IsString()
+  code: string;
+}

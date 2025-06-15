@@ -15,6 +15,7 @@ import { BankAccountModule } from './bank-account/bank-account.module';
 import { StaffAssignmentModule } from './staff-assignment/staff-assignment.module';
 import { ClassificationModule } from './classification/classification.module';
 import { RateModule } from './rate/rate.module';
+import { BankModule } from './bank/bank.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { RateModule } from './rate/rate.module';
     StaffAssignmentModule,
     ClassificationModule,
     RateModule,
+    BankModule,
   ],
   controllers: [AppController],
   providers: [

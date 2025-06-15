@@ -198,7 +198,7 @@ model BankAccount {
 
 model Bank {
   id               String                  @id @default(uuid())
-  name             String
+  name             String                  @unique   // Unique name of the bank
   code             String                  @unique
   bankAccounts     BankAccount[] // One-to-many relation
   createdAt        DateTime                @default(now())
