@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { corsOptions } from './config/corsOptions';
 import { AllExceptionsFilter } from './all-exceptions.filter';
+import { RequestMethod } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,7 +25,13 @@ async function bootstrap() {
     }),
   );
   app.enableCors(corsOptions);
-  app.setGlobalPrefix('api');
+
+  app.setGlobalPrefix('api', {
+    exclude: [
+      { path: '/', method: RequestMethod.ALL },
+      { path: '/health', method: RequestMethod.ALL },
+    ],
+  });
 
   // Enable Swagger documentation
   const config = new DocumentBuilder()

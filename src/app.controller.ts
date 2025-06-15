@@ -13,4 +13,11 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @ApiOperation({ summary: 'Health check endpoint' })
+  @Public()
+  @Get('health')
+  healthCheck(): string {
+    return 'OK';
+  }
 }
