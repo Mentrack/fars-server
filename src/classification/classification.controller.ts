@@ -7,11 +7,12 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { ClassificationService } from './classification.service';
 import { CreateClassificationDto } from './dto/create-classification.dto';
 import { UpdateClassificationDto } from './dto/update-classification.dto';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { Role } from 'src/user/enum/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 
@@ -27,9 +28,12 @@ export class ClassificationController {
   }
 
   @ApiOperation({ summary: 'Get all classifications' })
+  @ApiQuery({ name: 'bankId', required: false, type: String })
   @Get()
-  findAll() {
-    return this.classificationService.findAll();
+  findAll(
+    @Query('bankId', new ParseUUIDPipe({ optional: true })) bankId?: string,
+  ) {
+    return this.classificationService.findAll(bankId);
   }
 
   @ApiOperation({ summary: 'Get a classification by ID' })
