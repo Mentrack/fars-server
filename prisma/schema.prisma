@@ -20,6 +20,8 @@ enum UserRole {
   SUPER_ADMIN
   ADMIN
   STAFF
+  CLIENT
+  BANK
 }
 
 model User {

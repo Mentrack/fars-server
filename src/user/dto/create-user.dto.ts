@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 import { Role } from '../../user/enum/role.enum';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { UserRole } from '@prisma/client';
 
 export class CreateUserDto {
   @IsString()
@@ -85,7 +86,7 @@ export class CreateUserDto {
     enum: Role,
     default: Role.STAFF,
   })
-  role?: Role;
+  role?: UserRole;
 
   @IsArray()
   @IsOptional()
