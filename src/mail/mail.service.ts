@@ -139,7 +139,7 @@ export class MailService {
         <p>You can now log in using the following credentials:</p>
 
         <div style="background: #f8f9fa; padding: 16px; font-size: 16px; border: 1px dashed #0d6efd; border-radius: 4px; margin: 20px 0;">
-          <p><strong>Login URL:</strong> <a href="https://acfco.com/login" style="color: #0d6efd;">acfco.com/login</a></p>
+          <p><strong>Login URL:</strong> <a href="https://fars-web-client.vercel.app" style="color: #0d6efd;">fars-web-client.vercel.app</a></p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Temporary Password:</strong> ${tempPassword}</p>
         </div>
