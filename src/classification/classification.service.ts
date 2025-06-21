@@ -13,29 +13,61 @@ export class ClassificationService {
 
   async create(createClassificationDto: CreateClassificationDto) {
     try {
+      // Check if classification with the same code and bankId already exists
+      const existingClassification =
+        await this.databaseService.transactionClassification.findFirst({
+          where: {
+            code: createClassificationDto.code,
+            bankId: createClassificationDto.bankId,
+          },
+        });
+      if (existingClassification) {
+        throw new ConflictException('Classification already exists');
+      }
+
+      // Validate the bankId exists
+      const bankExists = await this.databaseService.bank.findUnique({
+        where: { id: createClassificationDto.bankId },
+      });
+      if (!bankExists) {
+        throw new NotFoundException('Bank not found');
+      }
+
+      // Create the new classification
       return await this.databaseService.transactionClassification.create({
         data: createClassificationDto,
       });
     } catch (error) {
-      // Handle specific error codes from Prisma
-      if (error.code === 'P2002') {
-        throw new ConflictException('Classification already exists');
-      }
       // Handle other errors
       throw error;
     }
   }
 
-  async findAll() {
+  async findAll(bankId?: string) {
     try {
-      const classifications =
-        await this.databaseService.transactionClassification.findMany();
+      // If bankId is provided, filter classifications by bankId
+      if (bankId) {
+        const classifications =
+          await this.databaseService.transactionClassification.findMany({
+            where: { bankId },
+          });
 
-      if (!classifications || classifications.length === 0) {
-        throw new NotFoundException('No classifications found');
+        if (!classifications || classifications.length === 0) {
+          throw new NotFoundException('No classifications found for this bank');
+        }
+        // Return the classifications
+        return classifications;
+      } else {
+        // Fetch all classifications
+        const classifications =
+          await this.databaseService.transactionClassification.findMany();
+
+        if (!classifications || classifications.length === 0) {
+          throw new NotFoundException('No classifications found');
+        }
+        // Return the classifications
+        return classifications;
       }
-      // Return the classifications
-      return classifications;
     } catch (error) {
       // Handle specific error codes from Prisma
       if (error.code === 'P2025') {

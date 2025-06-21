@@ -127,15 +127,17 @@ enum Category {
 
 model TransactionClassification {
   id          String              @id @default(uuid())
-  code        ClassificationCode  @unique// Unique code for classification (e.g. CD, LCD, etc.)
-  category    Category              // Deposit, Withdrawal, Fee
+  code        ClassificationCode  // Code for classification (e.g. CD, LCD, etc.)
+  category    Category            // Deposit, Withdrawal, Fee
   label       String              // Human-readable name (e.g. Loan Disbursement)
   description String?             // Optional explanation
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
-
+  bankId      String              // Bank this rule applies to
+  bank        Bank                @relation(fields: [bankId], references: [id])
   transactions BankTransaction[]  // One-to-many from classification
 
+  @@unique([bankId, code])        // Each code must be unique PER BANK
   @@map("transaction_classifications")
 }
 
@@ -205,6 +207,8 @@ model Bank {
   bankAccounts     BankAccount[] // One-to-many relation
   createdAt        DateTime                @default(now())
   updatedAt        DateTime                @updatedAt
+
+  classifications  TransactionClassification[]
 
   @@map("banks")
 }

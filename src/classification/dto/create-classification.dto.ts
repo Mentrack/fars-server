@@ -5,10 +5,19 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUUID,
   MinLength,
 } from 'class-validator';
 
 export class CreateClassificationDto {
+  @ApiProperty({
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @IsNotEmpty()
+  @IsString()
+  @IsUUID()
+  bankId: string;
+
   @ApiProperty({
     example: ClassificationCode.LD,
   })
@@ -35,8 +44,7 @@ export class CreateClassificationDto {
   @ApiProperty({
     example: 'Disbursement',
   })
-  @ApiPropertyOptional()
+  @IsNotEmpty()
   @IsString()
-  @IsOptional()
-  description?: string; // optional description field
+  description: string;
 }
