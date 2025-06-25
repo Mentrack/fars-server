@@ -44,6 +44,47 @@ async function main() {
     });
   }
 
+  // seed known reversal keywords
+  const globalReversalKeywords = [
+    'REV ',
+    'REVMF',
+    'REV:',
+    'RV:',
+    'RTD:',
+    'RV ',
+    'RET.',
+    'RTRN ',
+    'RTN ',
+    'RB ',
+    'RVSL ',
+    'RSVL ',
+    'ROE ',
+    'REVERSAL ',
+    'RVSL/',
+    'R:',
+    'RVSL:',
+    'RVS ',
+    'REV-',
+    'RSV ',
+    'REVERSAL-',
+    'REFUND ',
+    'REFUND-',
+    'REVERSED ',
+    'REVERSED-',
+  ];
+
+  for (const keyword of globalReversalKeywords) {
+    await prisma.reversalKeyword.upsert({
+      where: { keyword_bankId: { keyword, bankId: undefined } as any },
+      update: {},
+      create: {
+        keyword,
+        isGlobal: true,
+        bankId: null,
+      },
+    });
+  }
+
   console.log('✅ Seeding complete!');
 }
 
