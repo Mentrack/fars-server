@@ -18,19 +18,10 @@ export class ClassificationService {
         await this.databaseService.transactionClassification.findFirst({
           where: {
             code: createClassificationDto.code,
-            bankId: createClassificationDto.bankId,
           },
         });
       if (existingClassification) {
         throw new ConflictException('Classification already exists');
-      }
-
-      // Validate the bankId exists
-      const bankExists = await this.databaseService.bank.findUnique({
-        where: { id: createClassificationDto.bankId },
-      });
-      if (!bankExists) {
-        throw new NotFoundException('Bank not found');
       }
 
       // Create the new classification
@@ -43,31 +34,17 @@ export class ClassificationService {
     }
   }
 
-  async findAll(bankId?: string) {
+  async findAll() {
     try {
-      // If bankId is provided, filter classifications by bankId
-      if (bankId) {
-        const classifications =
-          await this.databaseService.transactionClassification.findMany({
-            where: { bankId },
-          });
+      // Fetch all classifications
+      const classifications =
+        await this.databaseService.transactionClassification.findMany();
 
-        if (!classifications || classifications.length === 0) {
-          throw new NotFoundException('No classifications found for this bank');
-        }
-        // Return the classifications
-        return classifications;
-      } else {
-        // Fetch all classifications
-        const classifications =
-          await this.databaseService.transactionClassification.findMany();
-
-        if (!classifications || classifications.length === 0) {
-          throw new NotFoundException('No classifications found');
-        }
-        // Return the classifications
-        return classifications;
+      if (!classifications || classifications.length === 0) {
+        throw new NotFoundException('No classifications found');
       }
+      // Return the classifications
+      return classifications;
     } catch (error) {
       // Handle specific error codes from Prisma
       if (error.code === 'P2025') {

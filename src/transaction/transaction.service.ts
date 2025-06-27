@@ -10,6 +10,7 @@ import * as streamifier from 'streamifier';
 import { CleanerService } from './services/cleaner/cleaner.service';
 import { ReconstructorService } from './services/reconstructor/reconstructor.service';
 import { DatabaseService } from 'src/database/database.service';
+import { ClassifierService } from './services/classifier/classifier.service';
 
 @Injectable()
 export class TransactionService {
@@ -17,6 +18,7 @@ export class TransactionService {
     private readonly databaseService: DatabaseService,
     private readonly cleanerService: CleanerService,
     private readonly reconstructorService: ReconstructorService,
+    private readonly classifierService: ClassifierService,
   ) {}
 
   async create(createTransactionDto: CreateTransactionDto) {
@@ -92,7 +94,13 @@ export class TransactionService {
       cleanedRows,
     );
 
-    return { message: 'File uploaded successfully' };
+    // Classify transactions based on their descriptions and types
+    const classified = await this.classifierService.classifyTransactions(
+      reconstructedRows,
+      bankId,
+    );
+
+    return { message: 'File uploaded successfully', data: classified };
   }
 
   async reprocessTransactions(accountId: string): Promise<any> {

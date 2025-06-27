@@ -121,19 +121,33 @@ enum Category {
 }
 
 model TransactionClassification {
-  id           String             @id @default(uuid())
-  code         ClassificationCode // Code for classification (e.g. CD, LCD, etc.)
+  id           String                  @id @default(uuid())
+  code         ClassificationCode      @unique // Code for classification (e.g. CD, LCD, etc.)
   category     Category // Deposit, Withdrawal
   label        String // Human-readable name (e.g. Loan Disbursement)
   description  String? // Optional explanation
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
-  bankId       String // Bank this rule applies to
-  bank         Bank               @relation(fields: [bankId], references: [id])
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+  patterns     ClassificationPattern[] // One-to-many from classification
   transactions BankTransaction[] // One-to-many from classification
 
-  @@unique([bankId, code]) // Each code must be unique PER BANK
   @@map("transaction_classifications")
+}
+
+model ClassificationPattern {
+  id               String  @id @default(uuid())
+  keyword          String // or regex
+  isRegex          Boolean @default(false)
+  bankId           String? // optional for global
+  classificationId String
+
+  bank           Bank?                     @relation(fields: [bankId], references: [id])
+  classification TransactionClassification @relation(fields: [classificationId], references: [id])
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+
+  @@unique([keyword, classificationId, bankId])
+  @@map("classification_patterns")
 }
 
 enum TransactionType {
@@ -217,8 +231,8 @@ model Bank {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
-  classifications TransactionClassification[]
-  ReversalKeyword ReversalKeyword[]
+  ReversalKeyword       ReversalKeyword[]
+  ClassificationPattern ClassificationPattern[]
 
   @@map("banks")
 }

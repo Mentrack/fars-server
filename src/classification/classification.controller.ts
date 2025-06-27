@@ -28,12 +28,9 @@ export class ClassificationController {
   }
 
   @ApiOperation({ summary: 'Get all classifications' })
-  @ApiQuery({ name: 'bankId', required: false, type: String })
   @Get()
-  findAll(
-    @Query('bankId', new ParseUUIDPipe({ optional: true })) bankId?: string,
-  ) {
-    return this.classificationService.findAll(bankId);
+  findAll() {
+    return this.classificationService.findAll();
   }
 
   @ApiOperation({ summary: 'Get a classification by ID' })

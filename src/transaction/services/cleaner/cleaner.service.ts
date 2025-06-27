@@ -6,7 +6,7 @@ export class CleanerService {
   /**
    * Cleans rows from your bank statement format.
    */
-  async clean(rawRows: any[]): Promise<any[]> {
+  async clean(rawRows: any[], openingBalance = 0): Promise<any[]> {
     const cleaned: any[] = [];
 
     for (let i = 0; i < rawRows.length; i++) {
@@ -32,11 +32,11 @@ export class CleanerService {
       // 3️⃣ Fix negative values
       if (debit < 0) {
         credit = Math.abs(debit);
-        debit = 0;
+        debit = 0.0;
       }
       if (credit < 0) {
         debit = Math.abs(credit);
-        credit = 0;
+        credit = 0.0;
       }
 
       const amount = debit > 0 ? debit : credit;
@@ -57,6 +57,25 @@ export class CleanerService {
       });
     }
 
+    // 🔁 Recompute balance using the openingBalance
+    let runningBalance = 0;
+    const firstTransaction = cleaned[0];
+
+    if (firstTransaction) {
+      const { balance, amount, type } = firstTransaction;
+      runningBalance = type === 'CREDIT' ? balance - amount : balance + amount;
+    }
+
+    for (const row of cleaned) {
+      if (row.type === 'CREDIT') {
+        runningBalance += row.amount;
+      } else {
+        runningBalance -= row.amount;
+      }
+      // Keep precision with full decimal value
+      row.balance = Number(runningBalance.toFixed(2));
+    }
+
     return cleaned;
   }
 
@@ -73,7 +92,7 @@ export class CleanerService {
    */
   private parseAmount(input: string | number | undefined): number {
     if (!input) return 0;
-    const cleaned = String(input).replace(/[^0-9.-]/g, '');
+    const cleaned = String(input).replace(/,/g, '').trim();
     const parsed = parseFloat(cleaned);
     return isNaN(parsed) ? 0 : parsed;
   }
