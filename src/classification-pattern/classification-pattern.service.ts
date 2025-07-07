@@ -81,7 +81,6 @@ export class ClassificationPatternService {
       );
     }
 
-    // If the pattern is found, we can return it
     return pattern;
   }
 
