@@ -149,6 +149,7 @@ model ClassificationPattern {
   updatedAt      DateTime                  @updatedAt
 
   @@unique([keyword, classificationId, bankId])
+  @@unique([classificationId, keyword, isRegex])
   @@map("classification_patterns")
 }
 
@@ -187,7 +188,7 @@ model BankTransaction {
 model ReversalKeyword {
   id        String   @id @default(uuid())
   keyword   String
-  isGlobal  Boolean  @default(false) // ✅ if true, applies to all banks
+  isGlobal  Boolean?  @default(false) // ✅ if true, applies to all banks
   bankId    String? // 🔄 optional if bank-specific
   bank      Bank?    @relation(fields: [bankId], references: [id])
   createdAt DateTime @default(now())
@@ -222,6 +223,8 @@ model BankAccount {
   transactions     BankTransaction[]
   createdAt        DateTime                 @default(now())
   updatedAt        DateTime                 @updatedAt
+
+  documents    Document[]    @relation("TransactionDocuments")
 
   @@map("bank_accounts")
 }
@@ -313,6 +316,7 @@ model Document {
   uploadedBy   User         @relation(fields: [uploadedById], references: [id])
 
   rates AccountRate[] @relation("RateDocuments")
+  bankAccounts BankAccount[] @relation("TransactionDocuments")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
