@@ -7,11 +7,9 @@ import { DatabaseModule } from 'src/database/database.module';
 import { ClassifierService } from './services/classifier/classifier.service';
 import { ValidatorService } from './services/validator/validator.service';
 import { FuzzyMatcherService } from './services/fuzzy-matcher/fuzzy-matcher.service';
-import { ConfigModule } from '@nestjs/config';
-import googleAiConfig from './config/google-ai.config';
 
 @Module({
-  imports: [DatabaseModule, ConfigModule.forFeature(googleAiConfig)],
+  imports: [DatabaseModule],
   controllers: [TransactionController],
   providers: [
     TransactionService,
