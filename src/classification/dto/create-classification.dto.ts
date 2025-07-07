@@ -1,23 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Category, ClassificationCode } from '@prisma/client';
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUUID,
-  MinLength,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateClassificationDto {
-  @ApiProperty({
-    example: '123e4567-e89b-12d3-a456-426614174000',
-  })
-  @IsNotEmpty()
-  @IsString()
-  @IsUUID()
-  bankId: string;
-
   @ApiProperty({
     example: ClassificationCode.LD,
   })
@@ -34,7 +19,7 @@ export class CreateClassificationDto {
   category: Category;
 
   @ApiProperty({
-    example: 'Loan Disbursement',
+    example: 'Disbursement',
   })
   @IsNotEmpty()
   @IsString()
@@ -42,7 +27,7 @@ export class CreateClassificationDto {
   label: string;
 
   @ApiProperty({
-    example: 'Disbursement',
+    example: 'Loan Disbursement',
   })
   @IsNotEmpty()
   @IsString()

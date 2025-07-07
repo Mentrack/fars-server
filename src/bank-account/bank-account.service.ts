@@ -23,6 +23,15 @@ export class BankAccountService {
       throw new NotFoundException('Client not found');
     }
 
+    // Check if the bank exists
+    const bankExists = await this.databaseService.bank.findUnique({
+      where: { id: createBankAccountDto.bankId },
+    });
+
+    if (!bankExists) {
+      throw new NotFoundException('Bank not found');
+    }
+
     // Check if the rate exists, if provided
     if (createBankAccountDto.rateId) {
       const rateExists = await this.databaseService.accountRate.findUnique({
@@ -47,6 +56,20 @@ export class BankAccountService {
         code = candidate;
         break;
       }
+    }
+
+    // Check if the account number already exists in the same bank
+    const existingAccount = await this.databaseService.bankAccount.findFirst({
+      where: {
+        accountNumber: createBankAccountDto.accountNumber,
+        bankId: createBankAccountDto.bankId,
+      },
+    });
+
+    if (existingAccount) {
+      throw new ConflictException(
+        'Account number already exists in the same bank',
+      );
     }
 
     // Create a new bank account
@@ -88,31 +111,20 @@ export class BankAccountService {
   }
 
   async update(id: string, updateBankAccountDto: UpdateBankAccountDto) {
-    try {
-      // Check if the bank account exists
-      const existingBankAccount =
-        await this.databaseService.bankAccount.findUnique({
-          where: { id },
-        });
-      if (!existingBankAccount) {
-        throw new NotFoundException('Bank account not found');
-      }
-
-      // Update the bank account
-      return await this.databaseService.bankAccount.update({
+    // Check if the bank account exists
+    const existingBankAccount =
+      await this.databaseService.bankAccount.findUnique({
         where: { id },
-        data: { ...updateBankAccountDto },
       });
-    } catch (error) {
-      // Handle specific prisma errors
-      if (error.code === 'P2002') {
-        throw new ConflictException('Account number already exists');
-      } else if (error.code === 'P2025') {
-        throw new NotFoundException('Client or contract not found');
-      } else {
-        throw new BadRequestException('An unexpected error occurred');
-      }
+    if (!existingBankAccount) {
+      throw new NotFoundException('Bank account not found');
     }
+
+    // Update the bank account
+    return await this.databaseService.bankAccount.update({
+      where: { id },
+      data: { ...updateBankAccountDto },
+    });
   }
 
   async remove(id: string) {

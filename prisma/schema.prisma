@@ -10,8 +10,8 @@ generator client {
 
 // prisma/schema.prisma
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
   // uncomment next line if you use Prisma <5.10
   // directUrl = env("DATABASE_URL_UNPOOLED")
 }
@@ -25,56 +25,51 @@ enum UserRole {
 }
 
 model User {
-  id           String                    @id @default(uuid())
+  id           String   @id @default(uuid())
   firstName    String
   lastName     String
-  username     String                    @unique
-  phone        String?                   @unique
-  email        String                    @unique
+  username     String   @unique
+  phone        String?  @unique
+  email        String   @unique
   password     String
-  avatarUrl    String                   @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
-  role         UserRole                 @default(STAFF)
-  isActive     Boolean                  @default(true)
+  avatarUrl    String   @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
+  role         UserRole @default(STAFF)
+  isActive     Boolean  @default(true)
   refreshToken String?
 
-  deactivatedAt DateTime?  // When the user was deactivated
-  deactivatedById String?  // Who deactivated them
+  deactivatedAt      DateTime? // When the user was deactivated
+  deactivatedById    String? // Who deactivated them
   deactivationReason String? // Reason for deactivation
 
-
-  createdAt    DateTime                  @default(now())
-  updatedAt    DateTime                  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // 🔐 Authentication-related
-  tokens       Token[]                   // required for Prisma schema validation
-  
+  tokens Token[] // required for Prisma schema validation
+
   // Transactions assigned to this user
   BankTransaction BankTransaction[]
-  
+
   // 👥 Staff accounts assigned to this user
   StaffAccountAssignment StaffAccountAssignment[]
 
   // 👮‍♂️ Permissions assigned to this user
-  permissions  Permission[]              @relation("UserPermissions")
-  
-  // 🧾 Transactions uploaded by this user
-  uploadedTransactions BankTransaction[] @relation("UserUploadedTransactions")
+  permissions Permission[] @relation("UserPermissions")
 
   // 👥 Assignments to bank accounts
-  staffAssignments      StaffAccountAssignment[] @relation("StaffAssignments")
+  staffAssignments StaffAccountAssignment[] @relation("StaffAssignments")
 
   // 🧑‍🏫 Admins who assign staff to accounts
   assignedStaffAccounts StaffAccountAssignment[] @relation("AssignedBy")
 
-  uploadedDocuments Document[]  // 👈 inverse relation: one user → many documents
+  uploadedDocuments Document[] // 👈 inverse relation: one user → many documents
 
   // 👤 User that deactivated this user
-  deactivatedBy User?      @relation("UserDeactivatedBy", fields: [deactivatedById], references: [id])
-  deactivatedUsers User[]  @relation("UserDeactivatedBy")  // Users this user deactivated
+  deactivatedBy    User?  @relation("UserDeactivatedBy", fields: [deactivatedById], references: [id])
+  deactivatedUsers User[] @relation("UserDeactivatedBy") // Users this user deactivated
 
   @@map("users")
 }
-
 
 model Permission {
   id        String   @id @default(uuid())
@@ -90,34 +85,36 @@ model Token {
   id        String   @id @default(uuid())
   userId    String
   token     String   @unique
-  expiresIn DateTime 
+  expiresIn DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("tokens")
   @@index([userId])
+  @@map("tokens")
 }
 
 enum ClassificationCode {
-  CD     // Cash/Cheque Deposit
-  LCD    // Local Cheque Deposit
-  UCD    // Up Country Deposit
-  LD     // Loan Disbursement
-  RET    // Return (Inwards/Outwards)
-  REV    // Reversal (Credit or Debit)
-  INT    // Interest
-  CW     // Cash/Cheque Withdrawal
-  IT     // Internal Transfer
-  ET     // External Transfer
-  LR     // Loan Repayment
-  LNT    // Loan Interest
-  CO     // Commission (WHT)
-  FEE    // Lending/Legal Fee
-  MC     // Miscellaneous Charge
-  CAMF   // Current Account Maintenance Fee
-  VAT    // VAT on Fees
+  CD // Cash/Cheque Deposit
+  LCD // Local Cheque Deposit
+  UCD // Up Country Deposit
+  LD // Loan Disbursement
+  RET // Return (Inwards/Outwards)
+  REV // Reversal (Credit or Debit)
+  INT // Interest
+  CW // Cash/Cheque Withdrawal
+  IT // Internal Transaction
+  ET // External Transfer
+  LR // Loan Repayment
+  LNT // Loan Interest
+  CO // Commission (WHT)
+  FEE // Lending/Legal Fee
+  VF // Vat on Lending/Legal Fee
+  MC // Miscellaneous Charge
+  CAMF // Current Account Maintenance Fee
+  VC // Vat on Current Account Maintenance Fee 
+  WHT // Withholding Tax
 }
 
 enum Category {
@@ -126,19 +123,33 @@ enum Category {
 }
 
 model TransactionClassification {
-  id          String              @id @default(uuid())
-  code        ClassificationCode  // Code for classification (e.g. CD, LCD, etc.)
-  category    Category            // Deposit, Withdrawal, Fee
-  label       String              // Human-readable name (e.g. Loan Disbursement)
-  description String?             // Optional explanation
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-  bankId      String              // Bank this rule applies to
-  bank        Bank                @relation(fields: [bankId], references: [id])
-  transactions BankTransaction[]  // One-to-many from classification
+  id           String                  @id @default(uuid())
+  code         ClassificationCode      @unique // Code for classification (e.g. CD, LCD, etc.)
+  category     Category // Deposit, Withdrawal
+  label        String // Human-readable name (e.g. Loan Disbursement)
+  description  String? // Optional explanation
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+  patterns     ClassificationPattern[] // One-to-many from classification
+  transactions BankTransaction[] // One-to-many from classification
 
-  @@unique([bankId, code])        // Each code must be unique PER BANK
   @@map("transaction_classifications")
+}
+
+model ClassificationPattern {
+  id               String  @id @default(uuid())
+  keyword          String // or regex
+  isRegex          Boolean @default(false)
+  bankId           String? // optional for global
+  classificationId String
+
+  bank           Bank?                     @relation(fields: [bankId], references: [id])
+  classification TransactionClassification @relation(fields: [classificationId], references: [id])
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+
+  @@unique([keyword, classificationId, bankId])
+  @@map("classification_patterns")
 }
 
 enum TransactionType {
@@ -147,29 +158,43 @@ enum TransactionType {
 }
 
 model BankTransaction {
-  id               String                    @id @default(uuid())
+  id               String          @id @default(uuid())
   bankAccountId    String
   uploadedById     String
   transactionDate  DateTime
   valueDate        DateTime
   amount           Float
-  type             TransactionType                    // 'credit' or 'debit'
+  balance          Float
+  type             TransactionType // 'CREDIT' or 'DEBIT'
   description      String
   reference        String?
   chequeNo         String?
   tellerNo         String?
-  currency         String
   classificationId String
   user             String?
-  createdAt        DateTime                  @default(now())
-  updatedAt        DateTime                  @updatedAt
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  isReversal       Boolean         @default(false) // Indicates if this transaction is a reversal of a previous transaction
 
-  bankAccount      BankAccount               @relation(fields: [bankAccountId], references: [id])
-  uploadedBy       User                      @relation(fields: [uploadedById], references: [id])
-  classification   TransactionClassification @relation(fields: [classificationId], references: [id])
-  User             User[]                    @relation("UserUploadedTransactions")
+  bankAccount    BankAccount               @relation(fields: [bankAccountId], references: [id])
+  uploadedBy     User                      @relation(fields: [uploadedById], references: [id])
+  classification TransactionClassification @relation(fields: [classificationId], references: [id])
 
+  @@index([valueDate, transactionDate, createdAt, bankAccountId])
   @@map("bank_transactions")
+}
+
+model ReversalKeyword {
+  id        String   @id @default(uuid())
+  keyword   String
+  isGlobal  Boolean  @default(false) // ✅ if true, applies to all banks
+  bankId    String? // 🔄 optional if bank-specific
+  bank      Bank?    @relation(fields: [bankId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([keyword, bankId])
+  @@map("reversal_keywords")
 }
 
 enum AccountType {
@@ -178,136 +203,136 @@ enum AccountType {
 }
 
 model BankAccount {
-  id               String                  @id @default(uuid())
-  code             String                  @unique
-  bankId           String
-  accountNumber    String                  @unique
-  accountName      String
-  accountType      AccountType
-  currency         String
-  clientId         String
-  rateId           String?
+  id             String      @id @default(uuid())
+  code           String      @unique
+  bankId         String
+  accountNumber  String      @unique
+  accountName    String
+  accountType    AccountType
+  currency       String
+  openingBalance Float       @default(0)
+  clientId       String
+  rateId         String?
 
-  client           Client                  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  rate             AccountRate?            @relation(fields: [rateId], references: [id])
-  bank             Bank                    @relation(fields: [bankId], references: [id])
+  client Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  rate   AccountRate? @relation(fields: [rateId], references: [id])
+  bank   Bank         @relation(fields: [bankId], references: [id])
 
   staffAssignments StaffAccountAssignment[]
   transactions     BankTransaction[]
-  createdAt        DateTime                @default(now())
-  updatedAt        DateTime                @updatedAt
+  createdAt        DateTime                 @default(now())
+  updatedAt        DateTime                 @updatedAt
 
   @@map("bank_accounts")
 }
 
 model Bank {
-  id               String                  @id @default(uuid())
-  name             String                  @unique   // Unique name of the bank
-  code             String                  @unique
-  bankAccounts     BankAccount[] // One-to-many relation
-  createdAt        DateTime                @default(now())
-  updatedAt        DateTime                @updatedAt
+  id           String        @id @default(uuid())
+  name         String        @unique // Unique name of the bank
+  code         String        @unique
+  bankAccounts BankAccount[] // One-to-many relation
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
-  classifications  TransactionClassification[]
+  ReversalKeyword       ReversalKeyword[]
+  ClassificationPattern ClassificationPattern[]
 
   @@map("banks")
 }
 
 model Client {
-  id        String         @id @default(uuid())
-  firstName String
-  lastName  String
-  companyName String       @unique
-  email     String         @unique
-  address   String?
-  phone     String?
-  country   String?
-  state     String?
-  city      String?
-  avatarUrl String         @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
-  accounts  BankAccount[]
-  rates     AccountRate[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  
+  id          String        @id @default(uuid())
+  firstName   String
+  lastName    String
+  companyName String        @unique
+  email       String        @unique
+  address     String?
+  phone       String?
+  country     String?
+  state       String?
+  city        String?
+  avatarUrl   String        @default("https://gravatar.com/avatar/48c3863a0f03a81d67916d28fdaa0ea6?s=400&d=mp&r=pg")
+  accounts    BankAccount[]
+  rates       AccountRate[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   @@map("clients")
 }
 
 model AccountRate {
-  id                       String        @id @default(uuid())
-  clientId                 String        // 👈 links to client
-  code                     String        @unique // Unique code for the rate configuration
-  drRates                  Json?         // array of { rate, effectiveFrom, effectiveTo }
-  loanInterestRates        Json?
-  lcCommissions            Json?
-  preNegotiationRates      Json?
-  postNegotiationRates     Json?
-  creditInterestRates      Json?
+  id                   String @id @default(uuid())
+  clientId             String // 👈 links to client
+  code                 String @unique // Unique code for the rate configuration
+  drRates              Json? // array of { rate, effectiveFrom, effectiveTo }
+  loanInterestRates    Json?
+  lcCommissions        Json?
+  preNegotiationRates  Json?
+  postNegotiationRates Json?
+  creditInterestRates  Json?
 
-  returnChargeRate         Float?
-  returnChargeLimit        Float?
-  cotCovenantRate          Float?
-  cotOffCoverRate          Float?
-  cotOICRate               Float?
-  turnoverLimit            Float?
-  cotCovenantFrequency     String?
-  chargeCOTOnShortfall     Boolean?
-  debitRate                Float?
-  excessRate               Float?
-  excessRateType           String?
-  vatRate                  Float?
-  whtRate                  Float?
-  rateType                 String?
-  currency                 String?
-  effectiveFrom            DateTime?
-  effectiveTo              DateTime?
-  createdAt                DateTime      @default(now())
-  updatedAt                DateTime      @updatedAt
+  returnChargeRate     Float?
+  returnChargeLimit    Float?
+  cotCovenantRate      Float?
+  cotOffCoverRate      Float?
+  cotOICRate           Float?
+  turnoverLimit        Float?
+  cotCovenantFrequency String?
+  chargeCOTOnShortfall Boolean?
+  debitRate            Float?
+  excessRate           Float?
+  excessRateType       String?
+  vatRate              Float?
+  whtRate              Float?
+  rateType             String?
+  currency             String?
+  effectiveFrom        DateTime?
+  effectiveTo          DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
-  client                   Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  bankAccounts             BankAccount[] // one rate config → many bank accounts
-  documents                Document[]    @relation("RateDocuments")
+  client       Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  bankAccounts BankAccount[] // one rate config → many bank accounts
+  documents    Document[]    @relation("RateDocuments")
 
   @@map("account_rates")
 }
 
 enum DocumentType {
-  CONTRACT 
+  CONTRACT
   BANK_STATEMENT
 }
 
 model Document {
-  id            String        @id @default(uuid())
-  code          String        @unique
-  title         String
-  url           String
-  type          DocumentType
-  uploadedById  String
-  uploadedBy    User          @relation(fields: [uploadedById], references: [id])
+  id           String       @id @default(uuid())
+  code         String       @unique
+  title        String
+  url          String
+  type         DocumentType
+  uploadedById String
+  uploadedBy   User         @relation(fields: [uploadedById], references: [id])
 
-  rates         AccountRate[] @relation("RateDocuments")
+  rates AccountRate[] @relation("RateDocuments")
 
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("documents")
 }
 
 model StaffAccountAssignment {
-  id            String       @id @default(uuid())
-  userId        String
-  accountId     String
-  assignedById  String
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  id           String   @id @default(uuid())
+  userId       String
+  accountId    String
+  assignedById String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  user          User         @relation(fields: [userId], references: [id])
-  bankAccount   BankAccount  @relation(fields: [accountId], references: [id])
-  assignedBy    User         @relation("AssignedBy", fields: [assignedById], references: [id])
-  User          User[]       @relation("StaffAssignments")
+  user        User        @relation(fields: [userId], references: [id])
+  bankAccount BankAccount @relation(fields: [accountId], references: [id])
+  assignedBy  User        @relation("AssignedBy", fields: [assignedById], references: [id])
+  User        User[]      @relation("StaffAssignments")
 
   @@unique([userId, accountId])
-
   @@map("staff_account_assignments")
 }
