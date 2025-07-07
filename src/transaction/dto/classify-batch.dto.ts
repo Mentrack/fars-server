@@ -1,11 +1,13 @@
-import { IsArray, IsUUID, ValidateNested } from 'class-validator';
+import { IsArray, IsString, IsUUID, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class BatchItem {
+export class BatchItem {
   @IsUUID()
+  @IsString()
   transactionId: string;
 
   @IsUUID()
+  @IsString()
   classificationId: string;
 }
 

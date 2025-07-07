@@ -1,9 +1,89 @@
 import { Category, ClassificationCode, PrismaClient } from '@prisma/client';
+import * as argon2 from 'argon2';
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('🌱 Seeding database...');
+
+  // Seed permissions first (if not already)
+  const permissionNames = ['VIEW_CLIENTS', 'EDIT_TRANSACTIONS'];
+
+  console.log('🌱 Seeding permissions...');
+  for (const name of permissionNames) {
+    await prisma.permission.upsert({
+      where: { name },
+      update: {},
+      create: { name },
+    });
+  }
+
+  // Fetch permissions from DB
+  const allPermissions = await prisma.permission.findMany();
+
+  const users = [
+    {
+      firstName: 'Elisha',
+      lastName: 'Benjamin',
+      username: 'AD001',
+      email: 'malishben360@gmail.com',
+      password: '@iElisha2025',
+      role: 'SUPER_ADMIN',
+      permissions: ['VIEW_CLIENTS', 'EDIT_TRANSACTIONS'],
+    },
+    {
+      firstName: 'Sarah',
+      lastName: 'Okoro',
+      username: 'AD002',
+      email: 'sarah.okoro@example.com',
+      password: 'Sarah@1234',
+      role: 'ADMIN',
+      permissions: ['VIEW_CLIENTS'],
+    },
+    {
+      firstName: 'Rose',
+      lastName: 'Gideon',
+      username: 'AD003',
+      email: 'rose360@gmail.com',
+      password: '@iRose2025',
+      role: 'ADMIN',
+      permissions: ['VIEW_CLIENTS'],
+    },
+    {
+      firstName: 'John',
+      lastName: 'Doe',
+      username: 'ST001',
+      email: 'john.doe@example.com',
+      password: 'JohnDoe2025!',
+      role: 'STAFF',
+      permissions: [],
+    },
+  ];
+
+  console.log('🌱 Seeding users...');
+  for (const user of users) {
+    const hashedPassword = await argon2.hash(user.password);
+
+    const permissionRecords = allPermissions.filter((perm) =>
+      user.permissions.includes(perm.name),
+    );
+
+    await prisma.user.upsert({
+      where: { email: user.email },
+      update: {},
+      create: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        password: hashedPassword,
+        role: user.role as any,
+        permissions: {
+          connect: permissionRecords.map((p) => ({ id: p.id })),
+        },
+      },
+    });
+  }
 
   // Seed banks
   const banks = [
@@ -36,6 +116,7 @@ async function main() {
     { name: 'Optus Bank', code: '304' },
   ];
 
+  console.log('🌱 Seeding Banks...');
   for (const bank of banks) {
     await prisma.bank.upsert({
       where: { code: bank.code },
@@ -73,6 +154,7 @@ async function main() {
     'REVERSED-',
   ];
 
+  console.log('🌱 Seeding Global Reversal Keywords...');
   for (const keyword of globalReversalKeywords) {
     const existing = await prisma.reversalKeyword.findFirst({
       where: {
@@ -99,8 +181,6 @@ async function main() {
       });
     }
   }
-
-  console.log('🌱 Seeding Transaction Classifications and Patterns...');
 
   // 1. Define classification records
   const classificationData: {
@@ -129,14 +209,14 @@ async function main() {
       label: 'Up Country Deposit',
       category: 'DEPOSIT',
       description: 'Deposit of up-country cheques',
-      patterns: ['up country deposit'],
+      patterns: ['up country deposit', 'upcountry deposit'],
     },
     {
       code: 'LD',
       label: 'Loan Disbursement',
       category: 'DEPOSIT',
       description: 'Funds disbursed from a loan facility',
-      patterns: ['loan disbursement', 'loan credit'],
+      patterns: ['loan disbursement', 'loan credit', 'loan drawdown'],
     },
     {
       code: 'RET',
@@ -149,88 +229,131 @@ async function main() {
       code: 'REV',
       label: 'Reversal',
       category: 'DEPOSIT',
-      description: 'Reversal of a previous transaction',
+      description: 'Reversal of a previous transaction (credit or debit)',
       patterns: ['REV ', 'REVERSED', 'REV:', 'REV-', 'REVERSAL'],
     },
     {
       code: 'INT',
       label: 'Interest',
       category: 'DEPOSIT',
-      description: 'Interest earned on account',
+      description: 'Interest earned on the account',
       patterns: ['interest'],
     },
     {
       code: 'CW',
-      label: 'Cash Withdrawal',
+      label: 'Cash/Cheque Withdrawal',
       category: 'WITHDRAWAL',
-      description: 'Cash or cheque withdrawal',
-      patterns: ['cash withdrawal', 'atm withdrawal'],
+      description: 'Cash withdrawal via ATM or cheque',
+      patterns: ['cash withdrawal', 'atm withdrawal', 'cheque withdrawal'],
     },
     {
       code: 'IT',
-      label: 'Internal Transfer',
+      label: 'Internal Transaction',
       category: 'WITHDRAWAL',
-      description: 'Transfer within same bank',
+      description: 'Transfer within the same bank (intra-bank)',
       patterns: ['internal transfer', 'intra-bank'],
     },
     {
       code: 'ET',
       label: 'External Transfer',
       category: 'WITHDRAWAL',
-      description: 'Transfer to other banks',
-      patterns: ['nip', 'external transfer', 'interbank transfer'],
+      description: 'Transfer to another bank (interbank/NIP)',
+      patterns: ['external transfer', 'interbank transfer'],
     },
     {
       code: 'LR',
       label: 'Loan Repayment',
       category: 'WITHDRAWAL',
-      description: 'Repayment of loan',
+      description: 'Repayment of loan principal',
       patterns: ['loan repayment'],
     },
     {
       code: 'LNT',
       label: 'Loan Interest',
       category: 'WITHDRAWAL',
-      description: 'Interest payment on loan',
+      description: 'Interest payment on a loan facility',
       patterns: ['loan interest'],
-    },
-    {
-      code: 'CO',
-      label: 'Commission (WHT)',
-      category: 'WITHDRAWAL',
-      description: 'Commission or withholding tax',
-      patterns: ['commission', 'wht'],
     },
     {
       code: 'FEE',
       label: 'Lending/Legal Fee',
       category: 'WITHDRAWAL',
-      description: 'Bank service fees',
-      patterns: ['fee', 'charges', 'service charge'],
+      description: 'Lending-related or legal service fees',
+      patterns: ['fee', 'legal fee', 'lending fee'],
     },
     {
       code: 'MC',
       label: 'Miscellaneous Charge',
       category: 'WITHDRAWAL',
-      description: 'Other undefined charges',
-      patterns: ['miscellaneous'],
+      description: 'Uncategorized or other charges',
+      patterns: [
+        'miscellaneous',
+        'misc charge',
+        'Charge',
+        'Charges',
+        'CHQ charge',
+        'Statement Charge',
+        'Statement CHG',
+      ],
     },
     {
       code: 'CAMF',
-      label: 'Account Maintenance Fee',
+      label: 'Current Account Maintenance Fee',
       category: 'WITHDRAWAL',
-      description: 'Monthly maintenance fee',
-      patterns: ['maintenance fee', 'amf'],
+      description: 'Recurring maintenance fee on current account',
+      patterns: [
+        'maintenance fee',
+        'amf',
+        'COMM. ON T/OVER',
+        'comission on turnover',
+        'MTHLY MTCE FEE',
+        'MONTHLY MAINTENANCE FEE',
+        'VALUE ADDED TAX DEDUCTION',
+        'MNTHLY CHARGE',
+        'monthly charge',
+        'DBA CHARGE FOR',
+      ],
     },
     {
-      code: 'VAT',
-      label: 'VAT on Fees',
+      code: 'VC',
+      label: 'VAT on Current Account Maintenance Fee',
       category: 'WITHDRAWAL',
-      description: 'Value-added tax on banking services',
-      patterns: ['vat', 'vat on fee'],
+      description:
+        'Value-added tax charged on current account maintenance fees',
+      patterns: [
+        'vat on current account maintenance fee',
+        'vat on maintenance fee',
+        'vat on account fee',
+        'vat on amf',
+        'VAT ON COT',
+        'vat on commision turnover',
+        'vat on commision on turnover',
+      ],
+    },
+    {
+      code: 'VF',
+      label: 'VAT on Lending/Legal Fee',
+      category: 'WITHDRAWAL',
+      description: 'Value-added tax applied to lending or legal fees',
+      patterns: [
+        'vat on legal fee',
+        'vat on lending fee',
+        'vat on loan fee',
+        'VAT ON MGT FEE',
+        'VAT ON FEE',
+        'vat on management fee',
+      ],
+    },
+    {
+      code: 'WHT',
+      label: 'Withholding Tax',
+      category: 'WITHDRAWAL',
+      description: 'Withholding tax deduction',
+      patterns: ['wht', 'withholding tax'],
     },
   ];
 
+  console.log('🌱 Seeding Transaction Classifications and Patterns...');
   // 2. Upsert classifications and attach patterns
   for (const item of classificationData) {
     const classification = await prisma.transactionClassification.upsert({
@@ -266,7 +389,7 @@ async function main() {
     }
   }
 
-  console.log('✅ Seeding complete!');
+  console.log('✅ All seeding complete!');
 }
 
 main()

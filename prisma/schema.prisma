@@ -104,15 +104,17 @@ enum ClassificationCode {
   REV // Reversal (Credit or Debit)
   INT // Interest
   CW // Cash/Cheque Withdrawal
-  IT // Internal Transfer
+  IT // Internal Transaction
   ET // External Transfer
   LR // Loan Repayment
   LNT // Loan Interest
   CO // Commission (WHT)
   FEE // Lending/Legal Fee
+  VF // Vat on Lending/Legal Fee
   MC // Miscellaneous Charge
   CAMF // Current Account Maintenance Fee
-  VAT // VAT on Fees
+  VC // Vat on Current Account Maintenance Fee 
+  WHT // Withholding Tax
 }
 
 enum Category {
@@ -162,12 +164,12 @@ model BankTransaction {
   transactionDate  DateTime
   valueDate        DateTime
   amount           Float
-  type             TransactionType // 'credit' or 'debit'
+  balance          Float
+  type             TransactionType // 'CREDIT' or 'DEBIT'
   description      String
   reference        String?
   chequeNo         String?
   tellerNo         String?
-  currency         String
   classificationId String
   user             String?
   createdAt        DateTime        @default(now())
@@ -178,6 +180,7 @@ model BankTransaction {
   uploadedBy     User                      @relation(fields: [uploadedById], references: [id])
   classification TransactionClassification @relation(fields: [classificationId], references: [id])
 
+  @@index([valueDate, transactionDate, createdAt, bankAccountId])
   @@map("bank_transactions")
 }
 

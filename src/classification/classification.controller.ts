@@ -7,12 +7,11 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  Query,
 } from '@nestjs/common';
 import { ClassificationService } from './classification.service';
 import { CreateClassificationDto } from './dto/create-classification.dto';
 import { UpdateClassificationDto } from './dto/update-classification.dto';
-import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { Role } from 'src/user/enum/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 

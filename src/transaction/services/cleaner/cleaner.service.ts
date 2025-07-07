@@ -65,7 +65,7 @@ export class CleanerService {
       const { balance, amount, type } = firstTransaction;
       runningBalance = type === 'CREDIT' ? balance - amount : balance + amount;
     }
-
+    // If opening balance is provided, adjust the first transaction's balance
     for (const row of cleaned) {
       if (row.type === 'CREDIT') {
         runningBalance += row.amount;

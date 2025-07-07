@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { corsOptions } from './config/corsOptions';
 import { AllExceptionsFilter } from './all-exceptions.filter';
 import { RequestMethod } from '@nestjs/common';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -32,6 +33,10 @@ async function bootstrap() {
       { path: '/health', method: RequestMethod.ALL },
     ],
   });
+
+  // 🛠 Increase JSON payload limit to 50MB (adjust as needed)
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
   // Enable Swagger documentation
   const config = new DocumentBuilder()

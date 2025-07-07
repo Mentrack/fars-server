@@ -1,16 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { ReclassifyTransactionDto } from './dto/reclassify-transaction.dto';
 import { ClassifyBatchDto } from './dto/classify-batch.dto';
-import { FlagTransactionDto } from './dto/flag-transaction.dto';
-import { TransactionType } from './types/transaction.dt';
+// import { TransactionType } from './types/transaction.dt';
 import * as csv from 'csv-parser';
 import * as streamifier from 'streamifier';
+import * as fastcsv from 'fast-csv';
+import * as ExcelJS from 'exceljs';
+import * as streamBuffers from 'stream-buffers';
 import { CleanerService } from './services/cleaner/cleaner.service';
 import { ReconstructorService } from './services/reconstructor/reconstructor.service';
 import { DatabaseService } from 'src/database/database.service';
 import { ClassifierService } from './services/classifier/classifier.service';
+import { ValidatorService } from './services/validator/validator.service';
+import { TransactionType } from '@prisma/client';
 
 @Injectable()
 export class TransactionService {
@@ -19,35 +22,109 @@ export class TransactionService {
     private readonly cleanerService: CleanerService,
     private readonly reconstructorService: ReconstructorService,
     private readonly classifierService: ClassifierService,
+    private readonly validatorService: ValidatorService,
   ) {}
-
-  async create(createTransactionDto: CreateTransactionDto) {
-    return 'This action adds a new transaction';
-  }
 
   async findAll(
     accountId: string,
     query: {
       from?: string;
       to?: string;
-      classification?: string;
-      flagged?: boolean;
+      classificationId?: string;
+      limit?: number;
+      page?: number;
     },
   ) {
-    const { from, to, classification, flagged } = query;
-    return `This action returns all transaction ${accountId} from ${from} to ${to} with classifications ${classification} and flagged ${flagged}`;
+    const { from, to, classificationId, limit = 50, page = 1 } = query;
+
+    const skip = (page - 1) * limit;
+
+    const [transactions, total] = await this.databaseService.$transaction([
+      this.databaseService.bankTransaction.findMany({
+        where: {
+          bankAccountId: accountId,
+          ...(from && { date: { gte: new Date(from) } }),
+          ...(to && { date: { lte: new Date(to) } }),
+          ...(classificationId && { classificationId }),
+        },
+        skip,
+        take: limit,
+        orderBy: { valueDate: 'desc' },
+      }),
+      this.databaseService.bankTransaction.count({
+        where: {
+          bankAccountId: accountId,
+          ...(from && { date: { gte: new Date(from) } }),
+          ...(to && { date: { lte: new Date(to) } }),
+          ...(classificationId && { classificationId }),
+        },
+      }),
+    ]);
+
+    if (!transactions || transactions.length === 0) {
+      throw new NotFoundException('No transactions found for this account');
+    }
+
+    return {
+      data: transactions,
+      meta: {
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findOne(id: string) {
-    return `This action returns a #${id} transaction`;
+    const transaction = await this.databaseService.bankTransaction.findUnique({
+      where: { id },
+    });
+
+    if (!transaction) {
+      throw new NotFoundException(`Transaction with id ${id} not found`);
+    }
+
+    return transaction;
   }
 
   async update(id: string, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
+    // Check if transaction exists
+    const transaction = await this.databaseService.bankTransaction.findUnique({
+      where: { id },
+    });
+
+    // If not found, throw an exception
+    if (!transaction) {
+      throw new NotFoundException(`Transaction with id ${id} not found`);
+    }
+
+    // Remove undefined fields from DTO
+    const cleanDto = Object.fromEntries(
+      Object.entries(updateTransactionDto).filter(([_, v]) => v !== undefined),
+    );
+
+    // Update the transaction
+    return await this.databaseService.bankTransaction.update({
+      where: { id },
+      data: cleanDto,
+    });
   }
 
   async remove(id: string) {
-    return `This action removes a #${id} transaction`;
+    // Check if transaction exists
+    const transaction = await this.databaseService.bankTransaction.findUnique({
+      where: { id },
+    });
+
+    // If not found, throw an exception
+    if (!transaction) {
+      throw new NotFoundException(`Transaction with id ${id} not found`);
+    }
+
+    return await this.databaseService.bankTransaction.delete({
+      where: { id },
+    });
   }
 
   async uploadAndProcess(
@@ -95,76 +172,168 @@ export class TransactionService {
     );
 
     // Classify transactions based on their descriptions and types
-    const classified = await this.classifierService.classifyTransactions(
+    const classifiedRows = await this.classifierService.classifyTransactions(
       reconstructedRows,
-      bankId,
+      accountId,
     );
 
-    return { message: 'File uploaded successfully', data: classified };
+    // Validate the balance flow of the transactions
+    const validatedRows =
+      await this.validatorService.validateBalanceFlow(classifiedRows);
+
+    return {
+      message: 'File uploaded and processed successfully',
+      data: validatedRows,
+    };
   }
 
-  async reprocessTransactions(accountId: string): Promise<any> {
-    // This method should handle reprocessing transactions for the given account
-    return Promise.resolve(`Transactions reprocessed for account ${accountId}`);
-  }
+  async createTransctions(
+    accountId: string,
+    uploadedById: string,
+    transactions: CreateTransactionDto[],
+  ): Promise<any> {
+    // This method should handle creating transactions in the database
+    const createdTransactions =
+      await this.databaseService.bankTransaction.createMany({
+        data: transactions.map((transaction) => ({
+          bankAccountId: accountId,
+          // Map fields from your transaction to the expected DB fields
+          // Adjust these mappings as per your BankTransactionCreateManyInput definition
+          uploadedById: uploadedById,
+          transactionDate: transaction.transactionDate
+            ? new Date(transaction.transactionDate)
+            : new Date(),
+          valueDate: transaction.valueDate
+            ? new Date(transaction.valueDate)
+            : new Date(),
+          amount: transaction.amount
+            ? parseFloat(transaction.amount.toString())
+            : 0,
+          description: transaction.description,
+          tellerNo: transaction.tellerNo,
+          chequeNo: transaction.chequeNo,
+          balance: transaction.balance
+            ? parseFloat(transaction.balance.toString())
+            : 0,
+          type: transaction.type,
+          classificationId: transaction.classificationId,
+        })),
+      });
 
-  async getAll(accountId: string, filters: any): Promise<any[]> {
-    // This method should return all transactions for the given account with optional filters
-    return Promise.resolve([
-      { id: '1', accountId, ...filters },
-      { id: '2', accountId, ...filters },
-    ]);
-  }
-
-  async getRaw(accountId: string): Promise<any[]> {
-    // This method should return raw transactions for the given account
-    return Promise.resolve([
-      { id: '1', accountId, raw: true },
-      { id: '2', accountId, raw: true },
-    ]);
-  }
-
-  async getFlags(accountId: string): Promise<any[]> {
-    // This method should return flagged transactions for the given account
-    return Promise.resolve([
-      { id: '1', accountId, flagged: true },
-      { id: '2', accountId, flagged: true },
-    ]);
-  }
-
-  async getSingle(id: string): Promise<any> {
-    // This method should return a single transaction by ID
-    return Promise.resolve({
-      id,
-      accountId: '1',
-      details: 'Transaction details',
-    });
-  }
-
-  async reclassify(id: string, dto: ReclassifyTransactionDto): Promise<any> {
-    // This method should handle reclassifying a transaction
-    return Promise.resolve({ id, ...dto });
+    return {
+      message: 'Transactions created successfully',
+      data: createdTransactions,
+    };
   }
 
   async batchClassify(dto: ClassifyBatchDto): Promise<any> {
-    // This method should handle batch classifying transactions
-    return Promise.resolve(dto);
-  }
+    const transactionIds = dto.items.map((item) => item.transactionId);
+    const classificationIds = [
+      ...new Set(dto.items.map((item) => item.classificationId)),
+    ];
 
-  async flagTransaction(id: string, dto: FlagTransactionDto): Promise<any> {
-    // This method should handle flagging a transaction
-    return Promise.resolve({ id, ...dto });
-  }
+    await this.validateTransactionIds(transactionIds);
+    await this.validateClassificationIds(classificationIds);
 
-  async unflagTransaction(id: string): Promise<any> {
-    // This method should handle unflagging a transaction
-    return Promise.resolve({ id });
-  }
-
-  async exportTransactions(accountId: string): Promise<Buffer | string> {
-    // This method should handle exporting transactions for the given account
-    return Promise.resolve(
-      Buffer.from(`Exported transactions for account ${accountId}`),
+    return Promise.all(
+      dto.items.map((item) =>
+        this.databaseService.bankTransaction.update({
+          where: { id: item.transactionId },
+          data: { classificationId: item.classificationId },
+        }),
+      ),
     );
+  }
+
+  async exportTransactions(
+    accountId: string,
+    format: 'csv' | 'xlsx',
+  ): Promise<Buffer> {
+    const transactions = await this.databaseService.bankTransaction.findMany({
+      where: { bankAccountId: accountId },
+      include: {
+        bankAccount: true,
+        classification: true,
+      },
+      orderBy: { transactionDate: 'asc' },
+    });
+
+    if (!transactions || transactions.length === 0) {
+      throw new NotFoundException('No transactions found for this account');
+    }
+
+    const rows = transactions.map((txn, index) => ({
+      No: (index + 1).toString(),
+      'Classification Code': txn.classification?.code || 'null',
+      Date: txn.transactionDate.toISOString().split('T')[0],
+      'Value Date': txn.valueDate.toISOString().split('T')[0],
+      Description: txn.description,
+      Reference: txn.reference || 'Nil',
+      'Cheque No': txn.chequeNo || 'Nil',
+      'Teller No': txn.tellerNo || 'Nil',
+      Debit:
+        txn.type === TransactionType.DEBIT ? txn.amount.toFixed(2) : '0.00',
+      Credit:
+        txn.type === TransactionType.CREDIT ? txn.amount.toFixed(2) : '0.00',
+      'Current Balance': txn.balance?.toFixed(2) || '0.00',
+    }));
+
+    if (format === 'csv') {
+      const writable = new streamBuffers.WritableStreamBuffer();
+      await new Promise<void>((resolve, reject) => {
+        fastcsv
+          .write(rows, { headers: true })
+          .on('error', reject)
+          .on('finish', resolve)
+          .pipe(writable);
+      });
+      return writable.getContents() as Buffer;
+    }
+
+    // XLSX
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Transactions');
+    sheet.columns = Object.keys(rows[0]).map((key) => ({ header: key, key }));
+
+    rows.forEach((row) => {
+      sheet.addRow(row);
+    });
+
+    const xlsxBuffer = await workbook.xlsx.writeBuffer();
+    return Buffer.from(xlsxBuffer);
+  }
+
+  private async validateTransactionIds(ids: string[]): Promise<void> {
+    const found = await this.databaseService.bankTransaction.findMany({
+      where: { id: { in: ids } },
+      select: { id: true },
+    });
+
+    const foundSet = new Set(found.map((tx) => tx.id));
+    const missing = ids.filter((id) => !foundSet.has(id));
+
+    if (missing.length) {
+      throw new NotFoundException(
+        `Transaction(s) not found: ${missing.join(', ')}`,
+      );
+    }
+  }
+
+  private async validateClassificationIds(ids: string[]): Promise<void> {
+    const found = await this.databaseService.transactionClassification.findMany(
+      {
+        where: { id: { in: ids } },
+        select: { id: true },
+      },
+    );
+
+    const foundSet = new Set(found.map((cls) => cls.id));
+    const missing = ids.filter((id) => !foundSet.has(id));
+
+    if (missing.length) {
+      throw new NotFoundException(
+        `Classification(s) not found: ${missing.join(', ')}`,
+      );
+    }
   }
 }

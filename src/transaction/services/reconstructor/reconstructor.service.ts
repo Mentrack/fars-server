@@ -27,7 +27,7 @@ export class ReconstructorService {
     const reversalKeywords = keywordRecords.map((record) => record.keyword);
 
     const rows = [...cleanedRows];
-    const used = new Set<any>(); // Track *actual row references*, not just indexes
+    const used = new Set<any>(); // Track actual row references, not just indexes
     let pairCounter = 0;
 
     // First, extract references for all rows
