@@ -1,13 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateReversalKeywordDto } from './dto/create-reversal-keyword.dto';
+import {
+  CreateReversalKeywordDto,
+  FindAllKeywordsFilters,
+} from './dto/create-reversal-keyword.dto';
 import { UpdateReversalKeywordDto } from './dto/update-reversal-keyword.dto';
 import { DatabaseService } from 'src/database/database.service';
-
-// Define a type for our filter criteria for better type-safety
-interface FindAllKeywordsFilters {
-  bankId?: string;
-  isGlobal?: boolean; // Still a string from the controller
-}
 
 @Injectable()
 export class ReversalKeywordService {

@@ -21,3 +21,9 @@ export class CreateReversalKeywordDto {
   @IsUUID()
   bankId?: string;
 }
+
+// Define a type for our filter criteria for better type-safety
+export class FindAllKeywordsFilters {
+  bankId?: string;
+  isGlobal?: boolean; // Still a string from the controller
+}

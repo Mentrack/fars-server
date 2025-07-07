@@ -149,6 +149,7 @@ model ClassificationPattern {
   updatedAt      DateTime                  @updatedAt
 
   @@unique([keyword, classificationId, bankId])
+  @@unique([classificationId, keyword, isRegex])
   @@map("classification_patterns")
 }
 
