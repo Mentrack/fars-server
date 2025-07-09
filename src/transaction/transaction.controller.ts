@@ -116,6 +116,24 @@ export class TransactionController {
     description: 'Get all transactions for an account successfully',
     type: [CreateTransactionResponseDto],
   })
+  @ApiQuery({
+    name: 'from',
+    required: false,
+    type: String,
+    example: '2023-01-01',
+  })
+  @ApiQuery({
+    name: 'to',
+    required: false,
+    type: String,
+    example: '2023-12-31',
+  })
+  @ApiQuery({
+    name: 'classificationId',
+    required: false,
+    type: String,
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 50 })
   @Get(':accountId/all')
@@ -141,6 +159,12 @@ export class TransactionController {
   @ApiOkResponse({
     description: 'Transactions exported successfully',
     type: String, // This will be a file download, so we use String for the response type
+  })
+  @ApiQuery({
+    name: 'format',
+    required: false,
+    type: String,
+    example: 'csv',
   })
   @Get(':accountId/export')
   async export(
