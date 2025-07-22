@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Category, ClassificationCode } from '@prisma/client';
 import { IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
