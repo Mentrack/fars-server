@@ -19,6 +19,7 @@ import { BankModule } from './bank/bank.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { ReversalKeywordModule } from './reversal-keyword/reversal-keyword.module';
 import { ClassificationPatternModule } from './classification-pattern/classification-pattern.module';
+import { AnalysisModule } from './analysis/analysis.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { ClassificationPatternModule } from './classification-pattern/classifica
     TransactionModule,
     ReversalKeywordModule,
     ClassificationPatternModule,
+    AnalysisModule,
   ],
   controllers: [AppController],
   providers: [

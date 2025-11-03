@@ -193,6 +193,15 @@ export class TransactionService {
     transactions: CreateTransactionDto[],
   ): Promise<any> {
     // This method should handle creating transactions in the database
+
+    const validAccount = await this.databaseService.bankAccount.findUnique({
+      where: { id: accountId },
+    });
+
+    if (!validAccount) {
+      throw new NotFoundException(`Bank account ${accountId} does not exist`);
+    }
+
     const createdTransactions =
       await this.databaseService.bankTransaction.createMany({
         data: transactions.map((transaction) => ({
@@ -210,12 +219,14 @@ export class TransactionService {
             ? parseFloat(transaction.amount.toString())
             : 0,
           description: transaction.description,
+          reference: transaction.extractedReference,
           tellerNo: transaction.tellerNo,
           chequeNo: transaction.chequeNo,
           balance: transaction.balance
             ? parseFloat(transaction.balance.toString())
             : 0,
           type: transaction.type,
+          isReversal: transaction.isReversal ? transaction.isReversal : false,
           classificationId: transaction.classificationId,
         })),
       });

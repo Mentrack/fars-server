@@ -48,7 +48,7 @@ export class ClassifierService {
       );
 
       if (mentionsBank.found) {
-        return this.classifications.find((c) => c.code === 'ET')?.code || null;
+        return this.classifications.find((c) => c.code === 'ET')?.id || null;
       }
 
       // 🔍 Step 2: Check if current account is mentioned
@@ -94,7 +94,7 @@ export class ClassifierService {
       }
     }
 
-    return classification?.code || null;
+    return classification?.id || null;
   }
 
   private async classifyTransaction(
@@ -110,21 +110,27 @@ export class ClassifierService {
         const classification = this.classifications.find(
           (c) => c.code === 'REV',
         );
-        if (classification) return classification.code;
+        if (classification) return classification.id;
       }
 
       // Match regex pattern
       if (pattern.isRegex) {
         const regex = new RegExp(keyword, 'i');
-        if (regex.test(desc)) return pattern.classification.code;
+        if (regex.test(desc)) return pattern.classification.id;
       }
 
       // Match exact or fuzzy keyword
       if (desc.includes(keyword)) {
+        if (pattern.classification.code === 'CAMF') {
+          if (desc.includes('vat on'))
+            return (
+              this.classifications.find((c) => c.code === 'VC')?.id || null
+            );
+        }
         if (pattern.classification.code === 'FEE') {
           if (desc.includes('vat on'))
             return (
-              this.classifications.find((c) => c.code === 'VF')?.code || null
+              this.classifications.find((c) => c.code === 'VF')?.id || null
             );
         } else if (
           pattern.classification.code === 'VF' ||
@@ -136,17 +142,26 @@ export class ClassifierService {
             transaction.debit < 5000
           ) {
             return (
-              this.classifications.find((c) => c.code === 'MC')?.code || null
+              this.classifications.find((c) => c.code === 'MC')?.id || null
+            );
+          }
+        } else if (pattern.classification.code === 'VC') {
+          if (
+            desc.toLocaleLowerCase().includes('value added tax') &&
+            transaction.debit < 5000
+          ) {
+            return (
+              this.classifications.find((c) => c.code === 'MC')?.id || null
             );
           }
         }
-        return pattern.classification.code;
+        return pattern.classification.id;
       }
 
       // Fallback fuzzy match
       const sim = stringSimilarity.compareTwoStrings(desc, keyword);
       if (sim > 0.85) {
-        return pattern.classification.code;
+        return pattern.classification.id;
       }
     }
 

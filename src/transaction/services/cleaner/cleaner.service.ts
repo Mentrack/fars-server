@@ -7,10 +7,11 @@ export class CleanerService {
    * Cleans rows from your bank statement format.
    */
   async clean(rawRows: any[], openingBalance = 0): Promise<any[]> {
+    const normalizedRows = this.normalizedRows(rawRows);
     const cleaned: any[] = [];
 
-    for (let i = 0; i < rawRows.length; i++) {
-      const row = rawRows[i];
+    for (let i = 0; i < normalizedRows.length; i++) {
+      const row = normalizedRows[i];
 
       // 1️⃣ Directly map known columns
       const txDate = row['TransDate'];
@@ -83,7 +84,11 @@ export class CleanerService {
    * Standardizes date format for `5-Jan-15` to `YYYY-MM-DD`
    */
   private standardizeDate(input: string): string | null {
-    const m = moment(input, ['D-MMM-YY', 'DD-MM-YYYY', 'YYYY-MM-DD'], true);
+    const m = moment(
+      input,
+      ['D-MMM-YY', 'DD-MMM-YY', 'DD-MM-YYYY', 'YYYY-MM-DD'],
+      true,
+    );
     return m.isValid() ? m.format('YYYY-MM-DD') : null;
   }
 
@@ -96,4 +101,16 @@ export class CleanerService {
     const parsed = parseFloat(cleaned);
     return isNaN(parsed) ? 0 : parsed;
   }
+
+  private normalizedRows = (rawRows: any[]): any[] => {
+    const rows = rawRows.map((row) => {
+      const cleaned: any = {};
+      for (const key in row) {
+        cleaned[key.trim()] =
+          typeof row[key] === 'string' ? row[key].trim() : row[key];
+      }
+      return cleaned;
+    });
+    return rows;
+  };
 }

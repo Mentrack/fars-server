@@ -148,8 +148,6 @@ async function main() {
     'REV-',
     'RSV ',
     'REVERSAL-',
-    'REFUND ',
-    'REFUND-',
     'REVERSED ',
     'REVERSED-',
   ];
@@ -312,6 +310,7 @@ async function main() {
         'MNTHLY CHARGE',
         'monthly charge',
         'DBA CHARGE FOR',
+        'Acct Maint Charge',
       ],
     },
     {
@@ -328,6 +327,7 @@ async function main() {
         'VAT ON COT',
         'vat on commision turnover',
         'vat on commision on turnover',
+        'VAT ON Acct Maint Charge',
       ],
     },
     {
