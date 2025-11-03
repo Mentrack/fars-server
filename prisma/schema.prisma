@@ -207,7 +207,7 @@ model BankAccount {
   id             String      @id @default(uuid())
   code           String      @unique
   bankId         String
-  accountNumber  String      @unique
+  accountNumber  String     
   accountName    String
   accountType    AccountType
   currency       String
@@ -226,6 +226,7 @@ model BankAccount {
 
   documents    Document[]    @relation("TransactionDocuments")
 
+  @@unique([bankId, accountNumber]) // Unique constraint for bank + account number
   @@map("bank_accounts")
 }
 
@@ -273,7 +274,7 @@ model AccountRate {
   preNegotiationRates  Json?
   postNegotiationRates Json?
   creditInterestRates  Json?
-
+  camfRate             Float?
   returnChargeRate     Float?
   returnChargeLimit    Float?
   cotCovenantRate      Float?

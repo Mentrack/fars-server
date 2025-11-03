@@ -30,6 +30,7 @@ import {
 } from './dto/deactivate-user.dto';
 import { RequestWithUser } from 'src/auth/types/request-with-user';
 import { ActivateUserResponseDto } from './dto/activate-user.dto';
+import { EmailValidationPipe } from './pipe/email-validation.pipe';
 
 @ApiBearerAuth()
 @Controller('users')
@@ -57,6 +58,24 @@ export class UserController {
   async findAll(@Ip() ip: string, @Query('role') role?: Role) {
     this.logger.log(`Request for All Users\t${ip}`, UserController.name);
     return await this.userService.findAll(role);
+  }
+
+  @Get('/check-email')
+  @ApiOperation({ summary: 'Check if email is already in use' })
+  @ApiOkResponse({
+    description: 'Email is available',
+  })
+  async checkEmail(@Query('email', EmailValidationPipe) email: string) {
+    return await this.userService.checkEmail(email);
+  }
+
+  @Get('/check-username')
+  @ApiOperation({ summary: 'Check if username is already in use' })
+  @ApiOkResponse({
+    description: 'Username is available',
+  })
+  async checkUsername(@Query('username') username: string) {
+    return await this.userService.checkUsername(username);
   }
 
   @ApiOperation({ summary: 'Get a user by ID' })

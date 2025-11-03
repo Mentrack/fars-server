@@ -150,6 +150,22 @@ export class UserService {
     });
   }
 
+  async checkEmail(email: string) {
+    const user = await this.databaseService.user.findUnique({
+      where: { email },
+    });
+
+    return user ? { available: false } : { available: true };
+  }
+
+  async checkUsername(username: string) {
+    const user = await this.databaseService.user.findUnique({
+      where: { username },
+    });
+
+    return user ? { available: false } : { available: true };
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     try {
       // Prepare the data object

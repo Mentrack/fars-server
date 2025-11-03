@@ -69,7 +69,11 @@ export class ReconstructorService {
 
         // Priority 2: Credit contains keyword
         if (
-          this.containsReversalKeyword(creditRow.description, reversalKeywords)
+          this.containsReversalKeyword(
+            creditRow.description,
+            reversalKeywords,
+          ) ||
+          this.containsReversalKeyword(debitRow.description, reversalKeywords)
         ) {
           this.markReversalPair(debitRow, creditRow, ++pairCounter);
           used.add(debitRow);
