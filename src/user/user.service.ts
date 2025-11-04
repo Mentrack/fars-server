@@ -166,6 +166,14 @@ export class UserService {
     return user ? { available: false } : { available: true };
   }
 
+  async checkPhone(phone: string) {
+    const user = await this.databaseService.user.findUnique({
+      where: { phone },
+    });
+
+    return user ? { available: false } : { available: true };
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     try {
       // Prepare the data object
