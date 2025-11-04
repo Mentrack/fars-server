@@ -84,7 +84,8 @@ export class BankAccountService {
   async findAll() {
     const bankAccounts = await this.databaseService.bankAccount.findMany({
       include: {
-        rate: true,
+        rate: false,
+        bank: false,
       },
     });
 
@@ -100,6 +101,7 @@ export class BankAccountService {
       where: { id },
       include: {
         rate: true,
+        bank: true,
       },
     });
 
