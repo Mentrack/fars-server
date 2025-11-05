@@ -36,9 +36,11 @@ export class BankAccountController {
     return await this.bankAccountService.create(createBankAccountDto);
   }
 
-  @ApiOperation({ summary: 'Get all bank accounts include account contract' })
+  @ApiOperation({
+    summary: 'Get all bank accounts excluding account rate and bank',
+  })
   @ApiOkResponse({
-    description: 'List of all bank accounts include contracts',
+    description: 'List of all bank accounts excluding account rate and bank',
     type: [CreateBankAccountResponseDto],
   })
   @Get()
@@ -47,10 +49,23 @@ export class BankAccountController {
   }
 
   @ApiOperation({
-    summary: 'Get a bank account by ID include account contract',
+    summary: 'Get bank accounts by client ID excluding account rate and bank',
   })
   @ApiOkResponse({
-    description: 'Bank account details include contract',
+    description:
+      'List of bank accounts for the specified client excluding account rate and bank',
+    type: [CreateBankAccountResponseDto],
+  })
+  @Get('/client/:id')
+  async findByClientId(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.bankAccountService.findByClientId(id);
+  }
+
+  @ApiOperation({
+    summary: 'Get a bank account by ID include account rate and bank',
+  })
+  @ApiOkResponse({
+    description: 'Bank account details include rate and bank',
     type: CreateBankAccountResponseDto,
   })
   @Get(':id')
@@ -58,9 +73,9 @@ export class BankAccountController {
     return await this.bankAccountService.findOne(id);
   }
 
-  @ApiOperation({ summary: 'Update a bank account by ID and account contract' })
+  @ApiOperation({ summary: 'Update a bank account by ID and account rate' })
   @ApiOkResponse({
-    description: 'Bank account and account contract updated successfully',
+    description: 'Bank account and account rate updated successfully',
     type: CreateBankAccountResponseDto,
   })
   @Patch(':id')

@@ -96,6 +96,22 @@ export class BankAccountService {
     return bankAccounts;
   }
 
+  async findByClientId(clientId: string) {
+    const bankAccounts = await this.databaseService.bankAccount.findMany({
+      where: { clientId },
+      include: {
+        rate: false,
+        bank: false,
+      },
+    });
+
+    if (!bankAccounts || bankAccounts.length === 0) {
+      throw new NotFoundException('No bank accounts found for this client');
+    }
+
+    return bankAccounts;
+  }
+
   async findOne(id: string) {
     const bankAccount = await this.databaseService.bankAccount.findUnique({
       where: { id },
