@@ -78,6 +78,15 @@ export class UserController {
     return await this.userService.checkUsername(username);
   }
 
+  @Get('/check-phone')
+  @ApiOperation({ summary: 'Check if phone number is already in use' })
+  @ApiOkResponse({
+    description: 'Phone number is available',
+  })
+  async checkPhone(@Query('phone') phone: string) {
+    return await this.userService.checkPhone(phone);
+  }
+
   @ApiOperation({ summary: 'Get a user by ID' })
   @ApiParam({ name: 'id', type: 'string' })
   @ApiOkResponse({
