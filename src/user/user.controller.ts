@@ -87,6 +87,16 @@ export class UserController {
     return await this.userService.checkPhone(phone);
   }
 
+  @Get('/staff')
+  @ApiOperation({ summary: 'Get all staff/admin users' })
+  @ApiOkResponse({
+    description: 'Fetch all staff/admin users successfully',
+    type: [CreateUserResponseDto],
+  })
+  async findAllStaff() {
+    return await this.userService.findAllStaff();
+  }
+
   @ApiOperation({ summary: 'Get a user by ID' })
   @ApiParam({ name: 'id', type: 'string' })
   @ApiOkResponse({

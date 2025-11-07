@@ -174,6 +174,31 @@ export class UserService {
     return user ? { available: false } : { available: true };
   }
 
+  async findAllStaff() {
+    return await this.databaseService.user.findMany({
+      where: {
+        OR: [{ role: Role.ADMIN }, { role: Role.STAFF }],
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        username: true,
+        email: true,
+        phone: true,
+        avatarUrl: true,
+        role: true,
+        permissions: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+        // Exclude sensitive fields
+        password: false,
+        refreshToken: false,
+      },
+    });
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     try {
       // Prepare the data object
