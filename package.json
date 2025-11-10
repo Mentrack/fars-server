@@ -38,7 +38,7 @@
     "class-validator": "^0.14.1",
     "csv-parser": "^3.2.0",
     "exceljs": "^4.4.0",
-    "fast-csv": "^5.0.2",
+    "fast-csv": "^5.0.5",
     "fuzzball": "^2.2.2",
     "moment": "^2.30.1",
     "multer": "^2.0.1",
