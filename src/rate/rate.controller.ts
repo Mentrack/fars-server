@@ -107,8 +107,7 @@ export class RateController {
 
   // UPLOAD DOCUMENTS FOR A RATE
   @ApiOperation({
-    summary:
-      'Upload a document for a rate: field name "file", 1(doc) to many(rate)',
+    summary: 'Upload a document for a rate: field name "file"',
   })
   @ApiCreatedResponse({
     description: 'The document has been successfully uploaded.',
