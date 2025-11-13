@@ -81,6 +81,30 @@ export class BankAccountService {
     });
   }
 
+  async assignRateToAccount(accountId: string, rateId: string) {
+    // Check if the bank account exists
+    const bankAccount = await this.databaseService.bankAccount.findUnique({
+      where: { id: accountId },
+    });
+    if (!bankAccount) {
+      throw new NotFoundException('Bank account not found');
+    }
+
+    // Check if the rate exists
+    const rate = await this.databaseService.accountRate.findUnique({
+      where: { id: rateId },
+    });
+    if (!rate) {
+      throw new NotFoundException('Rate not found');
+    }
+
+    // Assign the rate to the bank account
+    return await this.databaseService.bankAccount.update({
+      where: { id: accountId },
+      data: { rateId },
+    });
+  }
+
   async findAll() {
     const bankAccounts = await this.databaseService.bankAccount.findMany({
       include: {
