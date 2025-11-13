@@ -29,6 +29,7 @@ import { UploadRateDocumentDto } from './dto/upload-rate-document.dto';
 import * as Multer from 'multer';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
+import { UpdateRateDocumentDto } from './dto/update-rate-document.dto';
 
 @ApiBearerAuth()
 @Controller('rates')
@@ -36,9 +37,9 @@ export class RateController {
   constructor(private readonly rateService: RateService) {}
 
   // CREATE AND NEW RATE
-  @ApiOperation({ summary: 'Create a new contract' })
+  @ApiOperation({ summary: 'Create a new rate' })
   @ApiCreatedResponse({
-    description: 'The contract has been successfully created.',
+    description: 'The rate has been successfully created.',
     type: CreateRateResponseDto,
   })
   @Post()
@@ -66,6 +67,17 @@ export class RateController {
   @Get('contract-documents')
   async getAllDocuments() {
     return await this.rateService.findAllDocuments();
+  }
+
+  // GET RATE BY CLIENT ID
+  @ApiOperation({ summary: 'Get rates by Client ID' })
+  @ApiOkResponse({
+    description: 'The rates have been successfully retrieved.',
+    type: [CreateRateResponseDto],
+  })
+  @Get('client/:clientId')
+  async findByClientId(@Param('clientId', ParseUUIDPipe) clientId: string) {
+    return await this.rateService.findByClientId(clientId);
   }
 
   // GET RATE BY ID
@@ -105,9 +117,10 @@ export class RateController {
     return await this.rateService.remove(id);
   }
 
-  // UPLOAD DOCUMENTS FOR A RATE
+  // UPLOAD DOCUMENT FOR  RATE/RATES
   @ApiOperation({
-    summary: 'Upload a document for a rate: field name "file"',
+    summary: 'Upload a document for rate/rates',
+    description: 'Field name "file", metadata is a JSON string',
   })
   @ApiCreatedResponse({
     description: 'The document has been successfully uploaded.',
@@ -125,15 +138,38 @@ export class RateController {
     @Body('metadata') metadata: string,
     @Request() req: RequestWithUser,
   ) {
-    const parsed = JSON.parse(metadata);
+    // Check for missing file
+    if (!file) {
+      throw new BadRequestException(
+        'The file is required and must be provided under the field name "file".',
+      );
+    }
 
-    // Validate using DTO
+    // Check for missing metadata string
+    if (!metadata) {
+      throw new BadRequestException(
+        'The document metadata (as a JSON string) is required under the field name "metadata".',
+      );
+    }
+
+    let parsed: any;
+    try {
+      // Attempt to parse the metadata string
+      parsed = JSON.parse(metadata);
+    } catch (error) {
+      // Catch invalid JSON format
+      throw new BadRequestException('Invalid JSON format for metadata.');
+    }
+
+    // Validate metadata structure against DTO
     const uploadRateDocumentDto = plainToInstance(
       UploadRateDocumentDto,
       parsed,
     );
+
     const errors = await validate(uploadRateDocumentDto);
     if (errors.length) {
+      // This catches issues like missing required fields or incorrect types.
       throw new BadRequestException(errors);
     }
 
@@ -145,10 +181,13 @@ export class RateController {
   }
 
   // UPDATE DOCUMENTS FOR A RATE
-  @ApiOperation({ summary: 'Update a document for a rate' })
+  @ApiOperation({
+    summary: 'Update a document for a rate',
+    description: 'Field name "file", metadata is a JSON string',
+  })
   @ApiOkResponse({
     description: 'The document has been successfully updated.',
-    type: UploadRateDocumentDto,
+    type: UpdateRateDocumentDto,
   })
   @Patch('document/:id')
   @UseInterceptors(
@@ -162,22 +201,38 @@ export class RateController {
     @UploadedFile() file: Express.Multer.File,
     @Body('metadata') metadata: string,
   ) {
-    const parsed = JSON.parse(metadata);
+    // Check for missing metadata string
+    if (!metadata) {
+      throw new BadRequestException(
+        'The document metadata (as a JSON string) is required under the field name "metadata".',
+      );
+    }
 
-    // Validate using DTO
-    const uploadRateDocumentDto = plainToInstance(
-      UploadRateDocumentDto,
+    let parsed: any;
+    try {
+      // Attempt to parse the metadata string
+      parsed = JSON.parse(metadata);
+    } catch (error) {
+      // Catch invalid JSON format
+      throw new BadRequestException('Invalid JSON format for metadata.');
+    }
+
+    // Validate metadata structure against DTO
+    const updateRateDocumentDto = plainToInstance(
+      UpdateRateDocumentDto,
       parsed,
     );
-    const errors = await validate(uploadRateDocumentDto);
+
+    const errors = await validate(updateRateDocumentDto);
     if (errors.length) {
+      // This catches issues like missing required fields or incorrect types.
       throw new BadRequestException(errors);
     }
 
     return await this.rateService.updateRateDocument(
       id,
       file,
-      uploadRateDocumentDto,
+      updateRateDocumentDto,
     );
   }
 
@@ -190,6 +245,17 @@ export class RateController {
   @Get(':rateId/documents')
   async getDocuments(@Param('rateId', ParseUUIDPipe) rateId: string) {
     return await this.rateService.findAllRateDocuments(rateId);
+  }
+
+  // GET A CONTRACT DOCUMENT BY ID
+  @ApiOperation({ summary: 'Get a document by ID' })
+  @ApiOkResponse({
+    description: 'The document has been successfully retrieved.',
+    type: UploadRateDocumentDto,
+  })
+  @Get('document/:id')
+  async getDocumentById(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.rateService.findDocumentById(id);
   }
 
   // DELETE A CONTRACT DOCUMENT BY ID

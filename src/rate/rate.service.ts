@@ -74,6 +74,49 @@ export class RateService {
     return rates;
   }
 
+  async findByClientId(clientId: string) {
+    const rates = await this.databaseService.accountRate.findMany({
+      where: { clientId },
+      include: {
+        client: true, // Include client details in the response
+      },
+    });
+
+    // Check if there are any rates for the client
+    if (rates.length === 0) {
+      throw new NotFoundException('No rates found for this client');
+    }
+
+    // Return the list of rates
+    return rates;
+  }
+
+  async findDocumentById(id: string) {
+    const document = await this.databaseService.document.findUnique({
+      where: { id },
+      include: {
+        rates: {
+          select: {
+            id: true,
+            clientId: true,
+            code: true,
+          },
+        },
+      },
+    });
+
+    // Check if the document exists
+    if (!document) {
+      throw new NotFoundException('Document not found');
+    }
+
+    // Assign the S3 URL to the document
+    document.url = await this.rateS3Service.getFileUrl(document.url);
+
+    // Return the document details
+    return document;
+  }
+
   async findOne(id: string) {
     const rate = await this.databaseService.accountRate.findUnique({
       where: { id },
@@ -135,6 +178,16 @@ export class RateService {
     uploadRateDocumentDto: UploadRateDocumentDto,
     uploaderId: string,
   ) {
+    // Validate that all rate IDs exist
+    for (const rateId of uploadRateDocumentDto.rateIds) {
+      const rateExists = await this.databaseService.accountRate.findUnique({
+        where: { id: rateId },
+      });
+      if (!rateExists) {
+        throw new NotFoundException(`Rate with ID ${rateId} not found`);
+      }
+    }
+
     // Create a new document code
     let code: string;
 
@@ -175,7 +228,20 @@ export class RateService {
     // Assign the S3 URL to the document
     document.url = await this.rateS3Service.getFileUrl(document.url);
 
-    return document;
+    const documentWithRates = await this.databaseService.document.findUnique({
+      where: { id: document.id },
+      include: {
+        rates: {
+          select: {
+            id: true,
+            clientId: true,
+            code: true,
+          },
+        },
+      },
+    });
+
+    return { ...documentWithRates, url: document.url };
   }
 
   async updateRateDocument(
