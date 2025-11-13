@@ -64,11 +64,36 @@ export class ClassifierService {
       );
 
       // ✅ Step 4: Check if other names are mention that don't belong to this client.
-      const otherClientMentions = this.fuzzyMatcher.findOtherClientMentionsV2({
+      const otherClientMentions = this.fuzzyMatcher.findOtherClientMentionsV6({
         description: transaction.description,
         clientAccountNames: [this.accountName, ...this.clientAccountNames],
         knownBankNames: [this.bankName, ...this.knownBankNames],
       });
+
+      //###############################################################################################################
+      // if (
+      //   transaction.description ===
+      //     'TRF IFO CHARLES VENTURES LIMITED TO DANGOTE LIMITED' ||
+      //   transaction.description === 'TRF IFO DANGOTE LIMITED' ||
+      //   transaction.description === 'DANGOTE LIMITED TRF IFO DANGOTE LIMITED' ||
+      //   transaction.description ===
+      //     'TRF IFO CHARLES VENTURES LIMITED TO DANGOTE LIMITED' ||
+      //   transaction.description ===
+      //     'TRF IFO CHARLES VENTURES LIMITED TO SUSAN BAWA' ||
+      //   transaction.description ===
+      //     'TRF IFO MICHEL JAME AND CHARLES VENTURES LIMITED TO SUSAN BAWA' ||
+      //   transaction.description ===
+      //     'TRF IFO GEDION JAMES TO CHARLES VENTURES LIMITED' ||
+      //   transaction.description ===
+      //     'TRF IFO CHARLES VENTURES LIMITED TO SANTOS AND SONS LIMITED'
+      // ) {
+      //   console.log('Account Name:_____ ', this.accountName);
+      //   console.log('Client Account Names:_____ ', this.clientAccountNames);
+      //   console.log('FUZZY HITS:_____ ', fuzzyHits);
+
+      //   console.log('Other Names:_____ ', otherClientMentions);
+      // }
+      //###############################################################################################################
 
       // ✅ Step 5: Apply your decision logic
       if (fuzzyHits.length >= 1) {

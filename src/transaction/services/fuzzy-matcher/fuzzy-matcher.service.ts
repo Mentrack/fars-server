@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as fuzzball from 'fuzzball';
+import * as compromise from 'compromise';
 import { OtherMentionsType } from 'src/transaction/types/fuzzy-match.dt';
 
 @Injectable()
@@ -50,6 +51,7 @@ export class FuzzyMatcherService {
     'inc',
     'incorporated',
     'at',
+    'to',
   ]);
 
   /**
@@ -57,6 +59,7 @@ export class FuzzyMatcherService {
    * @param text The input string.
    * @returns A normalized string.
    */
+
   private normalizeText(text: string): string {
     let normalized = text.toLowerCase();
 
@@ -81,53 +84,54 @@ export class FuzzyMatcherService {
    * @param accountName The target bank account name.
    * @returns An array of similar phrases found in the description.
    */
+
   async findSimilarAppearances(
     description: string,
     accountNames: string[],
   ): Promise<string[]> {
-    const matchNames: string[] = [];
+    // Use a Set at the top level to avoid duplicates
+    const matchNames = new Set<string>();
+    const descriptionWords = description.split(/\s+/); // 1. Split ORIGINAL description
+
+    const SIMILARITY_THRESHOLD = 90; // Score from 0-100. Adjust as needed.
+
     for (const accountName of accountNames) {
       const normalizedAccountName = this.normalizeText(accountName);
-      const descriptionWords = description.split(/\s+/); // Split original by space
-      const normalizedDescription = this.normalizeText(description);
-      const normalizedDescriptionWords = normalizedDescription.split(' ');
-
       const accountNameWordCount = normalizedAccountName.split(' ').length;
-      const foundMatches = new Set<string>(); // Use a Set to avoid duplicates
 
-      const SIMILARITY_THRESHOLD = 90; // Score from 0-100. Adjust as needed.
+      if (accountNameWordCount === 0) continue; // Skip empty account names
 
-      // Sliding window approach
+      // 2. Slide window over the ORIGINAL description words
       for (
         let i = 0;
-        i <= normalizedDescriptionWords.length - accountNameWordCount;
+        i <= descriptionWords.length - accountNameWordCount;
         i++
       ) {
-        // Create a chunk of text from the normalized description
-        const windowWords = normalizedDescriptionWords.slice(
-          i,
-          i + accountNameWordCount,
-        );
-        const windowText = windowWords.join(' ');
+        // 3. Create a chunk (phrase) from the ORIGINAL words
+        const windowWords = descriptionWords.slice(i, i + accountNameWordCount);
+        const originalPhrase = windowWords.join(' ');
 
-        // Compare the chunk with the normalized account name
-        const score = fuzzball.ratio(windowText, normalizedAccountName);
+        // 4. NOW normalize this specific chunk for comparison
+        const normalizedWindowText = this.normalizeText(originalPhrase);
+
+        // 5. Compare the normalized chunk with the normalized account name
+        const score = fuzzball.ratio(
+          normalizedWindowText,
+          normalizedAccountName,
+        );
 
         if (score >= SIMILARITY_THRESHOLD) {
-          // We found a match! Now, get the original text.
-          const originalPhrase = descriptionWords
-            .slice(i, i + accountNameWordCount)
-            .join(' ');
-
-          // Add the clean, original phrase to our results
-          foundMatches.add(originalPhrase.replace(/[^a-zA-Z0-9\s()]/g, ''));
+          // We found a match! Add the clean, original phrase.
+          const cleanOriginalPhrase = originalPhrase.replace(
+            /[^a-zA-Z0-9\s()]/g, // Clean punctuation for the final output
+            '',
+          );
+          matchNames.add(cleanOriginalPhrase);
         }
       }
-
-      matchNames.push(...Array.from(foundMatches));
     }
 
-    return matchNames;
+    return Array.from(matchNames);
   }
 
   /**
@@ -165,6 +169,45 @@ export class FuzzyMatcherService {
     }
 
     return Array.from(foundMatches);
+  }
+
+  /**
+   * Helper function needed for V2 logic. This is your original sliding window function.
+   * Ensure this exists in your service.
+   */
+  private findSimilarAppearancesV3(
+    description: string,
+    accountNames: string[],
+  ): string[] {
+    const allMatches = new Set<string>();
+    for (const accountName of accountNames) {
+      const normalizedAccountName = this.normalizeText(accountName);
+      const descriptionWords = description.split(/\s+/);
+      const normalizedDescriptionWords =
+        this.normalizeText(description).split(' ');
+      const accountNameWordCount = normalizedAccountName.split(' ').length;
+      const SIMILARITY_THRESHOLD = 90;
+
+      for (
+        let i = 0;
+        i <= normalizedDescriptionWords.length - accountNameWordCount;
+        i++
+      ) {
+        const windowText = normalizedDescriptionWords
+          .slice(i, i + accountNameWordCount)
+          .join(' ');
+        if (
+          fuzzball.ratio(windowText, normalizedAccountName) >=
+          SIMILARITY_THRESHOLD
+        ) {
+          const originalPhrase = descriptionWords
+            .slice(i, i + accountNameWordCount)
+            .join(' ');
+          allMatches.add(originalPhrase.replace(/[^a-zA-Z0-9\s()]/g, ''));
+        }
+      }
+    }
+    return Array.from(allMatches);
   }
 
   /**
@@ -404,41 +447,289 @@ export class FuzzyMatcherService {
   }
 
   /**
-   * Helper function needed for V2 logic. This is your original sliding window function.
-   * Ensure this exists in your service.
+   * Helper function to find and remove exact normalized phrase matches from a string.
+   * This is a synchronous version of the block-removal logic.
+   * @param description The input string.
+   * @param phrasesToExclude The list of normalized phrases to search for.
+   * @returns The description with all found phrases replaced by a single space.
    */
-  private findSimilarAppearancesV3(
+  private removePhraseBlocks(
     description: string,
-    accountNames: string[],
-  ): string[] {
-    const allMatches = new Set<string>();
-    for (const accountName of accountNames) {
-      const normalizedAccountName = this.normalizeText(accountName);
-      const descriptionWords = description.split(/\s+/);
-      const normalizedDescriptionWords =
-        this.normalizeText(description).split(' ');
-      const accountNameWordCount = normalizedAccountName.split(' ').length;
-      const SIMILARITY_THRESHOLD = 90;
+    phrasesToExclude: string[],
+  ): string {
+    let remainder = description;
+    const originalWords = remainder.split(/\s+/);
 
-      for (
-        let i = 0;
-        i <= normalizedDescriptionWords.length - accountNameWordCount;
-        i++
-      ) {
-        const windowText = normalizedDescriptionWords
-          .slice(i, i + accountNameWordCount)
-          .join(' ');
-        if (
-          fuzzball.ratio(windowText, normalizedAccountName) >=
-          SIMILARITY_THRESHOLD
-        ) {
-          const originalPhrase = descriptionWords
-            .slice(i, i + accountNameWordCount)
-            .join(' ');
-          allMatches.add(originalPhrase.replace(/[^a-zA-Z0-9\s()]/g, ''));
+    // Normalize phrases to exclude once
+    const normalizedPhrases = new Set(
+      phrasesToExclude.map((name) => this.normalizeText(name)),
+    );
+
+    // Iterate through the original words
+    for (const normalizedPhrase of normalizedPhrases) {
+      const phraseWordCount = normalizedPhrase.split(' ').length;
+
+      // We must search and remove in an iterative loop to catch multiple instances
+      // of the same phrase or overlapping phrases if they exist.
+      // Re-split the remainder for each iteration
+      const currentWords = remainder.split(/\s+/);
+
+      for (let i = 0; i <= currentWords.length - phraseWordCount; i++) {
+        const windowWords = currentWords.slice(i, i + phraseWordCount);
+        const originalPhrase = windowWords.join(' ');
+
+        // Check for an exact match after normalization
+        if (this.normalizeText(originalPhrase) === normalizedPhrase) {
+          // Replace the original phrase block with a single space.
+          // This ensures the surrounding text doesn't collapse incorrectly.
+          remainder = remainder.replace(originalPhrase, ' ');
         }
       }
     }
-    return Array.from(allMatches);
+
+    // Clean up excessive whitespace
+    return remainder.replace(/\s+/g, ' ').trim();
+  }
+
+  /**
+   * [V3 - Compromise Hybrid Implementation]
+   * Finds potential names in a description that are not the client's own name or a known bank.
+   *
+   * @param dto - The DTO containing the description and names to exclude.
+   * @returns An object with the results.
+   */
+  findOtherClientMentionsV3(dto: OtherMentionsType): {
+    found: boolean;
+    otherMentions: string[];
+  } {
+    const { description, clientAccountNames, knownBankNames = [] } = dto;
+
+    // 1. Combine all known names for exclusion
+    const exclusionNames = [
+      ...new Set([...clientAccountNames, ...knownBankNames]),
+    ];
+
+    // 2. Remove all instances of known names from the description
+    // This is the CRUCIAL "subtraction" step
+    const cleanedDescription = this.removePhraseBlocks(
+      description,
+      exclusionNames,
+    );
+
+    // 3. Use Compromise to analyze the remainder
+    const nlp = (compromise as any).default || (compromise as any);
+    const doc = nlp(cleanedDescription);
+
+    // 4. Extract all potential Organization and People names
+    const rawCandidates = new Set<string>();
+
+    // Get organizations (companies)
+    doc
+      .organizations()
+      .out('array')
+      .forEach((c) => rawCandidates.add(c));
+
+    // Get people names
+    doc
+      .people()
+      .out('array')
+      .forEach((c) => rawCandidates.add(c));
+
+    // Get all nouns/titles as a fallback for small names
+    doc
+      .nouns()
+      .out('array')
+      .forEach((c) => rawCandidates.add(c));
+
+    // 5. Final Filtering using your existing domain-specific rules
+    const finalMentions = new Set<string>();
+
+    for (const rawCandidate of Array.from(rawCandidates)) {
+      const candidate = rawCandidate.trim();
+
+      // Apply your normalization and stop word check
+      const normalizedCandidate = this.normalizeText(candidate);
+
+      // Filter out candidates composed entirely of stop words
+      const words = normalizedCandidate.split(' ');
+      if (words.every((word) => this.transactionStopWords.has(word))) {
+        continue;
+      }
+
+      // Filter out tiny fragments that Compromise sometimes returns
+      if (candidate.length < 3) continue;
+
+      // Filter out names that are an exact match for one of the exclusion names (should be rare)
+      if (normalizedCandidate === this.normalizeText(clientAccountNames[0]))
+        continue;
+
+      // Survivor: This is likely a third-party name
+      finalMentions.add(candidate.toUpperCase()); // Optionally standardize casing
+    }
+
+    return {
+      found: finalMentions.size > 0,
+      otherMentions: Array.from(finalMentions),
+    };
+  }
+
+  findOtherClientMentionsV4(dto: OtherMentionsType): {
+    found: boolean;
+    otherMentions: string[];
+  } {
+    const { description, clientAccountNames, knownBankNames = [] } = dto;
+
+    // 1. & 2. Combine exclusion names and remove them from description
+    const exclusionNames = [
+      ...new Set([...clientAccountNames, ...knownBankNames]),
+    ];
+    const cleanedDescription = this.removePhraseBlocks(
+      description,
+      exclusionNames,
+    );
+
+    // 3. Use Compromise to analyze the remainder
+    // NOTE: Ensure your 'nlp' variable is fixed using require() or the proper import/access.
+    const nlp = (compromise as any).default || (compromise as any);
+    const doc = nlp(cleanedDescription);
+
+    // 4. Extract only multi-word entities (People and Organizations)
+    const rawCandidates = new Set<string>();
+    doc
+      .organizations()
+      .out('array')
+      .forEach((c) => rawCandidates.add(c));
+    doc
+      .people()
+      .out('array')
+      .forEach((c) => rawCandidates.add(c));
+
+    // 5. Final Filtering and Cleaning (V5 Logic)
+    const finalMentions = new Set<string>();
+
+    for (const rawCandidate of Array.from(rawCandidates)) {
+      const candidate = rawCandidate.trim();
+
+      // 1. Tokenize and remove stop words (the cleaner step)
+      const candidateWords = candidate.split(/\s+/);
+
+      // Filter the candidate words, removing:
+      // a) Words that are in the transactionStopWords list (e.g., TRF, IFO)
+      // b) Any single-character fragments left over
+      const cleanedWords = candidateWords
+        .filter(
+          (word) => !this.transactionStopWords.has(this.normalizeText(word)),
+        )
+        .filter((word) => word.length > 1);
+
+      const cleanedCandidate = cleanedWords.join(' ');
+
+      // 2. Apply final quality checks to the cleaned phrase
+
+      // Filter out candidates that are now too short (e.g., if only "TO" remains after cleaning)
+      if (cleanedWords.length < 2 || cleanedCandidate.length < 5) continue;
+
+      // Apply remaining checks
+      const normalizedCleanedCandidate = this.normalizeText(cleanedCandidate);
+
+      // Filter out exclusion names (should be rare)
+      if (
+        clientAccountNames.length > 0 &&
+        normalizedCleanedCandidate === this.normalizeText(clientAccountNames[0])
+      )
+        continue;
+
+      // Survivor: This is the third-party name
+      finalMentions.add(cleanedCandidate.toUpperCase());
+    }
+
+    return {
+      found: finalMentions.size > 0,
+      otherMentions: Array.from(finalMentions),
+    };
+  }
+
+  /**
+   * [V6 - Regex-First Candidate Generation]
+   * Bypasses Compromise for candidate generation due to unreliable tagging on transactional text.
+   * Uses Regex to find capitalized phrases and then aggressively cleans them.
+   *
+   * @param dto - The DTO containing the description and names to exclude.
+   * @returns An object with the results.
+   */
+  findOtherClientMentionsV6(dto: OtherMentionsType): {
+    found: boolean;
+    otherMentions: string[];
+  } {
+    const { description, clientAccountNames, knownBankNames = [] } = dto;
+
+    // 1. & 2. Combine exclusion names and remove them from description
+    const exclusionNames = [
+      ...new Set([...clientAccountNames, ...knownBankNames]),
+    ];
+    const cleanedDescription = this.removePhraseBlocks(
+      description,
+      exclusionNames,
+    );
+
+    // 3. Candidate Generation (The Fix)
+    // Regex: Look for groups of 2 or more capitalized words (e.g., "Gedion James")
+    // or a word followed by numbers/symbols (less useful for names, but catches references).
+    // The core of the name is the capitalized, multi-word pattern.
+    const nameCandidateRegex = /([A-Z][a-zA-Z'\-]+\s?){2,}/g;
+
+    // Fallback: Also capture the whole remaining capitalized block, just in case.
+    const rawCandidates = new Set<string>();
+
+    const candidates = cleanedDescription.match(nameCandidateRegex) || [];
+    candidates.forEach((c) => rawCandidates.add(c));
+
+    // Optional: If you want to include single capitalized words (risky, but exhaustive)
+    // const singleWordRegex = /\b[A-Z][a-z]+\b/g;
+    // (We will omit this for precision)
+
+    // 4. Final Filtering and Cleaning (V5 Logic)
+    const finalMentions = new Set<string>();
+
+    for (const rawCandidate of Array.from(rawCandidates)) {
+      const candidate = rawCandidate.trim();
+
+      // 1. Tokenize and remove stop words
+      const candidateWords = candidate.split(/\s+/);
+
+      // Filter the candidate words, removing:
+      // a) Words that are in the transactionStopWords list (e.g., TRF, IFO)
+      // b) Any single-character fragments left over
+      const cleanedWords = candidateWords
+        .filter(
+          (word) => !this.transactionStopWords.has(this.normalizeText(word)),
+        )
+        .filter((word) => word.length > 1);
+
+      const cleanedCandidate = cleanedWords.join(' ');
+
+      // 2. Apply final quality checks to the cleaned phrase
+
+      // Filter out candidates that are now too short (must have at least two words left)
+      if (cleanedWords.length < 2 || cleanedCandidate.length < 5) continue;
+
+      // Apply remaining checks
+      const normalizedCleanedCandidate = this.normalizeText(cleanedCandidate);
+
+      // Filter out exclusion names (should be rare)
+      if (
+        clientAccountNames.length > 0 &&
+        normalizedCleanedCandidate === this.normalizeText(clientAccountNames[0])
+      )
+        continue;
+
+      // Survivor: This is the third-party name
+      finalMentions.add(cleanedCandidate.toUpperCase());
+    }
+
+    return {
+      found: finalMentions.size > 0,
+      otherMentions: Array.from(finalMentions),
+    };
   }
 }

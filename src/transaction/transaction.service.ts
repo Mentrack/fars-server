@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { ClassifyBatchDto } from './dto/classify-batch.dto';
@@ -133,7 +137,7 @@ export class TransactionService {
   ): Promise<any> {
     // This method should handle the file upload and processing logic
     if (!file) {
-      throw new Error('File not provided');
+      throw new BadRequestException('File not provided');
     }
 
     // Get the bank id from the accountId

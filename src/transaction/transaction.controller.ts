@@ -14,6 +14,7 @@ import {
   Request,
   DefaultValuePipe,
   ParseIntPipe,
+  BadRequestException,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -96,6 +97,9 @@ export class TransactionController {
     @Param('accountId', ParseUUIDPipe) accountId: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
+    if (!file) {
+      throw new BadRequestException('File not provided');
+    }
     return this.transactionService.uploadAndProcess(accountId, file);
   }
 
