@@ -17,9 +17,13 @@ import { CreateRateResponseDto, CreateRateDto } from './dto/create-rate.dto';
 import { UpdateRateDto } from './dto/update-rate.dto';
 import {
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiProperty,
+  ApiPropertyOptional,
 } from '@nestjs/swagger';
 import { Role } from 'src/auth/enum/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -30,6 +34,8 @@ import * as Multer from 'multer';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { UpdateRateDocumentDto } from './dto/update-rate-document.dto';
+import { FileUploadDto } from './dto/file-upload.dto';
+import { UpdateFileUploadDto } from './dto/update-file-upload.dto';
 
 @ApiBearerAuth()
 @Controller('rates')
@@ -80,6 +86,17 @@ export class RateController {
     return await this.rateService.findByClientId(clientId);
   }
 
+  // GET A CONTRACT DOCUMENT BY ID
+  @ApiOperation({ summary: 'Get a document by ID' })
+  @ApiOkResponse({
+    description: 'The document has been successfully retrieved.',
+    type: UploadRateDocumentDto,
+  })
+  @Get('document/:id')
+  async getDocumentById(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.rateService.findDocumentById(id);
+  }
+
   // GET RATE BY ID
   @ApiOperation({ summary: 'Get a rate by ID' })
   @ApiOkResponse({
@@ -127,10 +144,12 @@ export class RateController {
     type: UploadRateDocumentDto,
   })
   @Post('upload-document')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: FileUploadDto })
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: Multer.memoryStorage(), // Store file in memory
-      limits: { fileSize: 10 * 1024 * 1024 }, // optional: limit to 10MB
+      storage: Multer.memoryStorage(),
+      limits: { fileSize: 10 * 1024 * 1024 },
     }),
   )
   async uploadDocument(
@@ -138,6 +157,7 @@ export class RateController {
     @Body('metadata') metadata: string,
     @Request() req: RequestWithUser,
   ) {
+    // Your existing validation and business logic remains correct
     // Check for missing file
     if (!file) {
       throw new BadRequestException(
@@ -154,14 +174,11 @@ export class RateController {
 
     let parsed: any;
     try {
-      // Attempt to parse the metadata string
       parsed = JSON.parse(metadata);
     } catch (error) {
-      // Catch invalid JSON format
       throw new BadRequestException('Invalid JSON format for metadata.');
     }
 
-    // Validate metadata structure against DTO
     const uploadRateDocumentDto = plainToInstance(
       UploadRateDocumentDto,
       parsed,
@@ -169,7 +186,6 @@ export class RateController {
 
     const errors = await validate(uploadRateDocumentDto);
     if (errors.length) {
-      // This catches issues like missing required fields or incorrect types.
       throw new BadRequestException(errors);
     }
 
@@ -183,17 +199,20 @@ export class RateController {
   // UPDATE DOCUMENTS FOR A RATE
   @ApiOperation({
     summary: 'Update a document for a rate',
-    description: 'Field name "file", metadata is a JSON string',
+    description:
+      'Field name "file" is optional, "metadata" is a required JSON string for data updates.',
   })
   @ApiOkResponse({
     description: 'The document has been successfully updated.',
     type: UpdateRateDocumentDto,
   })
   @Patch('document/:id')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: UpdateFileUploadDto })
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: Multer.memoryStorage(), // Store file in memory
-      limits: { fileSize: 10 * 1024 * 1024 }, // optional: limit to 10MB
+      storage: Multer.memoryStorage(),
+      limits: { fileSize: 10 * 1024 * 1024 },
     }),
   )
   async updateDocument(
@@ -201,7 +220,7 @@ export class RateController {
     @UploadedFile() file: Express.Multer.File,
     @Body('metadata') metadata: string,
   ) {
-    // Check for missing metadata string
+    // Check for missing metadata string required for updates
     if (!metadata) {
       throw new BadRequestException(
         'The document metadata (as a JSON string) is required under the field name "metadata".',
@@ -229,6 +248,7 @@ export class RateController {
       throw new BadRequestException(errors);
     }
 
+    // Pass the ID, the optional file (which will be null if not provided), and the DTO to the service
     return await this.rateService.updateRateDocument(
       id,
       file,
@@ -245,17 +265,6 @@ export class RateController {
   @Get(':rateId/documents')
   async getDocuments(@Param('rateId', ParseUUIDPipe) rateId: string) {
     return await this.rateService.findAllRateDocuments(rateId);
-  }
-
-  // GET A CONTRACT DOCUMENT BY ID
-  @ApiOperation({ summary: 'Get a document by ID' })
-  @ApiOkResponse({
-    description: 'The document has been successfully retrieved.',
-    type: UploadRateDocumentDto,
-  })
-  @Get('document/:id')
-  async getDocumentById(@Param('id', ParseUUIDPipe) id: string) {
-    return await this.rateService.findDocumentById(id);
   }
 
   // DELETE A CONTRACT DOCUMENT BY ID

@@ -105,6 +105,22 @@ export class BankAccountService {
     });
   }
 
+  async unassignRateFromAccount(accountId: string) {
+    // Check if the bank account exists
+    const bankAccount = await this.databaseService.bankAccount.findUnique({
+      where: { id: accountId },
+    });
+    if (!bankAccount) {
+      throw new NotFoundException('Bank account not found');
+    }
+
+    // Unassign the rate from the bank account
+    return await this.databaseService.bankAccount.update({
+      where: { id: accountId },
+      data: { rateId: null },
+    });
+  }
+
   async findAll() {
     const bankAccounts = await this.databaseService.bankAccount.findMany({
       include: {

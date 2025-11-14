@@ -42,7 +42,7 @@ export class BankAccountController {
     description: 'Bank account assigned with rate successfully',
     type: CreateBankAccountResponseDto,
   })
-  @Post('/assign-rate/:accountId')
+  @Patch('/assign-rate/:accountId')
   async assignRateToAccount(
     @Param('accountId', ParseUUIDPipe) accountId: string,
     @Body() assignRateToAccountDto: AssignRateToAccountDto,
@@ -51,6 +51,18 @@ export class BankAccountController {
       accountId,
       assignRateToAccountDto.rateId,
     );
+  }
+
+  @ApiOperation({ summary: 'Unassign rate from a bank account by account ID' })
+  @ApiOkResponse({
+    description: 'Bank account unassigned from rate successfully',
+    type: CreateBankAccountResponseDto,
+  })
+  @Patch('/unassign-rate/:accountId')
+  async unassignRateFromAccount(
+    @Param('accountId', ParseUUIDPipe) accountId: string,
+  ) {
+    return await this.bankAccountService.unassignRateFromAccount(accountId);
   }
 
   @ApiOperation({

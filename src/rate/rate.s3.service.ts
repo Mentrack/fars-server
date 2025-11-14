@@ -62,6 +62,7 @@ export class RateS3Service {
     const getObjectParams = {
       Bucket: this.s3Configuration.bucketName,
       Key: key,
+      ResponseContentDisposition: 'inline',
     };
     // Generate a signed URL for the file
     const command = new GetObjectCommand(getObjectParams);
