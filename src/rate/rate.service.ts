@@ -60,8 +60,25 @@ export class RateService {
 
   async findAll() {
     const rates = await this.databaseService.accountRate.findMany({
-      include: {
-        client: true, // Include client details in the response
+      select: {
+        id: true,
+        code: true,
+        rateType: true,
+        currency: true,
+        effectiveFrom: true,
+        effectiveTo: true,
+        createdAt: true,
+        updatedAt: true,
+        client: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            companyName: true,
+            email: true,
+            avatarUrl: true,
+          },
+        }, // Include client details in the response
       },
     });
 
@@ -77,8 +94,15 @@ export class RateService {
   async findByClientId(clientId: string) {
     const rates = await this.databaseService.accountRate.findMany({
       where: { clientId },
-      include: {
-        client: true, // Include client details in the response
+      select: {
+        id: true,
+        code: true,
+        rateType: true,
+        currency: true,
+        effectiveFrom: true,
+        effectiveTo: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 
@@ -289,7 +313,20 @@ export class RateService {
     // Assign the S3 URL to the document
     document.url = await this.rateS3Service.getFileUrl(document.url);
 
-    return document;
+    const documentWithRates = await this.databaseService.document.findUnique({
+      where: { id: document.id },
+      include: {
+        rates: {
+          select: {
+            id: true,
+            clientId: true,
+            code: true,
+          },
+        },
+      },
+    });
+
+    return { ...documentWithRates, url: document.url };
   }
 
   async findAllDocuments() {
@@ -326,12 +363,32 @@ export class RateService {
       throw new NotFoundException('Rate not found');
     }
 
+    const documents = await this.databaseService.document.findMany({
+      where: {
+        rates: {
+          some: {
+            id: rateId,
+          },
+        },
+        type: DocumentType.CONTRACT,
+      },
+      include: {
+        rates: {
+          select: {
+            id: true,
+            clientId: true,
+            code: true,
+          },
+        },
+      },
+    });
+
     // Check if there are any documents for the rate
-    if (!rate.documents || rate.documents.length === 0) {
+    if (!documents || documents.length === 0) {
       throw new NotFoundException('No documents found for this rate');
     }
 
-    const assignDocumentUrl = rate.documents.map(async (document) => {
+    const assignDocumentUrl = documents.map(async (document) => {
       const url = await this.rateS3Service.getFileUrl(document.url);
       return { ...document, url };
     });
