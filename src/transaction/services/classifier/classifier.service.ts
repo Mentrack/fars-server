@@ -70,7 +70,7 @@ export class ClassifierService {
         knownBankNames: [this.bankName, ...this.knownBankNames],
       });
 
-      //###############################################################################################################
+      // ###############################################################################################################
       // if (
       //   transaction.description ===
       //     'TRF IFO CHARLES VENTURES LIMITED TO DANGOTE LIMITED' ||
@@ -85,7 +85,8 @@ export class ClassifierService {
       //   transaction.description ===
       //     'TRF IFO GEDION JAMES TO CHARLES VENTURES LIMITED' ||
       //   transaction.description ===
-      //     'TRF IFO CHARLES VENTURES LIMITED TO SANTOS AND SONS LIMITED'
+      //     'TRF IFO CHARLES VENTURES LIMITED TO SANTOS AND SONS LIMITED' ||
+      //   transaction.description === 'duty pymt SGD 2021-A-131697'
       // ) {
       //   console.log('Account Name:_____ ', this.accountName);
       //   console.log('Client Account Names:_____ ', this.clientAccountNames);
@@ -93,7 +94,7 @@ export class ClassifierService {
 
       //   console.log('Other Names:_____ ', otherClientMentions);
       // }
-      //###############################################################################################################
+      // ###############################################################################################################
 
       // ✅ Step 5: Apply your decision logic
       if (fuzzyHits.length >= 1) {
@@ -177,6 +178,19 @@ export class ClassifierService {
           ) {
             return (
               this.classifications.find((c) => c.code === 'MC')?.id || null
+            );
+          }
+        } else if (pattern.classification.code === 'INT') {
+          if (
+            desc.includes('overdrawn interest') ||
+            desc.includes('overdrawn penal') ||
+            desc.includes('overdrawn') ||
+            desc.includes('overdraft interest') ||
+            desc.includes('overdraft penal') ||
+            desc.includes('overdraft')
+          ) {
+            return (
+              this.classifications.find((c) => c.code === 'LNT')?.id || null
             );
           }
         }

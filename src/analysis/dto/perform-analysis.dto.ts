@@ -7,6 +7,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { AnalysisTypeEnum } from '../enums/analysis.enum';
 
 export class TransactionDto {
   @IsString()
@@ -44,12 +45,12 @@ export class AccountInputDto {
 export class PerformAnalysisDto {
   @ApiProperty({
     description: 'Type of analysis to perform',
-    enum: ['CAMF', 'COT', 'LOAN_INTEREST', 'LC', 'WHT'],
+    enum: AnalysisTypeEnum,
     example: 'CAMF',
     required: true,
   })
   @IsString()
-  type: 'CAMF' | 'COT' | 'LOAN_INTEREST' | 'LC' | 'WHT'; // Extendable
+  type: AnalysisTypeEnum; // Extendable
 
   @ApiProperty({
     description: 'List of account summaries to analyze',
