@@ -17,21 +17,36 @@ export class ClassificationPatternService {
     try {
       const { bankId, classificationId } = createClassificationPatternDto;
 
-      const [bank, classification] = await Promise.all([
-        this.databaseService.bank.findUnique({ where: { id: bankId } }),
-        this.databaseService.transactionClassification.findUnique({
-          where: { id: classificationId },
-        }),
-      ]);
+      if (!!bankId) {
+        const [bank, classification] = await Promise.all([
+          this.databaseService.bank.findUnique({ where: { id: bankId } }),
+          this.databaseService.transactionClassification.findUnique({
+            where: { id: classificationId },
+          }),
+        ]);
 
-      if (!bank && bankId) {
-        throw new NotFoundException(`Bank with ID '${bankId}' not found.`);
+        if (!bank && bankId) {
+          throw new NotFoundException(`Bank with ID '${bankId}' not found.`);
+        }
+
+        if (!classification) {
+          throw new NotFoundException(
+            `Classification with ID '${classificationId}' not found.`,
+          );
+        }
       }
 
-      if (!classification) {
-        throw new NotFoundException(
-          `Classification with ID '${classificationId}' not found.`,
-        );
+      if (!bankId) {
+        const classification =
+          await this.databaseService.transactionClassification.findUnique({
+            where: { id: classificationId },
+          });
+
+        if (!classification) {
+          throw new NotFoundException(
+            `Classification with ID '${classificationId}' not found.`,
+          );
+        }
       }
 
       return this.databaseService.classificationPattern.create({

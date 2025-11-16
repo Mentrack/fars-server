@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class CreateClassificationPatternDto {
   @ApiProperty({
@@ -15,6 +21,7 @@ export class CreateClassificationPatternDto {
     example: false,
   })
   @IsBoolean()
+  @IsOptional()
   isRegex?: boolean;
 
   @ApiProperty({
@@ -22,6 +29,7 @@ export class CreateClassificationPatternDto {
     example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @IsUUID()
+  @IsOptional()
   bankId?: string;
 
   @ApiProperty({
