@@ -16,13 +16,17 @@ import { UpdateClassificationPatternDto } from './dto/update-classification-patt
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiExtraModels,
   ApiOkResponse,
   ApiOperation,
   ApiQuery,
 } from '@nestjs/swagger';
+import { FindAllPatternsQueryDto } from './dto/find-all-patterns.dto';
 
 @ApiBearerAuth()
 @Controller('classification-patterns')
+// Ensure Swagger knows about the DTOs used in type definitions
+@ApiExtraModels(CreateClassificationPatternDto, FindAllPatternsQueryDto)
 export class ClassificationPatternController {
   constructor(
     private readonly classificationPatternService: ClassificationPatternService,
@@ -43,46 +47,25 @@ export class ClassificationPatternController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Find all classification patterns' })
-  @ApiQuery({
-    name: 'isGlobal',
-    required: false,
-    type: Boolean,
-    description:
-      'Filter patterns based on their global status (true or false).',
+  @ApiOperation({
+    summary: 'Find all classification patterns with pagination and filtering',
   })
   @ApiQuery({
-    name: 'bankId',
-    required: false,
-    type: String,
-    description: 'Filter patterns by a specific bank ID.',
-  })
-  @ApiQuery({
-    name: 'classificationId',
-    required: false,
-    type: String,
-    description: 'Filter patterns by a specific classification ID.',
+    name: 'query',
+    type: FindAllPatternsQueryDto,
+    style: 'deepObject',
+    explode: true,
   })
   @ApiOkResponse({
-    description: 'A list of classification patterns.',
+    description: 'A paginated list of classification patterns.',
+    // Assuming you want to return a list of the Create DTOs:
     type: [CreateClassificationPatternDto],
   })
-  findAll(
-    @Query('bankId', new ParseUUIDPipe({ optional: true, version: '4' }))
-    bankId?: string,
-    @Query(
-      'classificationId',
-      new ParseUUIDPipe({ optional: true, version: '4' }),
-    )
-    classificationId?: string,
-    @Query('isGlobal', new ParseBoolPipe({ optional: true }))
-    isGlobal?: boolean,
-  ) {
-    return this.classificationPatternService.findAll({
-      isGlobal,
-      bankId,
-      classificationId,
-    });
+  findAll(@Query() query: FindAllPatternsQueryDto) {
+    const { page, limit, ...filters } = query;
+    const skip = (page - 1) * limit;
+
+    return this.classificationPatternService.findAll(filters, skip, limit);
   }
 
   @Get(':id')
