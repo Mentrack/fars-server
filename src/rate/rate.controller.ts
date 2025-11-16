@@ -64,13 +64,13 @@ export class RateController {
     return await this.rateService.findAll();
   }
 
-  // GET ALL CONTRACTS DOCUMENTS
-  @ApiOperation({ summary: 'Get all contracts documents' })
+  // GET ALL RATE DOCUMENTS
+  @ApiOperation({ summary: 'Get all rate documents' })
   @ApiOkResponse({
     description: 'List of all documents',
     type: [UploadRateDocumentDto],
   })
-  @Get('contract-documents')
+  @Get('documents')
   async getAllDocuments() {
     return await this.rateService.findAllDocuments();
   }
@@ -143,7 +143,7 @@ export class RateController {
     description: 'The document has been successfully uploaded.',
     type: UploadRateDocumentDto,
   })
-  @Post('upload-document')
+  @Post('document')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: FileUploadDto })
   @UseInterceptors(
