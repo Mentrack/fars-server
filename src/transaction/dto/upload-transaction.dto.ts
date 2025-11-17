@@ -1,6 +1,31 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsNumber, IsString, IsUUID } from 'class-validator';
 
+const csvStructureDescription = `
+The uploaded bank statement file (CSV or similar) must contain the following columns:
+
+| Column Name | Required | Data Type | Example |
+| :--- | :--- | :--- | :--- |
+| **TransDate** | Yes | Date String | 2024-05-15 |
+| **ValueDate** | Yes | Date String | 2024-05-15 |
+| **TransDesc** | Yes | String | INTERBANK TRANSFER / STAMP DUTY CHARGE |
+| **Debit** | Yes | Number | 1000.50 |
+| **Credit** | Yes | Number | 0.00 |
+| **Balance** | Yes | Number | 50000.00 |
+| TellerNo | No | String | 12345 |
+| ChequeNo | No | String | 67890 |
+`;
+
+// DTO solely for Swagger documentation purposes
+export class FileUploadDto {
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: `**File Structure Requirements (Raw Bank Statement):**\n\n${csvStructureDescription}`,
+  })
+  file: any;
+}
+
 export class UploadTransactionResponseDto {
   @ApiProperty({ example: '2022-01-01' })
   @IsString()

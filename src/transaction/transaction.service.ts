@@ -115,6 +115,22 @@ export class TransactionService {
     });
   }
 
+  async removeMultiple(ids: string[]): Promise<any> {
+    const result = await this.databaseService.bankTransaction.deleteMany({
+      where: {
+        id: {
+          in: ids, // Deletes all records where the ID is in the provided array
+        },
+      },
+    });
+
+    // This typically returns an object with the count of deleted records
+    return {
+      deletedCount: result.count,
+      message: `${result.count} transactions deleted successfully.`,
+    };
+  }
+
   async remove(id: string) {
     // Check if transaction exists
     const transaction = await this.databaseService.bankTransaction.findUnique({
@@ -152,7 +168,7 @@ export class TransactionService {
 
     const bankId = bankAccount.bank.id;
 
-    // Here you can add your logic to handle the file upload
+    // Here I add my logic to handle the file upload
     const parsedRows = await new Promise<TransactionType[]>(
       (resolve, reject) => {
         const rows: TransactionType[] = [];

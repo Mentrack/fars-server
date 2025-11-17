@@ -15,6 +15,8 @@ import {
   DefaultValuePipe,
   ParseIntPipe,
   BadRequestException,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -33,11 +35,19 @@ import {
   ApiBody,
   ApiConsumes,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiQuery,
 } from '@nestjs/swagger';
-import { UploadTransactionResponseDto } from './dto/upload-transaction.dto';
+import {
+  FileUploadDto,
+  UploadTransactionResponseDto,
+} from './dto/upload-transaction.dto';
+import {
+  BulkDeleteResponseDto,
+  DeleteTransactionsDto,
+} from './dto/delete-transactions.dto';
 
 @ApiBearerAuth()
 @Controller('transactions')
@@ -76,15 +86,7 @@ export class TransactionController {
   })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        file: {
-          type: 'string',
-          format: 'binary',
-        },
-      },
-    },
+    type: FileUploadDto,
   })
   @Post(':accountId/upload')
   @UseInterceptors(
@@ -248,7 +250,20 @@ export class TransactionController {
     return this.transactionService.update(id, updateTransactionDto);
   }
 
-  // ✅ 8. Delete transaction
+  // ✅ 8. Delete transactions (multiple)
+  @Delete('multiple')
+  @ApiOperation({ summary: 'Delete multiple transactions by ID' })
+  @ApiOkResponse({
+    description:
+      'The transactions have been successfully deleted, returns the count.',
+    type: BulkDeleteResponseDto,
+  })
+  @UsePipes(new ValidationPipe({ transform: true })) // Ensures DTO validation is run
+  removeMultiple(@Body() deleteDto: DeleteTransactionsDto) {
+    return this.transactionService.removeMultiple(deleteDto.ids);
+  }
+
+  // ✅ 9. Delete transaction
   @ApiOperation({ summary: 'Delete a transaction' })
   @ApiOkResponse({
     description: 'Transaction deleted successfully',
