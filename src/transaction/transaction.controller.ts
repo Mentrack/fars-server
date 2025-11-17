@@ -24,6 +24,7 @@ import * as Multer from 'multer';
 import { Response } from 'express';
 import {
   CreateTransactionArrayDto,
+  CreateTransactionDto,
   CreateTransactionResponseDto,
 } from './dto/create-transaction.dto';
 import { RequestWithUser } from 'src/auth/types/request-with-user';
@@ -51,7 +52,6 @@ export class TransactionController {
   })
   @ApiBody({
     type: CreateTransactionArrayDto,
-    isArray: true,
   })
   @Post(':accountId/create')
   async create(
