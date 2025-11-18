@@ -166,7 +166,17 @@ export class CreateTransactionResponseDto {
   classificationId: string;
 }
 
+// export class CreateTransactionArrayDto {
+//   @IsArray()
+//   @ValidateNested({ each: true })
+//   @Type(() => CreateTransactionDto)
+//   items: CreateTransactionDto[];
+// }
 export class CreateTransactionArrayDto {
+  @ApiProperty({
+    type: [CreateTransactionDto],
+    description: 'List of transactions to create',
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateTransactionDto)

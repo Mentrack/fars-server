@@ -8,7 +8,6 @@ import {
   Delete,
   ParseUUIDPipe,
   Query,
-  ParseBoolPipe,
 } from '@nestjs/common';
 import { ClassificationPatternService } from './classification-pattern.service';
 import { CreateClassificationPatternDto } from './dto/create-classification-pattern.dto';
@@ -19,7 +18,6 @@ import {
   ApiExtraModels,
   ApiOkResponse,
   ApiOperation,
-  ApiQuery,
 } from '@nestjs/swagger';
 import { FindAllPatternsQueryDto } from './dto/find-all-patterns.dto';
 
@@ -50,12 +48,12 @@ export class ClassificationPatternController {
   @ApiOperation({
     summary: 'Find all classification patterns with pagination and filtering',
   })
-  @ApiQuery({
-    name: 'query',
-    type: FindAllPatternsQueryDto,
-    style: 'deepObject',
-    explode: true,
-  })
+  // @ApiQuery({
+  //   name: 'query',
+  //   type: FindAllPatternsQueryDto,
+  //   style: 'deepObject',
+  //   explode: true,
+  // })
   @ApiOkResponse({
     description: 'A paginated list of classification patterns.',
     // Assuming you want to return a list of the Create DTOs:

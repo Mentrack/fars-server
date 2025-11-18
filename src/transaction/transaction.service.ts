@@ -6,7 +6,6 @@ import {
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { ClassifyBatchDto } from './dto/classify-batch.dto';
-// import { TransactionType } from './types/transaction.dt';
 import * as csv from 'csv-parser';
 import * as streamifier from 'streamifier';
 import * as fastcsv from 'fast-csv';
@@ -43,25 +42,33 @@ export class TransactionService {
 
     const skip = (page - 1) * limit;
 
+    // Construct the base 'where' object
+    const whereClause: any = {
+      bankAccountId: accountId,
+      ...(classificationId && { classificationId }),
+    };
+
+    // Add date range filtering, targeting the 'valueDate' field
+    if (from || to) {
+      whereClause.valueDate = {};
+
+      if (from) {
+        whereClause.valueDate.gte = new Date(from);
+      }
+      if (to) {
+        whereClause.valueDate.lte = new Date(to);
+      }
+    }
+
     const [transactions, total] = await this.databaseService.$transaction([
       this.databaseService.bankTransaction.findMany({
-        where: {
-          bankAccountId: accountId,
-          ...(from && { date: { gte: new Date(from) } }),
-          ...(to && { date: { lte: new Date(to) } }),
-          ...(classificationId && { classificationId }),
-        },
+        where: whereClause, // Use the constructed clause
         skip,
         take: limit,
         orderBy: { valueDate: 'desc' },
       }),
       this.databaseService.bankTransaction.count({
-        where: {
-          bankAccountId: accountId,
-          ...(from && { date: { gte: new Date(from) } }),
-          ...(to && { date: { lte: new Date(to) } }),
-          ...(classificationId && { classificationId }),
-        },
+        where: whereClause, // Use the constructed clause
       }),
     ]);
 
@@ -115,6 +122,22 @@ export class TransactionService {
     });
   }
 
+  async removeMultiple(ids: string[]): Promise<any> {
+    const result = await this.databaseService.bankTransaction.deleteMany({
+      where: {
+        id: {
+          in: ids, // Deletes all records where the ID is in the provided array
+        },
+      },
+    });
+
+    // This typically returns an object with the count of deleted records
+    return {
+      deletedCount: result.count,
+      message: `${result.count} transactions deleted successfully.`,
+    };
+  }
+
   async remove(id: string) {
     // Check if transaction exists
     const transaction = await this.databaseService.bankTransaction.findUnique({
@@ -152,7 +175,7 @@ export class TransactionService {
 
     const bankId = bankAccount.bank.id;
 
-    // Here you can add your logic to handle the file upload
+    // Here I add my logic to handle the file upload
     const parsedRows = await new Promise<TransactionType[]>(
       (resolve, reject) => {
         const rows: TransactionType[] = [];
