@@ -6,7 +6,6 @@ import {
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { ClassifyBatchDto } from './dto/classify-batch.dto';
-// import { TransactionType } from './types/transaction.dt';
 import * as csv from 'csv-parser';
 import * as streamifier from 'streamifier';
 import * as fastcsv from 'fast-csv';
@@ -43,25 +42,33 @@ export class TransactionService {
 
     const skip = (page - 1) * limit;
 
+    // Construct the base 'where' object
+    const whereClause: any = {
+      bankAccountId: accountId,
+      ...(classificationId && { classificationId }),
+    };
+
+    // Add date range filtering, targeting the 'valueDate' field
+    if (from || to) {
+      whereClause.valueDate = {};
+
+      if (from) {
+        whereClause.valueDate.gte = new Date(from);
+      }
+      if (to) {
+        whereClause.valueDate.lte = new Date(to);
+      }
+    }
+
     const [transactions, total] = await this.databaseService.$transaction([
       this.databaseService.bankTransaction.findMany({
-        where: {
-          bankAccountId: accountId,
-          ...(from && { date: { gte: new Date(from) } }),
-          ...(to && { date: { lte: new Date(to) } }),
-          ...(classificationId && { classificationId }),
-        },
+        where: whereClause, // Use the constructed clause
         skip,
         take: limit,
         orderBy: { valueDate: 'desc' },
       }),
       this.databaseService.bankTransaction.count({
-        where: {
-          bankAccountId: accountId,
-          ...(from && { date: { gte: new Date(from) } }),
-          ...(to && { date: { lte: new Date(to) } }),
-          ...(classificationId && { classificationId }),
-        },
+        where: whereClause, // Use the constructed clause
       }),
     ]);
 
