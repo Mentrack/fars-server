@@ -350,6 +350,101 @@ export class RateService {
     return Promise.all(assignDocumentUrl);
   }
 
+  async assignDocumentToRate(documentId: string, rateId: string) {
+    // Check if the document exists
+    const documentExists = await this.databaseService.document.findUnique({
+      where: { id: documentId },
+    });
+    if (!documentExists) {
+      throw new NotFoundException('Document not found');
+    }
+
+    // Check if the rate exists
+    const rateExists = await this.databaseService.accountRate.findUnique({
+      where: { id: rateId },
+    });
+    if (!rateExists) {
+      throw new NotFoundException('Rate not found');
+    }
+
+    // Assign the document to the rate
+    await this.databaseService.document.update({
+      where: { id: documentId },
+      data: {
+        rates: {
+          connect: { id: rateId },
+        },
+      },
+    });
+
+    // Return the updated list of documents for the rate
+    const documents = await this.databaseService.document.findMany({
+      where: {
+        rates: {
+          some: {
+            id: rateId,
+          },
+        },
+      },
+    });
+
+    const assignDocumentUrl = documents.map(async (document) => {
+      const url = await this.rateS3Service.getFileUrl(document.url);
+      return { ...document, url };
+    });
+
+    // Return the list of documents
+    return Promise.all(assignDocumentUrl);
+  }
+
+  // Unassign a document from a rate
+  async unassignDocumentFromRate(documentId: string, rateId: string) {
+    // Check if the document exists
+    const documentExists = await this.databaseService.document.findUnique({
+      where: { id: documentId },
+    });
+    if (!documentExists) {
+      throw new NotFoundException('Document not found');
+    }
+
+    // Check if the rate exists
+    const rateExists = await this.databaseService.accountRate.findUnique({
+      where: { id: rateId },
+    });
+    if (!rateExists) {
+      throw new NotFoundException('Rate not found');
+    }
+
+    // Unassign the document from the rate
+    await this.databaseService.document.update({
+      where: { id: documentId },
+      data: {
+        rates: {
+          disconnect: { id: rateId },
+        },
+      },
+    });
+
+    // Return the updated list of documents for the rate
+    const documents = await this.databaseService.document.findMany({
+      where: {
+        rates: {
+          some: {
+            id: rateId,
+          },
+        },
+      },
+    });
+
+    const assignDocumentUrl = documents.map(async (document) => {
+      const url = await this.rateS3Service.getFileUrl(document.url);
+      return { ...document, url };
+    });
+
+    // Return the list of documents
+    return Promise.all(assignDocumentUrl);
+  }
+
   async findAllRateDocuments(rateId: string) {
     const rate = await this.databaseService.accountRate.findUnique({
       where: { id: rateId },
