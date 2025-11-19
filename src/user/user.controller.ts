@@ -22,6 +22,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { MyLoggerService } from 'src/my-logger/my-logger.service';
 import {
@@ -53,6 +54,12 @@ export class UserController {
   @ApiOkResponse({
     description: 'Fetch all users successfully',
     type: [CreateUserResponseDto],
+  })
+  @ApiQuery({
+    name: 'role',
+    required: false,
+    description: 'Filter users by role',
+    enum: Role,
   })
   @Get('/')
   async findAll(@Ip() ip: string, @Query('role') role?: Role) {
