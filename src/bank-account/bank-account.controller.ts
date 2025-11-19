@@ -20,7 +20,6 @@ import {
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { AssignRateToAccountDto } from './dto/assign-rate-bank-account.dto';
 
 @ApiBearerAuth()
 @Controller('bank-accounts')
@@ -42,15 +41,12 @@ export class BankAccountController {
     description: 'Bank account assigned with rate successfully',
     type: CreateBankAccountResponseDto,
   })
-  @Patch('/assign-rate/:accountId')
+  @Patch('/rate/:accountId/assign/:rateId')
   async assignRateToAccount(
     @Param('accountId', ParseUUIDPipe) accountId: string,
-    @Body() assignRateToAccountDto: AssignRateToAccountDto,
+    @Param('rateId', ParseUUIDPipe) rateId: string,
   ) {
-    return await this.bankAccountService.assignRateToAccount(
-      accountId,
-      assignRateToAccountDto.rateId,
-    );
+    return await this.bankAccountService.assignRateToAccount(accountId, rateId);
   }
 
   @ApiOperation({ summary: 'Unassign rate from a bank account by account ID' })
@@ -58,7 +54,7 @@ export class BankAccountController {
     description: 'Bank account unassigned from rate successfully',
     type: CreateBankAccountResponseDto,
   })
-  @Patch('/unassign-rate/:accountId')
+  @Patch('/rate/:accountId/unassign')
   async unassignRateFromAccount(
     @Param('accountId', ParseUUIDPipe) accountId: string,
   ) {
