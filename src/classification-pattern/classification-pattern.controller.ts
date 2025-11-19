@@ -48,12 +48,6 @@ export class ClassificationPatternController {
   @ApiOperation({
     summary: 'Find all classification patterns with pagination and filtering',
   })
-  // @ApiQuery({
-  //   name: 'query',
-  //   type: FindAllPatternsQueryDto,
-  //   style: 'deepObject',
-  //   explode: true,
-  // })
   @ApiOkResponse({
     description: 'A paginated list of classification patterns.',
     // Assuming you want to return a list of the Create DTOs:

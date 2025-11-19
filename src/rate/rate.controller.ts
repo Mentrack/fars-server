@@ -267,6 +267,34 @@ export class RateController {
     return await this.rateService.findAllRateDocuments(rateId);
   }
 
+  // ASSIGN DOCUMENT TO A RATE
+  @ApiOperation({ summary: 'Assign a document to a rate' })
+  @ApiOkResponse({
+    description: 'The document has been successfully assigned to the rate.',
+    type: UploadRateDocumentDto,
+  })
+  @Patch('document/:documentId/assign/:rateId')
+  async assignDocument(
+    @Param('documentId', ParseUUIDPipe) documentId: string,
+    @Param('rateId', ParseUUIDPipe) rateId: string,
+  ) {
+    return await this.rateService.assignDocumentToRate(documentId, rateId);
+  }
+
+  // UNASSIGN DOCUMENT FROM A RATE
+  @ApiOperation({ summary: 'Unassign a document from a rate' })
+  @ApiOkResponse({
+    description: 'The document has been successfully unassigned from the rate.',
+    type: UploadRateDocumentDto,
+  })
+  @Patch('document/:documentId/unassign/:rateId')
+  async unassignDocument(
+    @Param('documentId', ParseUUIDPipe) documentId: string,
+    @Param('rateId', ParseUUIDPipe) rateId: string,
+  ) {
+    return await this.rateService.unassignDocumentFromRate(documentId, rateId);
+  }
+
   // DELETE A CONTRACT DOCUMENT BY ID
   @ApiOperation({ summary: 'Delete a document by ID' })
   @ApiOkResponse({
