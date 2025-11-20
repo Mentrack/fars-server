@@ -341,3 +341,21 @@ model StaffAccountAssignment {
   @@unique([userId, accountId])
   @@map("staff_account_assignments")
 }
+
+enum AnalysisTypeEnum {
+  CAMF // Current Account Maintenance Fee
+  COT // Commission on Turnover
+  LOAN_INTEREST // Loan Interest
+  LC // Letter of Credit
+  WHT // Withholding Tax
+}
+
+model AnalysisType {
+  id          String    @id @default(uuid())
+  name        AnalysisTypeEnum    @unique // e.g., 'CAMF', 'COT'
+  description String?   // Optional: User-friendly explanation for the UI
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  @@map("analysis_types")
+}

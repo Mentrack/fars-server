@@ -1,4 +1,9 @@
-import { Category, ClassificationCode, PrismaClient } from '@prisma/client';
+import {
+  AnalysisTypeEnum,
+  Category,
+  ClassificationCode,
+  PrismaClient,
+} from '@prisma/client';
 import * as argon2 from 'argon2';
 
 const prisma = new PrismaClient();
@@ -122,6 +127,35 @@ async function main() {
       where: { code: bank.code },
       update: {},
       create: bank,
+    });
+  }
+
+  // seed analysis types
+  interface AnalysisTypeSeed {
+    name: AnalysisTypeEnum;
+    description: string;
+  }
+
+  const analysisTypes: AnalysisTypeSeed[] = [
+    {
+      name: AnalysisTypeEnum.CAMF,
+      description: 'Current Account Maintenance Fee',
+    },
+    { name: AnalysisTypeEnum.COT, description: 'Commission on Turnover' },
+    { name: AnalysisTypeEnum.LOAN_INTEREST, description: 'Loan Interest' },
+    { name: AnalysisTypeEnum.LC, description: 'Letter of Credit' },
+    { name: AnalysisTypeEnum.WHT, description: 'Withholding Tax' },
+  ];
+
+  console.log('🌱 Seeding Analysis Types...');
+  for (const type of analysisTypes) {
+    await prisma.analysisType.upsert({
+      where: { name: type.name as AnalysisTypeEnum }, // Coercing type here
+      update: { description: type.description },
+      create: {
+        name: type.name as AnalysisTypeEnum, // Coercing type here
+        description: type.description,
+      },
     });
   }
 
@@ -394,24 +428,27 @@ async function main() {
     });
 
     for (const keyword of item.patterns) {
-      const existingPattern = await prisma.classificationPattern.findFirst({
+      await prisma.classificationPattern.upsert({
+        // Use all three fields in the unique constraint
         where: {
-          keyword,
+          classificationId_keyword_isRegex: {
+            classificationId: classification.id,
+            keyword: keyword,
+            isRegex: false,
+          },
+        },
+
+        // If the record exists, do nothing (empty object)
+        update: {},
+
+        // If the record doesn't exist, create it
+        create: {
+          keyword: keyword,
           classificationId: classification.id,
+          isRegex: false,
           bankId: null,
         },
       });
-
-      if (!existingPattern) {
-        await prisma.classificationPattern.create({
-          data: {
-            keyword,
-            classificationId: classification.id,
-            isRegex: false,
-            bankId: null,
-          },
-        });
-      }
     }
   }
 
