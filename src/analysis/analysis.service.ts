@@ -5,14 +5,38 @@ import { CamfAnalyzer } from './strategies/camf.strategy';
 
 @Injectable()
 export class AnalysisService {
-  constructor(private readonly db: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async performAnalysis(dto: PerformAnalysisDto) {
     if (dto.type === 'CAMF') {
-      const analyzer = new CamfAnalyzer(this.db);
+      const analyzer = new CamfAnalyzer(this.databaseService);
       return analyzer.compute(dto.bankAccounts);
     }
 
     throw new NotFoundException(`Unsupported analysis type: ${dto.type}`);
+  }
+
+  async getAllAnalysisTypes(dto: { isActive?: boolean }) {
+    const whereClause = {
+      // If dto.isActive is true or false (boolean), it's included.
+      // If dto.isActive is undefined (i.e., not supplied in the query),
+      // the property is omitted from the object, and Prisma returns all.
+      isActive: dto.isActive,
+    };
+
+    // Clean up 'undefined' properties before passing to Prisma
+    const finalWhereClause = Object.fromEntries(
+      Object.entries(whereClause).filter(([, v]) => v !== undefined),
+    );
+
+    const result = await this.databaseService.analysisType.findMany({
+      where: finalWhereClause,
+    });
+
+    if (!result || result.length === 0) {
+      throw new NotFoundException('No analysis types found');
+    }
+
+    return result;
   }
 }
