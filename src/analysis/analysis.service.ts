@@ -29,8 +29,14 @@ export class AnalysisService {
       Object.entries(whereClause).filter(([, v]) => v !== undefined),
     );
 
-    return this.databaseService.analysisType.findMany({
+    const result = await this.databaseService.analysisType.findMany({
       where: finalWhereClause,
     });
+
+    if (!result || result.length === 0) {
+      throw new NotFoundException('No analysis types found');
+    }
+
+    return result;
   }
 }
