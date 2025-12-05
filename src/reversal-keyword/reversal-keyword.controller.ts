@@ -19,9 +19,11 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiQuery,
+  ApiTags,
 } from '@nestjs/swagger';
 
 @ApiBearerAuth()
+@ApiTags('Reversal Keywords') // Group endpoints in Swagger UI
 @Controller('reversal-keywords')
 export class ReversalKeywordController {
   constructor(

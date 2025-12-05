@@ -19,9 +19,11 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiTags,
 } from '@nestjs/swagger';
 
 @ApiBearerAuth()
+@ApiTags('Bank Accounts') // Group endpoints in Swagger UI
 @Controller('bank-accounts')
 export class BankAccountController {
   constructor(private readonly bankAccountService: BankAccountService) {}

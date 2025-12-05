@@ -24,6 +24,7 @@ import {
   ApiOperation,
   ApiProperty,
   ApiPropertyOptional,
+  ApiTags,
 } from '@nestjs/swagger';
 import { Role } from 'src/auth/enum/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -38,6 +39,7 @@ import { FileUploadDto } from './dto/file-upload.dto';
 import { UpdateFileUploadDto } from './dto/update-file-upload.dto';
 
 @ApiBearerAuth()
+@ApiTags('Bank Account Rates') // Group endpoints in Swagger UI
 @Controller('rates')
 export class RateController {
   constructor(private readonly rateService: RateService) {}

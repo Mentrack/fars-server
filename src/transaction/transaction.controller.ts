@@ -39,6 +39,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiQuery,
+  ApiTags,
 } from '@nestjs/swagger';
 import {
   FileUploadDto,
@@ -50,6 +51,7 @@ import {
 } from './dto/delete-transactions.dto';
 
 @ApiBearerAuth()
+@ApiTags('Bank Account Transactions') // Group endpoints in Swagger UI
 @Controller('transactions')
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}

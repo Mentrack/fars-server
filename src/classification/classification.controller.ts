@@ -11,11 +11,12 @@ import {
 import { ClassificationService } from './classification.service';
 import { CreateClassificationDto } from './dto/create-classification.dto';
 import { UpdateClassificationDto } from './dto/update-classification.dto';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Role } from 'src/user/enum/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiBearerAuth()
+@ApiTags('Bank Account Transaction Classifications') // Group endpoints in Swagger UI
 @Controller('classifications')
 export class ClassificationController {
   constructor(private readonly classificationService: ClassificationService) {}

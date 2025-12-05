@@ -14,9 +14,11 @@ export class BankAccountService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async create(createBankAccountDto: CreateBankAccountDto) {
+    const { bankId, clientId } = createBankAccountDto;
+
     // Check if the client exists
     const clientExists = await this.databaseService.client.findUnique({
-      where: { id: createBankAccountDto.clientId },
+      where: { id: clientId },
     });
 
     if (!clientExists) {
@@ -47,7 +49,9 @@ export class BankAccountService {
 
     // Keep trying until we generate a code that doesn't exist
     while (true) {
-      const candidate = generateCode('BAC');
+      const candidate = generateCode(
+        `BAC-${bankExists.name.substring(0, 4).toUpperCase()}-${clientExists.firstName.substring(0, 4).toUpperCase()}`,
+      );
       const existing = await this.databaseService.bankAccount.findUnique({
         where: { code: candidate },
       });

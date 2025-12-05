@@ -18,10 +18,12 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiTags,
 } from '@nestjs/swagger';
 import { CreateClientResponseDto } from './dto/create-client-response.dto';
 
 @ApiBearerAuth()
+@ApiTags('Clients') // Group endpoints in Swagger UI
 @Controller('clients')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
