@@ -93,6 +93,7 @@ export class RateService {
         }, // Include client details in the response
         bank: {
           select: {
+            id: true,
             name: true,
             code: true,
           },
@@ -128,6 +129,13 @@ export class RateService {
         effectiveTo: true,
         createdAt: true,
         updatedAt: true,
+        bank: {
+          select: {
+            id: true,
+            name: true,
+            code: true,
+          },
+        }, // Include bank details in the response
       },
     });
 
@@ -140,7 +148,16 @@ export class RateService {
     return rates;
   }
 
-  async findByBankId(bankId: string) {
+  async findByBankId(clientId: string, bankId: string) {
+    // Check if the client exists
+    const clientExists = await this.databaseService.client.findUnique({
+      where: { id: clientId },
+    });
+    if (!clientExists) {
+      throw new NotFoundException('Client not found');
+    }
+
+    // Check if the bank exists
     const bankExists = await this.databaseService.bank.findUnique({
       where: { id: bankId },
     });
@@ -149,7 +166,7 @@ export class RateService {
     }
 
     const rates = await this.databaseService.accountRate.findMany({
-      where: { bankId },
+      where: { bankId, clientId },
       select: {
         id: true,
         code: true,
@@ -202,6 +219,7 @@ export class RateService {
       where: { id },
       include: {
         client: true, // Include client details in the response
+        bank: true, // Include bank details in the response
       },
     });
 
@@ -232,6 +250,7 @@ export class RateService {
       data: { ...data },
       include: {
         client: true, // Include client details in the response
+        bank: true, // Include bank details in the response
       },
     });
   }
@@ -242,6 +261,7 @@ export class RateService {
       where: { id },
       include: {
         client: true, // Include client details in the response
+        bank: true, // Include bank details in the response
       },
     });
     if (!rateExist) {
