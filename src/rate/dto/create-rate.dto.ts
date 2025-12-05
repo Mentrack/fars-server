@@ -37,6 +37,15 @@ export class CreateRateDto {
   @IsUUID()
   clientId: string;
 
+  @ApiProperty({
+    description: 'ID of the bank',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @IsUUID()
+  bankId: string;
+
   @ApiPropertyOptional({
     example: [
       { rate: 0.05, effectiveFrom: '2023-01-01', effectiveTo: '2023-12-31' },
@@ -201,6 +210,12 @@ export class CreateRateResponseDto {
   @IsNotEmpty()
   @IsUUID()
   clientId: string;
+
+  @ApiProperty({ example: '123e4567-e89b-12d3-a456-426614174000' })
+  @IsString()
+  @IsNotEmpty()
+  @IsUUID()
+  bankId: string;
 
   @ApiProperty({
     example: 'ARC-12345678',

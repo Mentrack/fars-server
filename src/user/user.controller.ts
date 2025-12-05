@@ -23,6 +23,7 @@ import {
   ApiOperation,
   ApiParam,
   ApiQuery,
+  ApiTags,
 } from '@nestjs/swagger';
 import { MyLoggerService } from 'src/my-logger/my-logger.service';
 import {
@@ -34,6 +35,7 @@ import { ActivateUserResponseDto } from './dto/activate-user.dto';
 import { EmailValidationPipe } from './pipe/email-validation.pipe';
 
 @ApiBearerAuth()
+@ApiTags('Users') // Group endpoints in Swagger UI
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}

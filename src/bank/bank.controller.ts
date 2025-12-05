@@ -16,11 +16,13 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiTags,
 } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/user/enum/role.enum';
 
 @ApiBearerAuth()
+@ApiTags('Banks') // Group endpoints in Swagger UI
 @Roles(Role.ADMIN, Role.SUPER_ADMIN)
 @Controller('banks')
 export class BankController {

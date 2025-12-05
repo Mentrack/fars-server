@@ -8,8 +8,11 @@ import {
 } from '@nestjs/common';
 import { AnalysisService } from './analysis.service';
 import { PerformAnalysisDto } from './dto/perform-analysis.dto';
-import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+
+
 @ApiBearerAuth()
+@ApiTags('Analysis') // Group endpoints in Swagger UI
 @Controller('analysis')
 export class AnalysisController {
   constructor(private readonly analysisService: AnalysisService) {}

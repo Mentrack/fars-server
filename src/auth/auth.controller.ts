@@ -16,13 +16,19 @@ import { RequestWithUser } from './types/request-with-user';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
 import { RefreshAccessTokenResponseDto } from './dto/refresh-token.dto';
 import { CreateUserResponseDto } from 'src/user/dto/create-user.dto';
 import { Public } from './decorators/public.decorator';
 import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
+@ApiTags('Auth') // Group endpoints in Swagger UI
 @Controller('auth')
 export class AuthController {
   constructor(

@@ -20,6 +20,7 @@ import { TransactionModule } from './transaction/transaction.module';
 import { ReversalKeywordModule } from './reversal-keyword/reversal-keyword.module';
 import { ClassificationPatternModule } from './classification-pattern/classification-pattern.module';
 import { AnalysisModule } from './analysis/analysis.module';
+import { RateCommentModule } from './rate-comment/rate-comment.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { AnalysisModule } from './analysis/analysis.module';
     ReversalKeywordModule,
     ClassificationPatternModule,
     AnalysisModule,
+    RateCommentModule,
   ],
   controllers: [AppController],
   providers: [

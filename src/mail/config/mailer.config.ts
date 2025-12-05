@@ -7,4 +7,5 @@ export default registerAs('mailer', () => ({
   user: process.env.MAIL_USER,
   pass: process.env.MAIL_PASS,
   appUrl: process.env.APP_URL,
+  appName: process.env.APP_NAME,
 }));

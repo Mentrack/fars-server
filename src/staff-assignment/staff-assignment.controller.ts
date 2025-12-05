@@ -20,6 +20,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiTags,
 } from '@nestjs/swagger';
 import {
   GetAllAssignmentsResponseDto,
@@ -28,6 +29,7 @@ import {
 } from './dto/get-assignments.tdo';
 
 @ApiBearerAuth()
+@ApiTags('Staff Assignments') // Group endpoints in Swagger UI
 @Controller('staff-assignments')
 export class StaffAssignmentController {
   constructor(

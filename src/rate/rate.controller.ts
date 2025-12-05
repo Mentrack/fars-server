@@ -24,6 +24,7 @@ import {
   ApiOperation,
   ApiProperty,
   ApiPropertyOptional,
+  ApiTags,
 } from '@nestjs/swagger';
 import { Role } from 'src/auth/enum/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -38,6 +39,7 @@ import { FileUploadDto } from './dto/file-upload.dto';
 import { UpdateFileUploadDto } from './dto/update-file-upload.dto';
 
 @ApiBearerAuth()
+@ApiTags('Bank Account Rates') // Group endpoints in Swagger UI
 @Controller('rates')
 export class RateController {
   constructor(private readonly rateService: RateService) {}
@@ -84,6 +86,17 @@ export class RateController {
   @Get('client/:clientId')
   async findByClientId(@Param('clientId', ParseUUIDPipe) clientId: string) {
     return await this.rateService.findByClientId(clientId);
+  }
+
+  // GET RATE BY BANK ID
+  @ApiOperation({ summary: 'Get rates by Bank ID' })
+  @ApiOkResponse({
+    description: 'The rates have been successfully retrieved.',
+    type: [CreateRateResponseDto],
+  })
+  @Get('bank/:bankId')
+  async findByBankId(@Param('bankId', ParseUUIDPipe) bankId: string) {
+    return await this.rateService.findByBankId(bankId);
   }
 
   // GET A CONTRACT DOCUMENT BY ID

@@ -18,10 +18,12 @@ import {
   ApiExtraModels,
   ApiOkResponse,
   ApiOperation,
+  ApiTags,
 } from '@nestjs/swagger';
 import { FindAllPatternsQueryDto } from './dto/find-all-patterns.dto';
 
 @ApiBearerAuth()
+@ApiTags('Classification Patterns') // Group endpoints in Swagger UI
 @Controller('classification-patterns')
 // Ensure Swagger knows about the DTOs used in type definitions
 @ApiExtraModels(CreateClassificationPatternDto, FindAllPatternsQueryDto)

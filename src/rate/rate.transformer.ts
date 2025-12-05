@@ -6,6 +6,7 @@ export function transformRateDtoToPrismaPayload(
 ) {
   const rawPayload = {
     clientId: dto.clientId,
+    bankId: dto.bankId,
     drRates: dto.drRates ? JSON.parse(JSON.stringify(dto.drRates)) : undefined,
     loanInterestRates: dto.loanInterestRates
       ? JSON.parse(JSON.stringify(dto.loanInterestRates))

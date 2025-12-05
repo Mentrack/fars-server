@@ -66,9 +66,9 @@ export class MailService {
         <hr style="margin: 24px 0;">
         <p style="font-size: 12px; color: #6c757d;">For security, always keep your login information private.</p>
         <p style="font-size: 12px; color: #6c757d;">
-          This message was sent by ACFCO's secure account management system. If you did not expect this email, please ignore it.
+          This message was sent by ${this.mailerConfiguration.appName}'s secure account management system. If you did not expect this email, please ignore it.
         </p>
-        <p style="font-size: 12px; color: #6c757d;">© ${new Date().getFullYear()} ACFCO. All rights reserved.</p>
+        <p style="font-size: 12px; color: #6c757d;">© ${new Date().getFullYear()} ${this.mailerConfiguration.appName}. All rights reserved.</p>
       </div>`,
     };
 
@@ -107,9 +107,9 @@ export class MailService {
     
         <hr style="margin: 24px 0;">
         <p style="font-size: 12px; color: #6c757d;">
-          This message was sent by ACFCO's secure account management system. If you did not expect this email, please ignore it.
+          This message was sent by ${this.mailerConfiguration.appName}'s secure account management system. If you did not expect this email, please ignore it.
         </p>
-        <p style="font-size: 12px; color: #6c757d;">© ${new Date().getFullYear()} ACFCO. All rights reserved.</p>
+        <p style="font-size: 12px; color: #6c757d;">© ${new Date().getFullYear()} ${this.mailerConfiguration.appName}. All rights reserved.</p>
       </div>`,
     };
 
@@ -125,21 +125,21 @@ export class MailService {
     const mailOptions = {
       from: 'RespecTech-HR Service',
       to,
-      subject: 'Your ACFCO System Account Has Been Created',
+      subject: `Your ${this.mailerConfiguration.appName} System Account Has Been Created`,
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; border: 1px solid #eee; border-radius: 8px;">
-        <h2 style="color: #0d6efd; text-align: center;">Welcome to ACFCO!</h2>
+        <h2 style="color: #0d6efd; text-align: center;">Welcome to ${this.mailerConfiguration.appName}!</h2>
 
         <p>Hello ${firstName},</p>
 
         <p>
-          An account has been created for you by an administrator on the <strong>ACFCO.com</strong> system.
+          An account has been created for you by an administrator on the <strong>${this.mailerConfiguration.appName}</strong> system.
         </p>
 
         <p>You can now log in using the following credentials:</p>
 
         <div style="background: #f8f9fa; padding: 16px; font-size: 16px; border: 1px dashed #0d6efd; border-radius: 4px; margin: 20px 0;">
-          <p><strong>Login URL:</strong> <a href="https://fars-web-client.vercel.app" style="color: #0d6efd;">fars-web-client.vercel.app</a></p>
+          <p><strong>Login URL:</strong> <a href="${this.mailerConfiguration.appUrl}" style="color: #0d6efd;">${this.mailerConfiguration.appUrl}</a></p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Temporary Password:</strong> ${tempPassword}</p>
         </div>
@@ -150,9 +150,9 @@ export class MailService {
 
         <hr style="margin: 24px 0;">
         <p style="font-size: 12px; color: #6c757d;">
-          This message was sent by ACFCO's secure account management system. If you did not expect this email, please ignore it.
+          This message was sent by ${this.mailerConfiguration.appName}'s secure account management system. If you did not expect this email, please ignore it.
         </p>
-        <p style="font-size: 12px; color: #6c757d;">© ${new Date().getFullYear()} ACFCO. All rights reserved.</p>
+        <p style="font-size: 12px; color: #6c757d;">© ${new Date().getFullYear()} ${this.mailerConfiguration.appName}. All rights reserved.</p>
       </div>`,
     };
 

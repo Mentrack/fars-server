@@ -50,6 +50,9 @@ model User {
   // Transactions assigned to this user
   BankTransaction BankTransaction[]
 
+  // 📝  Rate comments made by this user
+  comments RateComment[]
+
   // 👥 Staff accounts assigned to this user
   StaffAccountAssignment StaffAccountAssignment[]
 
@@ -235,6 +238,7 @@ model Bank {
   name         String        @unique // Unique name of the bank
   code         String        @unique
   bankAccounts BankAccount[] // One-to-many relation
+  accountRates  AccountRate[] // One-to-many relation
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
@@ -267,6 +271,7 @@ model Client {
 model AccountRate {
   id                   String @id @default(uuid())
   clientId             String // 👈 links to client
+  bankId               String // 👈 links to bank
   code                 String @unique // Unique code for the rate configuration
   drRates              Json? // array of { rate, effectiveFrom, effectiveTo }
   loanInterestRates    Json?
@@ -295,11 +300,29 @@ model AccountRate {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 
+  comments     RateComment[]
+  bank         Bank          @relation(fields: [bankId], references: [id])
   client       Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   bankAccounts BankAccount[] // one rate config → many bank accounts
   documents    Document[]    @relation("RateDocuments")
 
   @@map("account_rates")
+}
+
+model RateComment {
+  id            String    @id @default(uuid())
+  content       String    @db.Text
+  accountRateId String // 👈 Foreign key linking to AccountRate
+  userId        String // 👈 Foreign key linking to the User who created the comment
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  accountRate AccountRate @relation(fields: [accountRateId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("rate_comments")
 }
 
 enum DocumentType {
