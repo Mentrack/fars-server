@@ -28,7 +28,7 @@ import { CreateUserResponseDto } from 'src/user/dto/create-user.dto';
 import { Public } from './decorators/public.decorator';
 import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
-@ApiTags('Auth') // Group endpoints in Swagger UI
+@ApiTags('Authentication') // Group endpoints in Swagger UI
 @Controller('auth')
 export class AuthController {
   constructor(
