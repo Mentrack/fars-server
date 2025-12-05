@@ -88,6 +88,17 @@ export class RateController {
     return await this.rateService.findByClientId(clientId);
   }
 
+  // GET RATE BY BANK ID
+  @ApiOperation({ summary: 'Get rates by Bank ID' })
+  @ApiOkResponse({
+    description: 'The rates have been successfully retrieved.',
+    type: [CreateRateResponseDto],
+  })
+  @Get('bank/:bankId')
+  async findByBankId(@Param('bankId', ParseUUIDPipe) bankId: string) {
+    return await this.rateService.findByBankId(bankId);
+  }
+
   // GET A CONTRACT DOCUMENT BY ID
   @ApiOperation({ summary: 'Get a document by ID' })
   @ApiOkResponse({

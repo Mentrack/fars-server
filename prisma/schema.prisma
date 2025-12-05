@@ -238,6 +238,7 @@ model Bank {
   name         String        @unique // Unique name of the bank
   code         String        @unique
   bankAccounts BankAccount[] // One-to-many relation
+  accountRates  AccountRate[] // One-to-many relation
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
@@ -270,6 +271,7 @@ model Client {
 model AccountRate {
   id                   String @id @default(uuid())
   clientId             String // 👈 links to client
+  bankId               String // 👈 links to bank
   code                 String @unique // Unique code for the rate configuration
   drRates              Json? // array of { rate, effectiveFrom, effectiveTo }
   loanInterestRates    Json?
@@ -299,6 +301,7 @@ model AccountRate {
   updatedAt            DateTime  @updatedAt
 
   comments     RateComment[]
+  bank         Bank          @relation(fields: [bankId], references: [id])
   client       Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   bankAccounts BankAccount[] // one rate config → many bank accounts
   documents    Document[]    @relation("RateDocuments")

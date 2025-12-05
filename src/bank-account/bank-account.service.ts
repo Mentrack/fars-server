@@ -102,6 +102,13 @@ export class BankAccountService {
       throw new NotFoundException('Rate not found');
     }
 
+    // Check if the rate belongs to the same bank as the bank account
+    if (rate.bankId !== bankAccount.bankId) {
+      throw new BadRequestException(
+        'Rate does not belong to the same bank as the bank account',
+      );
+    }
+
     // Assign the rate to the bank account
     return await this.databaseService.bankAccount.update({
       where: { id: accountId },

@@ -25,6 +25,14 @@ export class RateService {
       throw new NotFoundException('Client not found');
     }
 
+    // Check if the bank exists
+    const bankExists = await this.databaseService.bank.findUnique({
+      where: { id: createRateDto.bankId },
+    });
+    if (!bankExists) {
+      throw new NotFoundException('Bank not found');
+    }
+
     // Transform the rate type to json if it's not already
 
     const data = transformRateDtoToPrismaPayload(createRateDto);
@@ -34,7 +42,9 @@ export class RateService {
 
     // Keep trying until we generate a code that doesn't exist
     while (true) {
-      const candidate = generateCode('ARC');
+      const candidate = generateCode(
+        `ARC-${bankExists.name.substring(0, 4).toUpperCase()}-${clientExists.firstName.substring(0, 4).toUpperCase()}`,
+      );
       const existing = await this.databaseService.accountRate.findUnique({
         where: { code: candidate },
       });
@@ -50,10 +60,12 @@ export class RateService {
       data: {
         ...data,
         clientId: createRateDto.clientId,
+        bankId: createRateDto.bankId,
         code,
       },
       include: {
         client: true, // Include client details in the response
+        bank: true, // Include bank details in the response
       },
     });
   }
@@ -79,6 +91,12 @@ export class RateService {
             avatarUrl: true,
           },
         }, // Include client details in the response
+        bank: {
+          select: {
+            name: true,
+            code: true,
+          },
+        }, // Include bank details in the response
       },
     });
 
@@ -92,6 +110,13 @@ export class RateService {
   }
 
   async findByClientId(clientId: string) {
+    const clientExists = await this.databaseService.client.findUnique({
+      where: { id: clientId },
+    });
+    if (!clientExists) {
+      throw new NotFoundException('Client not found');
+    }
+
     const rates = await this.databaseService.accountRate.findMany({
       where: { clientId },
       select: {
@@ -109,6 +134,37 @@ export class RateService {
     // Check if there are any rates for the client
     if (rates.length === 0) {
       throw new NotFoundException('No rates found for this client');
+    }
+
+    // Return the list of rates
+    return rates;
+  }
+
+  async findByBankId(bankId: string) {
+    const bankExists = await this.databaseService.bank.findUnique({
+      where: { id: bankId },
+    });
+    if (!bankExists) {
+      throw new NotFoundException('Bank not found');
+    }
+
+    const rates = await this.databaseService.accountRate.findMany({
+      where: { bankId },
+      select: {
+        id: true,
+        code: true,
+        rateType: true,
+        currency: true,
+        effectiveFrom: true,
+        effectiveTo: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    // Check if there are any rates for the bank
+    if (rates.length === 0) {
+      throw new NotFoundException('No rates found for this bank');
     }
 
     // Return the list of rates
