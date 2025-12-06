@@ -5,6 +5,7 @@ export const allowedOrigins = [
   'http://localhost:3003',
   'https://fars-web-client-xlrw.vercel.app',
   'https://fars-web.vercel.app',
+  'https://fars-web-v2.vercel.app',
   'http://fars-api-env.eba-rfmzrjse.eu-west-2.elasticbeanstalk.com',
   'http://adegoroyefadareandco.org',
   'https://adegoroyefadareandco.org',
