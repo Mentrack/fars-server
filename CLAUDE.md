@@ -36,22 +36,24 @@ Specs and plans produced by superpowers skills also go under `docs/` (for exampl
 ## Commands
 
 ```bash
-npm install
-npm run start:dev          # watch mode, http://localhost:3000, Swagger at /api/doc
-npm run build              # nest build → dist/ (prod entry: dist/src/main.js)
-npm run lint               # eslint --fix over src/test
-npm run format             # prettier
+pnpm install
+pnpm run start:dev          # watch mode, http://localhost:3000, Swagger at /api/doc
+pnpm run build              # nest build → dist/ (prod entry: dist/src/main.js)
+pnpm run lint               # eslint --fix over src/test
+pnpm run format             # prettier
 
-npm test                                   # unit tests (jest, rootDir=src, *.spec.ts)
-npx jest src/transaction/services/classifier   # single folder/file
-npx jest -t "name of test"                 # single test by name
-npm run test:e2e                           # test/*.e2e-spec.ts
-npx tsc --noEmit                           # type-check
+pnpm test                                   # unit tests (jest, rootDir=src, *.spec.ts)
+pnpm exec jest src/transaction/services/classifier   # single folder/file
+pnpm exec jest -t "name of test"                 # single test by name
+pnpm run test:e2e                           # test/*.e2e-spec.ts
+pnpm exec tsc --noEmit                           # type-check
 
-npx prisma migrate dev --name <change>     # create + apply a migration
-npx prisma generate                        # regenerate client after schema edits
-npx prisma db seed                         # runs prisma/seed.ts
+pnpm exec prisma migrate dev --name <change>     # create + apply a migration
+pnpm exec prisma generate                        # regenerate client after schema edits
+pnpm exec prisma db seed                         # runs prisma/seed.ts
 ```
+
+Package manager is **pnpm** (version pinned in `package.json` `packageManager`; run `corepack enable` once). Dependencies whose install scripts may run are listed under `allowBuilds` in `pnpm-workspace.yaml`. Add a new native/postinstall dependency there, or `pnpm install` fails with `ERR_PNPM_IGNORED_BUILDS`.
 
 Env vars: copy `.env.sample` → `.env` (Supabase Postgres `DATABASE_URL` + `DIRECT_URL` (session pooler), JWT + refresh JWT secrets, SMTP, `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` / `SUPABASE_STORAGE_BUCKET`, `APP_URL`).
 

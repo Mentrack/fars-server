@@ -4,6 +4,25 @@ All notable changes to the FaRS API are recorded here, newest first. Detailed no
 
 Categories: **Added / Changed / Fixed / Removed / Security**. Breaking API changes and Prisma migrations are flagged explicitly.
 
+## 2026-10-07 — Switch package manager from npm to pnpm
+
+Details: [`changes/2026-10-07-npm-to-pnpm.md`](changes/2026-10-07-npm-to-pnpm.md).
+
+> **Breaking for deploy and local dev:** `package-lock.json` is gone. Install with `pnpm install` (run `corepack enable` once first). Railway now builds and starts with pnpm. **No Prisma migration, no API change.**
+
+### Added
+- `pnpm-lock.yaml`, imported from `package-lock.json` with the same resolved versions.
+- `pnpm-workspace.yaml` with an `allowBuilds` list. It allows install scripts for argon2, bcrypt, @swc/core, Prisma and @nestjs/core, and blocks the @scarf/scarf telemetry script.
+- `"packageManager": "pnpm@12.5.1"` in `package.json`.
+- `body-parser` (^2.2.0) and `@types/body-parser` as declared dependencies. `src/main.ts` already imported `body-parser`, but it only resolved through npm hoisting, so pnpm's strict layout broke the build.
+
+### Changed
+- `railway.json`: the build, pre-deploy (`prisma migrate deploy`) and start commands now use pnpm.
+- `CLAUDE.md`, `README.md`, `docs/handover.md`: commands now use pnpm.
+
+### Removed
+- `package-lock.json`.
+
 ## 2026-10-07 — Move off AWS: Supabase (DB + storage) and Railway (hosting)
 
 Details and runbook: [`changes/2026-10-07-supabase-railway-migration.md`](changes/2026-10-07-supabase-railway-migration.md). Spec: [`specs/2026-10-07-supabase-railway-migration-design.md`](specs/2026-10-07-supabase-railway-migration-design.md). Plan: [`plans/2026-10-07-supabase-railway-migration.md`](plans/2026-10-07-supabase-railway-migration.md).

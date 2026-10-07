@@ -119,7 +119,7 @@ Until these are fixed, the frontend can work around most of them:
 
 ## 8. Deploy
 
-1. `npx prisma migrate deploy`. This adds the `fees` and `managementFeeRate` columns to `account_rates` (nullable, no backfill).
+1. `pnpm prisma migrate deploy`. This adds the `fees` and `managementFeeRate` columns to `account_rates` (nullable, no backfill).
 2. Before merging `analysis`: its document migration (`20251211072749_add_bankid_to_document`) adds a NOT NULL column with no default and will fail on a database that already has documents. Rewrite it as add nullable → backfill → set NOT NULL.
 3. Check that `JWT_EXPIRES_IN` and `REFRESH_JWT_EXPIRES_IN` are set in production. Short values are the likeliest cause of the next-day logouts.
 
