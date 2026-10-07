@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateRateDto } from './dto/create-rate.dto';
 import { UpdateRateDto } from './dto/update-rate.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { transformRateDtoToPrismaPayload } from './rate.transformer';
 import { UploadRateDocumentDto } from './dto/upload-rate-document.dto';
-import { RateS3Service } from './rate.s3.service';
+import { RateStorageService } from './rate.storage.service';
 import { generateCode } from 'src/utils/create-code.util';
 import { DocumentType, Prisma } from '@prisma/client';
 import { UpdateRateDocumentDto } from './dto/update-rate-document.dto';
@@ -13,8 +13,23 @@ import { UpdateRateDocumentDto } from './dto/update-rate-document.dto';
 export class RateService {
   constructor(
     private readonly databaseService: DatabaseService,
-    private readonly rateS3Service: RateS3Service,
+    private readonly rateStorageService: RateStorageService,
   ) {}
+
+  private readonly logger = new Logger(RateService.name);
+
+  // One missing storage object must not fail a whole document list;
+  // that document is returned with url: null instead.
+  private async signedUrlOrNull(key: string): Promise<string | null> {
+    try {
+      return await this.rateStorageService.getFileUrl(key);
+    } catch (error) {
+      this.logger.warn(
+        `Could not sign document URL for "${key}": ${(error as Error).message}`,
+      );
+      return null;
+    }
+  }
 
   async create(createRateDto: CreateRateDto) {
     //Check if the client exists
@@ -71,16 +86,9 @@ export class RateService {
   }
 
   async findAll() {
+    // Return every rate field so the Rate Details view has the full contract
     const rates = await this.databaseService.accountRate.findMany({
-      select: {
-        id: true,
-        code: true,
-        rateType: true,
-        currency: true,
-        effectiveFrom: true,
-        effectiveTo: true,
-        createdAt: true,
-        updatedAt: true,
+      include: {
         client: {
           select: {
             id: true,
@@ -120,15 +128,7 @@ export class RateService {
 
     const rates = await this.databaseService.accountRate.findMany({
       where: { clientId },
-      select: {
-        id: true,
-        code: true,
-        rateType: true,
-        currency: true,
-        effectiveFrom: true,
-        effectiveTo: true,
-        createdAt: true,
-        updatedAt: true,
+      include: {
         bank: {
           select: {
             id: true,
@@ -167,16 +167,6 @@ export class RateService {
 
     const rates = await this.databaseService.accountRate.findMany({
       where: { bankId, clientId },
-      select: {
-        id: true,
-        code: true,
-        rateType: true,
-        currency: true,
-        effectiveFrom: true,
-        effectiveTo: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
 
     // Check if there are any rates for the bank
@@ -207,8 +197,8 @@ export class RateService {
       throw new NotFoundException('Document not found');
     }
 
-    // Assign the S3 URL to the document
-    document.url = await this.rateS3Service.getFileUrl(document.url);
+    // Assign the storage URL to the document
+    document.url = await this.rateStorageService.getFileUrl(document.url);
 
     // Return the document details
     return document;
@@ -304,9 +294,9 @@ export class RateService {
       }
     }
 
-    // Upload to S3
+    // Upload to storage
     const key = `contract-documents/${code.toLocaleLowerCase()}`;
-    const fileUrl = await this.rateS3Service.uploadFile(file, key);
+    const fileUrl = await this.rateStorageService.uploadFile(file, key);
     if (!fileUrl) {
       throw new NotFoundException('File upload failed');
     }
@@ -325,8 +315,8 @@ export class RateService {
       },
     });
 
-    // Assign the S3 URL to the document
-    document.url = await this.rateS3Service.getFileUrl(document.url);
+    // Assign the storage URL to the document
+    document.url = await this.rateStorageService.getFileUrl(document.url);
 
     const documentWithRates = await this.databaseService.document.findUnique({
       where: { id: document.id },
@@ -358,11 +348,11 @@ export class RateService {
       throw new NotFoundException('Document not found');
     }
 
-    // If a file is provided, upload it to S3
+    // If a file is provided, upload it to storage
     let fileUrl: string | undefined;
     if (file) {
       const key = `contract-documents/${documentExists.code.toLocaleLowerCase()}`;
-      fileUrl = await this.rateS3Service.uploadFile(file, key);
+      fileUrl = await this.rateStorageService.uploadFile(file, key);
       if (!fileUrl) {
         throw new NotFoundException('File upload failed');
       }
@@ -386,8 +376,8 @@ export class RateService {
       data,
     });
 
-    // Assign the S3 URL to the document
-    document.url = await this.rateS3Service.getFileUrl(document.url);
+    // Assign the storage URL to the document
+    document.url = await this.rateStorageService.getFileUrl(document.url);
 
     const documentWithRates = await this.databaseService.document.findUnique({
       where: { id: document.id },
@@ -418,7 +408,7 @@ export class RateService {
     }
 
     const assignDocumentUrl = documents.map(async (document) => {
-      const url = await this.rateS3Service.getFileUrl(document.url);
+      const url = await this.signedUrlOrNull(document.url);
       return { ...document, url };
     });
 
@@ -465,7 +455,7 @@ export class RateService {
     });
 
     const assignDocumentUrl = documents.map(async (document) => {
-      const url = await this.rateS3Service.getFileUrl(document.url);
+      const url = await this.signedUrlOrNull(document.url);
       return { ...document, url };
     });
 
@@ -513,7 +503,7 @@ export class RateService {
     });
 
     const assignDocumentUrl = documents.map(async (document) => {
-      const url = await this.rateS3Service.getFileUrl(document.url);
+      const url = await this.signedUrlOrNull(document.url);
       return { ...document, url };
     });
 
@@ -560,7 +550,7 @@ export class RateService {
     }
 
     const assignDocumentUrl = documents.map(async (document) => {
-      const url = await this.rateS3Service.getFileUrl(document.url);
+      const url = await this.signedUrlOrNull(document.url);
       return { ...document, url };
     });
 
@@ -576,8 +566,8 @@ export class RateService {
     if (!documentExists) {
       throw new NotFoundException('Document not found');
     }
-    // Delete the document from S3
-    await this.rateS3Service.deleteFile(documentExists.url);
+    // Delete the document from storage
+    await this.rateStorageService.deleteFile(documentExists.url);
 
     // Delete the document from the database
     return await this.databaseService.document.delete({

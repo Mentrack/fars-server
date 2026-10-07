@@ -6,7 +6,6 @@ import {
 import { CreateRateCommentDto } from './dto/create-rate-comment.dto';
 import { UpdateRateCommentDto } from './dto/update-rate-comment.dto';
 import { DatabaseService } from 'src/database/database.service';
-import { NotFound } from '@aws-sdk/client-s3';
 import { RequestWithUser } from 'src/auth/types/request-with-user';
 
 @Injectable()

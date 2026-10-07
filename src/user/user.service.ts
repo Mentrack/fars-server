@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -12,6 +13,22 @@ import * as argon2 from 'argon2';
 import { omit } from 'src/utils/omit.util';
 import { DeactivateUserDto } from './dto/deactivate-user.dto';
 import { MailService } from 'src/mail/mail.service';
+import { CurrentUser } from 'src/auth/types/current-user';
+import { Role as AuthRole } from 'src/auth/enum/role.enum';
+import { UserRole } from '@prisma/client';
+
+// Roles an ADMIN may assign when creating a user. Any other role, and every
+// role change after creation, is reserved for SUPER_ADMIN.
+const ADMIN_ASSIGNABLE_ROLES: UserRole[] = [UserRole.STAFF, UserRole.CLIENT];
+
+// Fields a STAFF or CLIENT user may change on their own account. Everything
+// else (email, username, isActive, permissions, role) needs an admin.
+const SELF_EDITABLE_FIELDS: (keyof UpdateUserDto)[] = [
+  'firstName',
+  'lastName',
+  'phone',
+  'avatarUrl',
+];
 
 @Injectable()
 export class UserService {
@@ -20,7 +37,18 @@ export class UserService {
     private readonly mailService: MailService,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto, actor: CurrentUser) {
+    const { role } = createUserDto;
+    if (
+      role &&
+      actor.role !== AuthRole.SUPER_ADMIN &&
+      !ADMIN_ASSIGNABLE_ROLES.includes(role)
+    ) {
+      throw new ForbiddenException(
+        'Only a super admin can create admin or super admin users',
+      );
+    }
+
     try {
       // Prepare the data object
       const { permissions, ...userData } = createUserDto;
@@ -199,7 +227,9 @@ export class UserService {
     });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto, actor: CurrentUser) {
+    await this.assertCanUpdate(id, updateUserDto, actor);
+
     try {
       // Prepare the data object
       const { permissions, ...userData } = updateUserDto;
@@ -244,6 +274,72 @@ export class UserService {
       }
       // Handle other errors
       throw new BadRequestException(`Failed to update user`);
+    }
+  }
+
+  // Who may edit whom. The email is what password reset trusts, so editing
+  // another user's account is an admin action, and admin accounts are
+  // reserved for super admins.
+  private async assertCanUpdate(
+    targetId: string,
+    updateUserDto: UpdateUserDto,
+    actor: CurrentUser,
+  ) {
+    const isSelf = actor.id === targetId;
+    const isSuperAdmin = actor.role === AuthRole.SUPER_ADMIN;
+    const isAdmin = isSuperAdmin || actor.role === AuthRole.ADMIN;
+    const newRole = updateUserDto.role;
+
+    if (!isSelf && !isAdmin) {
+      throw new ForbiddenException('You can only edit your own profile');
+    }
+
+    if (newRole !== undefined) {
+      if (!isSuperAdmin) {
+        throw new ForbiddenException(
+          'Only a super admin can change user roles',
+        );
+      }
+      if (isSelf) {
+        throw new ForbiddenException('You cannot change your own role');
+      }
+    }
+
+    if (!isAdmin) {
+      const restricted = Object.entries(updateUserDto)
+        .filter(
+          ([field, value]) =>
+            value !== undefined &&
+            !SELF_EDITABLE_FIELDS.includes(field as keyof UpdateUserDto),
+        )
+        .map(([field]) => field);
+      if (restricted.length > 0) {
+        throw new ForbiddenException(
+          `You cannot change your own ${restricted.join(', ')}`,
+        );
+      }
+    }
+
+    const target = await this.findOne(targetId);
+
+    if (
+      !isSelf &&
+      !isSuperAdmin &&
+      !ADMIN_ASSIGNABLE_ROLES.includes(target.role)
+    ) {
+      throw new ForbiddenException(
+        'Only a super admin can edit admin accounts',
+      );
+    }
+
+    if (newRole === undefined || target.role === newRole) return;
+
+    // Client logins belong to a Client record, so they are not moved in or out
+    // of the CLIENT role here.
+    if (target.role === UserRole.CLIENT || newRole === UserRole.CLIENT) {
+      throw new BadRequestException(
+        'Client logins are managed from the client record; their role cannot be changed here',
+      );
     }
   }
 

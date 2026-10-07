@@ -11,7 +11,9 @@ export class BankService {
   }
 
   async findAll() {
-    return await this.databaseService.bank.findMany();
+    return await this.databaseService.bank.findMany({
+      orderBy: { name: 'asc' },
+    });
   }
 
   async findOne(id: string) {

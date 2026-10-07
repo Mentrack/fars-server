@@ -1,18 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { BankService } from './bank.service';
+import { DatabaseService } from 'src/database/database.service';
 
 describe('BankService', () => {
-  let service: BankService;
+  describe('findAll', () => {
+    it('returns banks sorted by name A–Z', async () => {
+      const findMany = jest.fn().mockResolvedValue([]);
+      const db = { bank: { findMany } } as unknown as DatabaseService;
+      const service = new BankService(db);
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [BankService],
-    }).compile();
+      await service.findAll();
 
-    service = module.get<BankService>(BankService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+      expect(findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ orderBy: { name: 'asc' } }),
+      );
+    });
   });
 });

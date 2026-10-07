@@ -42,14 +42,21 @@ export class UserController {
   private readonly logger = new MyLoggerService(UserController.name);
 
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
-  @ApiOperation({ summary: 'Create a new user' })
+  @ApiOperation({
+    summary: 'Create a new user',
+    description:
+      'Admins may create STAFF or CLIENT users; only a super admin may create ADMIN or SUPER_ADMIN users.',
+  })
   @ApiCreatedResponse({
     description: 'User created successfully',
     type: CreateUserResponseDto,
   })
   @Post('/')
-  async create(@Body() createUserDto: CreateUserDto) {
-    return await this.userService.create(createUserDto);
+  async create(
+    @Request() req: RequestWithUser,
+    @Body() createUserDto: CreateUserDto,
+  ) {
+    return await this.userService.create(createUserDto, req.user);
   }
 
   @ApiOperation({ summary: 'Get all users' })
@@ -147,7 +154,11 @@ export class UserController {
     return this.userService.activateUser(id);
   }
 
-  @ApiOperation({ summary: 'Update a user by ID' })
+  @ApiOperation({
+    summary: 'Update a user by ID',
+    description:
+      'STAFF and CLIENT users may edit only their own firstName, lastName, phone and avatarUrl. Admins may edit themselves and STAFF/CLIENT users; only a super admin may edit ADMIN/SUPER_ADMIN users. Only a super admin may send `role`, never for their own account, and CLIENT logins cannot be moved in or out of the CLIENT role here.',
+  })
   @ApiOkResponse({
     description: 'User updated successfully',
     type: CreateUserResponseDto,
@@ -155,10 +166,11 @@ export class UserController {
   @ApiParam({ name: 'id', type: 'string' })
   @Patch(':id')
   async update(
+    @Request() req: RequestWithUser,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return await this.userService.update(id, updateUserDto);
+    return await this.userService.update(id, updateUserDto, req.user);
   }
 
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)

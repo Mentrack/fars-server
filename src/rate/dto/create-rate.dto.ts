@@ -8,6 +8,7 @@ import {
   Matches,
   IsNotEmpty,
   IsArray,
+  IsEnum,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -25,6 +26,39 @@ class RatePeriodDto {
   @IsNotEmpty()
   @IsDateString()
   effectiveTo: string;
+}
+
+export enum LoanType {
+  SHORT_TERM = 'SHORT_TERM',
+  TERM = 'TERM',
+}
+
+class LoanRatePeriodDto extends RatePeriodDto {
+  @IsOptional()
+  @IsEnum(LoanType)
+  loanType?: LoanType;
+}
+
+class FeeDto {
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsNumber()
+  rate?: number;
+
+  @IsOptional()
+  @IsNumber()
+  amount?: number;
+
+  @IsOptional()
+  @IsDateString()
+  effectiveFrom?: string;
+
+  @IsOptional()
+  @IsDateString()
+  effectiveTo?: string;
 }
 
 export class CreateRateDto {
@@ -57,14 +91,20 @@ export class CreateRateDto {
   drRates?: RatePeriodDto[];
 
   @ApiPropertyOptional({
+    description: 'loanType is optional: SHORT_TERM or TERM',
     example: [
-      { rate: 0.05, effectiveFrom: '2023-01-01', effectiveTo: '2023-12-31' },
+      {
+        rate: 25,
+        loanType: LoanType.SHORT_TERM,
+        effectiveFrom: '2023-01-01',
+        effectiveTo: '2023-12-31',
+      },
     ],
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => RatePeriodDto)
-  loanInterestRates?: RatePeriodDto[];
+  @Type(() => LoanRatePeriodDto)
+  loanInterestRates?: LoanRatePeriodDto[];
 
   @ApiPropertyOptional({
     example: [
@@ -105,6 +145,38 @@ export class CreateRateDto {
   @ValidateNested({ each: true })
   @Type(() => RatePeriodDto)
   creditInterestRates?: RatePeriodDto[];
+
+  @ApiPropertyOptional({
+    description: 'CAMF rate per ₦1,000 of debit turnover',
+    example: 1,
+  })
+  @IsNumber()
+  @IsOptional()
+  camfRate?: number;
+
+  @ApiPropertyOptional({ description: 'Management fee rate', example: 0.5 })
+  @IsNumber()
+  @IsOptional()
+  managementFeeRate?: number;
+
+  @ApiPropertyOptional({
+    description:
+      'Rate-change management fees and other charges. Each entry needs a name and may carry a rate, a flat amount and an effective period.',
+    example: [
+      {
+        name: 'Rate change management fee',
+        rate: 1,
+        effectiveFrom: '2023-01-01',
+        effectiveTo: '2023-12-31',
+      },
+      { name: 'Legal fee', amount: 50000 },
+    ],
+  })
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => FeeDto)
+  fees?: FeeDto[];
 
   @ApiPropertyOptional({ example: 0.05 })
   @IsNumber()
@@ -235,14 +307,20 @@ export class CreateRateResponseDto {
   drRates?: RatePeriodDto[];
 
   @ApiPropertyOptional({
+    description: 'loanType is optional: SHORT_TERM or TERM',
     example: [
-      { rate: 0.05, effectiveFrom: '2023-01-01', effectiveTo: '2023-12-31' },
+      {
+        rate: 25,
+        loanType: LoanType.SHORT_TERM,
+        effectiveFrom: '2023-01-01',
+        effectiveTo: '2023-12-31',
+      },
     ],
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => RatePeriodDto)
-  loanInterestRates?: RatePeriodDto[];
+  @Type(() => LoanRatePeriodDto)
+  loanInterestRates?: LoanRatePeriodDto[];
 
   @ApiPropertyOptional({
     example: [
@@ -283,6 +361,38 @@ export class CreateRateResponseDto {
   @ValidateNested({ each: true })
   @Type(() => RatePeriodDto)
   creditInterestRates?: RatePeriodDto[];
+
+  @ApiPropertyOptional({
+    description: 'CAMF rate per ₦1,000 of debit turnover',
+    example: 1,
+  })
+  @IsNumber()
+  @IsOptional()
+  camfRate?: number;
+
+  @ApiPropertyOptional({ description: 'Management fee rate', example: 0.5 })
+  @IsNumber()
+  @IsOptional()
+  managementFeeRate?: number;
+
+  @ApiPropertyOptional({
+    description:
+      'Rate-change management fees and other charges. Each entry needs a name and may carry a rate, a flat amount and an effective period.',
+    example: [
+      {
+        name: 'Rate change management fee',
+        rate: 1,
+        effectiveFrom: '2023-01-01',
+        effectiveTo: '2023-12-31',
+      },
+      { name: 'Legal fee', amount: 50000 },
+    ],
+  })
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => FeeDto)
+  fees?: FeeDto[];
 
   @ApiPropertyOptional({ example: 0.05 })
   @IsNumber()

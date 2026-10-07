@@ -10,10 +10,9 @@ generator client {
 
 // prisma/schema.prisma
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  // uncomment next line if you use Prisma <5.10
-  // directUrl = env("DATABASE_URL_UNPOOLED")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum UserRole {
@@ -280,6 +279,8 @@ model AccountRate {
   postNegotiationRates Json?
   creditInterestRates  Json?
   camfRate             Float?
+  managementFeeRate    Float?
+  fees                 Json? // array of { name, rate?, amount?, effectiveFrom?, effectiveTo? }
   returnChargeRate     Float?
   returnChargeLimit    Float?
   cotCovenantRate      Float?

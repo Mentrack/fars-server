@@ -23,6 +23,9 @@ export function transformRateDtoToPrismaPayload(
     creditInterestRates: dto.creditInterestRates
       ? JSON.parse(JSON.stringify(dto.creditInterestRates))
       : undefined,
+    camfRate: dto.camfRate,
+    managementFeeRate: dto.managementFeeRate,
+    fees: dto.fees ? JSON.parse(JSON.stringify(dto.fees)) : undefined,
     returnChargeRate: dto.returnChargeRate,
     returnChargeLimit: dto.returnChargeLimit,
     cotCovenantRate: dto.cotCovenantRate,

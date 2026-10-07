@@ -62,4 +62,11 @@ export class CreateClientResponseDto {
   @ApiPropertyOptional()
   @IsString()
   avatarUrl?: string;
+
+  @ApiPropertyOptional({
+    description:
+      'Only on POST /clients. false means the login was created but the credentials email failed; the client should use "forgot password".',
+    example: true,
+  })
+  welcomeEmailSent?: boolean;
 }

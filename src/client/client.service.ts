@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto';
@@ -13,6 +14,8 @@ import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class ClientService {
+  private readonly logger = new Logger(ClientService.name);
+
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly mailService: MailService,
@@ -78,15 +81,24 @@ export class ClientService {
       }),
     ]);
 
-    // If the client is created successfully, send a welcome email
-    await this.mailService.sendAccountCreationEmail(
-      user.email,
-      user.firstName,
-      user.email,
-      password,
-    );
+    // Send the welcome email. The client and its login are already saved, so
+    // a mail failure is flagged in the response rather than failing creation.
+    let welcomeEmailSent = true;
+    try {
+      await this.mailService.sendAccountCreationEmail(
+        user.email,
+        user.firstName,
+        user.email,
+        password,
+      );
+    } catch (error) {
+      welcomeEmailSent = false;
+      this.logger.warn(
+        `Client ${client.id} created but the welcome email failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
 
-    return client;
+    return { ...client, welcomeEmailSent };
   }
 
   async findAll() {

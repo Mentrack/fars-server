@@ -7,7 +7,6 @@ export const allowedOrigins = [
   'https://fars-web.vercel.app',
   'https://fars-web-v2.vercel.app',
   'https://fars-web-v1.vercel.app',
-  'http://fars-api-env.eba-rfmzrjse.eu-west-2.elasticbeanstalk.com',
   'http://adegoroyefadareandco.org',
   'https://adegoroyefadareandco.org',
   'http://server.adegoroyefadareandco.org',
