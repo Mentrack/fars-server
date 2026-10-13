@@ -42,7 +42,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import {
-  FileUploadDto,
+  TransactionFileUploadDto,
   UploadTransactionResponseDto,
 } from './dto/upload-transaction.dto';
 import {
@@ -88,7 +88,7 @@ export class TransactionController {
   })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
-    type: FileUploadDto,
+    type: TransactionFileUploadDto,
   })
   @Post(':accountId/upload')
   @UseInterceptors(

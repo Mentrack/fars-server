@@ -6,6 +6,12 @@
 
 ## Changes at a glance
 
+- **Moving off AWS (section 9):**
+  - Database and contract documents move to Supabase, and hosting moves to Railway.
+  - The API base URL will change, and document links will come from `*.supabase.co`.
+  - Document lists can now return `url: null`.
+  - The backend now uses pnpm.
+
 - **Rate limit raised:** 10 requests/second and 300/minute per IP (was 3 and 100), so busy pages stop hitting `429`s that looked like lost sessions.
 - **Client creation no longer fails when the welcome email fails.** The client and login are saved, and the response includes `welcomeEmailSent: true/false`.
 - **Client emails must be unique across all users** (staff, admins and other clients), because creating a client also creates its login. Documented, not changed.
@@ -122,6 +128,64 @@ Until these are fixed, the frontend can work around most of them:
 1. `pnpm prisma migrate deploy`. This adds the `fees` and `managementFeeRate` columns to `account_rates` (nullable, no backfill).
 2. Before merging `analysis`: its document migration (`20251211072749_add_bankid_to_document`) adds a NOT NULL column with no default and will fail on a database that already has documents. Rewrite it as add nullable → backfill → set NOT NULL.
 3. Check that `JWT_EXPIRES_IN` and `REFRESH_JWT_EXPIRES_IN` are set in production. Short values are the likeliest cause of the next-day logouts.
+
+## 9. Infrastructure move: Supabase and Railway (off AWS)
+
+The API is leaving AWS and Neon:
+
+| | Before | After |
+|---|---|---|
+| Database | Neon | Supabase Postgres |
+| Contract documents | S3 | A private Supabase Storage bucket |
+| Hosting | Elastic Beanstalk | Railway |
+
+There are separate staging and production environments. Detail and the full runbook: [`changes/2026-10-07-supabase-railway-migration.md`](changes/2026-10-07-supabase-railway-migration.md).
+
+### For the frontend
+
+- **The API base URL will change** to the Railway domain, or to `https://server.adegoroyefadareandco.org` once its record points at Railway. Update the API URL env on each Vercel project when the backend says it's live.
+- **Document links come from `*.supabase.co`** (`/storage/v1/object/sign/...`) instead of S3. They still expire after 1 hour. If you whitelist the S3 domain anywhere (a CSP, an image or iframe allow-list), add Supabase.
+- **Document lists can return `url: null`** when a file is missing from storage. Before, the whole request failed. Show "file unavailable" instead of a broken link. Single-document endpoints still return an error in that case.
+- **Never put `SUPABASE_SERVICE_ROLE_KEY` in a Vercel env.** The frontend doesn't need any Supabase key; all storage goes through the API.
+
+### Package manager: pnpm
+
+The backend now uses **pnpm** (`packageManager: pnpm@12.5.1`). `package-lock.json` is gone and `pnpm-lock.yaml` is the lockfile.
+
+- **Install scripts:** `pnpm-workspace.yaml` allows the install scripts that pnpm blocks by default: `bcrypt`, `argon2`, `@swc/core`, Prisma, and `@nestjs/core`. Without that, the native modules and the Prisma engines don't build. Checked locally: everything installs, and `bcrypt` and `argon2` load.
+- **Railway config:** `railway.json` builds with `pnpm prisma generate && pnpm run build`, runs `pnpm prisma migrate deploy` before each release, and starts with `pnpm run start:prod`.
+- **On the first deploy, check the pre-deploy log** to confirm the `prisma` CLI is available (it's a devDependency). If it isn't, move `prisma` to `dependencies`.
+- **Stale npm references:** the CHANGELOG, the migration change note and `CLAUDE.md` still give npm commands (`npm ci`, `npx prisma …`). They need a pnpm pass.
+
+### Staging Supabase setup: review results (2026-10-07)
+
+Each item was checked against the live project. No secret values were printed.
+
+| Check | Result |
+|---|---|
+| `DATABASE_URL` / `DIRECT_URL` | ✅ Session pooler, port 5432. Same project as `SUPABASE_URL`. Prisma connects. |
+| Region | ⚠️ London (`eu-west-2`), not Frankfurt as the plan assumed. That's fine. Put Railway in EU West to stay close. |
+| `SUPABASE_SERVICE_ROLE_KEY` | ✅ The `service_role` key (legacy JWT), the correct type. |
+| Bucket `rate-documents` | ✅ Private. Limit 11,534,336 bytes (11 MB, above the API's 10 MB upload limit). No file-type restriction. |
+| Migrations | ⏳ None applied yet. All 13 pending, as expected for a new database. Next: `pnpm prisma migrate deploy`, then `pnpm prisma db seed`. |
+| App startup | ⏳ Not tested yet. Run `pnpm run start:dev` once the items below are fixed. |
+
+**Still to fix in the local `.env`:**
+
+1. `APP_URL` is empty. It's the frontend URL used in the password-reset link and in the welcome email's login link (`src/mail/mail.service.ts`). Without it, those links break.
+2. There's an empty duplicate `DATABASE_URL=` line near the top. The later, filled-in one wins, but delete the empty one to avoid confusion.
+3. Line 10 still contains the old Neon password in a comment. Delete it, and rotate that password in Neon. It's also in the git history of `.env.sample`.
+4. Line 52 is a stray 15-character line with no `=`, likely the database password pasted on its own. Delete it.
+
+### Still to do (backend)
+
+1. Set up the production Supabase project the same way: bucket, keys, migrations, seed.
+2. Railway:
+   - Create the project with `staging` (deploys from the `staging` branch) and `production` (deploys from `main`).
+   - Set the variables per environment. The list is in the change note.
+   - Add the Railway domains to `src/config/allowed-origins.config.ts`.
+3. Run the staging smoke test (checklist in the change note), then production.
+4. Decommission the Beanstalk environment, the S3 bucket and the IAM keys. Then rotate the Neon password and delete the Neon project.
 
 ## Not in this round
 

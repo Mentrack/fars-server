@@ -17,7 +17,7 @@ The uploaded bank statement file (CSV or similar) must contain the following col
 `;
 
 // DTO solely for Swagger documentation purposes
-export class FileUploadDto {
+export class TransactionFileUploadDto {
   @ApiProperty({
     type: 'string',
     format: 'binary',

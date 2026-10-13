@@ -39,8 +39,16 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
     // Send the error response
     response.status(myResponseObject.statusCode).json(myResponseObject);
 
-    // Log the error
-    this.logger.error(myResponseObject.response, AllExceptionsFilter.name);
+    const detail =
+      typeof myResponseObject.response === 'string'
+        ? myResponseObject.response
+        : JSON.stringify(myResponseObject.response);
+    const line = `${request.method} ${request.url} ${myResponseObject.statusCode} ${detail}`;
+    if (myResponseObject.statusCode >= 500) {
+      this.logger.error(line, AllExceptionsFilter.name);
+    } else {
+      this.logger.warn(line, AllExceptionsFilter.name);
+    }
 
     super.catch(exception, host);
   }

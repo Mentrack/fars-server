@@ -4,6 +4,18 @@ All notable changes to the FaRS API are recorded here, newest first. Detailed no
 
 Categories: **Added / Changed / Fixed / Removed / Security**. Breaking API changes and Prisma migrations are flagged explicitly.
 
+## 2026-10-13 — Clearer error logs, CORS rejection as 403, Swagger DTO name clash
+
+Details: [`changes/2026-10-13-railway-log-errors.md`](changes/2026-10-13-railway-log-errors.md). **No Prisma migration. No response-body change.**
+
+### Fixed
+- `AllExceptionsFilter` logged every `HttpException` as `[object Object]`. It now logs `METHOD URL STATUS detail`, with 4xx at warn level and 5xx at error level. (`src/all-exceptions.filter.ts`)
+- A disallowed CORS origin produced a 500 with a stack trace and no origin in the log. It's now a 403 whose message names the origin. Browsers block it either way. (`src/config/corsOptions.ts`)- Swagger's "Duplicate DTO detected: FileUploadDto" warning. The transaction upload DTO is renamed to `TransactionFileUploadDto`. (`src/transaction/dto/upload-transaction.dto.ts`, `src/transaction/transaction.controller.ts`)
+
+### Added
+- CORS origin `https://fars-api-server-production.up.railway.app`, so Swagger at `/api/doc` on the Railway production domain can make `POST`/`PUT`/`PATCH`/`DELETE` calls. This is runbook Step 5; the staging domain is still to add. (`src/config/allowed-origins.config.ts`)
+- Specs: `src/all-exceptions.filter.spec.ts`, `src/config/corsOptions.spec.ts`.
+
 ## 2026-10-07 — Switch package manager from npm to pnpm
 
 Details: [`changes/2026-10-07-npm-to-pnpm.md`](changes/2026-10-07-npm-to-pnpm.md).
