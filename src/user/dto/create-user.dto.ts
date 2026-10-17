@@ -161,4 +161,11 @@ export class CreateUserResponseDto {
     example: true,
   })
   isActive: boolean;
+
+  @ApiPropertyOptional({
+    description:
+      'Only on POST /users. false means the account was created but the credentials email failed; the user should use "forgot password".',
+    example: true,
+  })
+  welcomeEmailSent?: boolean;
 }

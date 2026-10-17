@@ -14,6 +14,7 @@
 
 - **Rate limit raised:** 10 requests/second and 300/minute per IP (was 3 and 100), so busy pages stop hitting `429`s that looked like lost sessions.
 - **Client creation no longer fails when the welcome email fails.** The client and login are saved, and the response includes `welcomeEmailSent: true/false`.
+- **`POST /api/users` does the same.** A mail failure used to return `400 Failed to create user` after the account was saved. The `201` response now includes `welcomeEmailSent`. When it is `false`, the user exists and should use "Forgot password".
 - **Client emails must be unique across all users** (staff, admins and other clients), because creating a client also creates its login. Documented, not changed.
 - **Only super admins can set or change roles:**
   - Admins can create STAFF and CLIENT users only.
@@ -35,7 +36,7 @@
   - The types list returns 400 without `?isActive`.
   - Only CAMF runs, and only on one account.
   - A rate must be linked to the account.
-  - The figures are wrong (`debitRate` is used instead of `camfRate`, the VAT default is wrong, and excess can be `NaN`).
+  - CAMF now uses `camfRate`. A missing VAT rate is still wrong, and excess can still be `NaN`.
 - **Debit interest classified as `LNT` instead of `INT`:** documented, awaiting a decision.
 - **Test setup:** jest now resolves `src/...` imports, and 43 new unit tests cover the changes above.
 
@@ -52,6 +53,8 @@ Creating a client (`POST /api/clients`) also creates a login (`User` with role `
 | Email already used by any user | `409 User with this email already exists` |
 
 **Frontend:** before submitting, call `GET /api/users/check-email?email=…` (returns `{ available: boolean }`) and show a clear message if the email is taken. Don't reuse a staff member's email for a client.
+
+The same best-effort email applies to `POST /api/users` (staff and admin accounts). A `201` with `welcomeEmailSent: false` means the user row exists; do not retry the create, or the next response is `409 User already exists`. Tell the new user to use "Forgot password".
 
 The welcome email (login credentials) is now best-effort. The `201` response is the client plus a new field, **`welcomeEmailSent`**:
 
@@ -117,7 +120,7 @@ Until these are fixed, the frontend can work around most of them:
 2. **CAMF only:** only `CAMF` runs. Other types return `404 Unsupported analysis type`, so disable them in the UI.
 3. **Link a rate first:** the account must have a rate linked first (`PATCH /api/bank-accounts/rate/:accountId/assign/:rateId`), otherwise `404 Missing rate config`.
 4. **One account:** only the first selected account is analysed, so select one account per run.
-5. **Wrong figures:** the results are currently unreliable. The calculation uses `debitRate` instead of `camfRate`, a missing VAT rate gives 0.075% instead of 7.5%, and `excess` can be `NaN`. Don't present the figures as final yet.
+5. **Remaining figure bugs:** CAMF now uses `camfRate` (per ₦1,000 of debit turnover), and `1` only when that field is null. A missing VAT rate still gives 0.075% instead of 7.5%, and `excess` can be `NaN` when that CAMF date has no VAT line. Don't present those two as final yet.
 
 ## 7. Waiting on a decision
 

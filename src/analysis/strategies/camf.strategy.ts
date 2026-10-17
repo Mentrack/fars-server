@@ -45,7 +45,7 @@ export class CamfAnalyzer {
     }
 
     const rate = bankAccount.rate;
-    const camfRate = rate.debitRate || 1; // ✅ Default to 1
+    const camfRate = rate.camfRate ?? 1;
     const vatRate = rate.vatRate || 0.075; // ✅ Default 7.5%
     const turnoverLimit = rate.turnoverLimit || 0;
 

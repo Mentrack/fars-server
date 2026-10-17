@@ -9,3 +9,4 @@ import mailerConfig from './config/mailer.config';
   providers: [MailService],
 })
 export class MailModule {}
+

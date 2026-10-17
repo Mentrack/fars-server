@@ -3,6 +3,7 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -32,6 +33,8 @@ const SELF_EDITABLE_FIELDS: (keyof UpdateUserDto)[] = [
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
+
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly mailService: MailService,
@@ -78,16 +81,28 @@ export class UserService {
         data,
       });
 
-      // If the user is created successfully, send a welcome email
-      await this.mailService.sendAccountCreationEmail(
-        newUser.email,
-        newUser.firstName,
-        newUser.email,
-        createUserDto.password,
-      );
+      // The account is already saved, so a mail failure is flagged in the
+      // response rather than turned into "Failed to create user".
+      let welcomeEmailSent = true;
+      try {
+        await this.mailService.sendAccountCreationEmail(
+          newUser.email,
+          newUser.firstName,
+          newUser.email,
+          createUserDto.password,
+        );
+      } catch (error) {
+        welcomeEmailSent = false;
+        this.logger.warn(
+          `User ${newUser.id} created but the welcome email failed: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
 
       // Return the user without sensitive information
-      return omit(newUser, ['id', 'password', 'refreshToken']);
+      return {
+        ...omit(newUser, ['id', 'password', 'refreshToken']),
+        welcomeEmailSent,
+      };
     } catch (error) {
       // Handle specific error codes from Prisma
       if (error.code === 'P2002') {

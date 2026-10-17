@@ -45,7 +45,7 @@ export class UserController {
   @ApiOperation({
     summary: 'Create a new user',
     description:
-      'Admins may create STAFF or CLIENT users; only a super admin may create ADMIN or SUPER_ADMIN users.',
+      'Admins may create STAFF or CLIENT users; only a super admin may create ADMIN or SUPER_ADMIN users. The account is saved even if the welcome email fails; the response then has welcomeEmailSent: false.',
   })
   @ApiCreatedResponse({
     description: 'User created successfully',

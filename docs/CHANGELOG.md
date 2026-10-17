@@ -4,6 +4,23 @@ All notable changes to the FaRS API are recorded here, newest first. Detailed no
 
 Categories: **Added / Changed / Fixed / Removed / Security**. Breaking API changes and Prisma migrations are flagged explicitly.
 
+## 2026-10-17 — CAMF analysis uses camfRate
+
+Details: [`changes/2026-10-17-camf-rate.md`](changes/2026-10-17-camf-rate.md). **No Prisma migration.** The numbers on `POST /api/analysis/perform` for `CAMF` change for any account whose `camfRate` and `debitRate` differ.
+
+### Fixed
+- CAMF charged debit turnover with `debitRate` (or `1` when that was missing) and ignored `camfRate`. It now uses `camfRate`, and `1` per ₦1,000 only when `camfRate` is null. (`src/analysis/strategies/camf.strategy.ts`)
+
+## 2026-10-17 — User creation no longer fails after the account is saved
+
+Details: [`changes/2026-10-17-user-create-welcome-email.md`](changes/2026-10-17-user-create-welcome-email.md). **No Prisma migration.** Additive response field on `POST /api/users`.
+
+### Fixed
+- `POST /api/users` saved the user, then sent the welcome email inside the same `try`. A mail failure became `400 Failed to create user` even though the account existed, so a retry then failed with `409 User already exists`. The email is now best-effort. (`src/user/user.service.ts`)
+
+### Added
+- `POST /api/users` returns `welcomeEmailSent: boolean`. `false` means the account exists and the credentials email did not go out. (`src/user/user.service.ts`, `src/user/dto/create-user.dto.ts`, `src/user/user.controller.ts`)
+
 ## 2026-10-13 — Clearer error logs, CORS rejection as 403, Swagger DTO name clash
 
 Details: [`changes/2026-10-13-railway-log-errors.md`](changes/2026-10-13-railway-log-errors.md). **No Prisma migration. No response-body change.**

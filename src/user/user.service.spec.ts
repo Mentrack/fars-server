@@ -23,6 +23,7 @@ describe('UserService role rules', () => {
     };
     permission: { findMany: jest.Mock };
   };
+  let sendAccountCreationEmail: jest.Mock;
   let service: UserService;
 
   beforeEach(() => {
@@ -51,9 +52,8 @@ describe('UserService role rules', () => {
       },
       permission: { findMany: jest.fn().mockResolvedValue([]) },
     };
-    const mail = {
-      sendAccountCreationEmail: jest.fn().mockResolvedValue(undefined),
-    } as unknown as MailService;
+    sendAccountCreationEmail = jest.fn().mockResolvedValue(undefined);
+    const mail = { sendAccountCreationEmail } as unknown as MailService;
     service = new UserService(db as unknown as DatabaseService, mail);
   });
 
@@ -99,6 +99,24 @@ describe('UserService role rules', () => {
       db.user.create.mockRejectedValue({ code: 'P2002' });
       await expect(service.create(newUser(), admin)).rejects.toThrow(
         ConflictException,
+      );
+    });
+
+    it('returns the created user, flagged as not emailed, when the welcome email fails', async () => {
+      sendAccountCreationEmail.mockRejectedValue(new Error('SMTP timeout'));
+
+      await expect(service.create(newUser(Role.STAFF), admin)).resolves.toEqual(
+        expect.objectContaining({
+          email: 'mary@example.com',
+          welcomeEmailSent: false,
+        }),
+      );
+      expect(db.user.create).toHaveBeenCalledTimes(1);
+    });
+
+    it('flags the user as emailed when the welcome email is sent', async () => {
+      await expect(service.create(newUser(Role.STAFF), admin)).resolves.toEqual(
+        expect.objectContaining({ welcomeEmailSent: true }),
       );
     });
   });
