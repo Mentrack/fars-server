@@ -4,6 +4,13 @@ All notable changes to the FaRS API are recorded here, newest first. Detailed no
 
 Categories: **Added / Changed / Fixed / Removed / Security**. Breaking API changes and Prisma migrations are flagged explicitly.
 
+## 2026-10-19 — Mail can be sent through the Gmail API
+
+Details: [`changes/2026-10-19-gmail-api-mail.md`](changes/2026-10-19-gmail-api-mail.md). **No Prisma migration. No response-body change.**
+
+### Added
+- When `GOOGLE_REFRESH_TOKEN` is set, outgoing mail uses the Gmail HTTPS API instead of SMTP. This is required on Railway Hobby, which blocks ports 587 and 465. Unset, the existing SMTP settings are unchanged. (`src/mail/mail.service.ts`, `src/mail/gmail-api.transport.ts`, `src/mail/config/mailer.config.ts`)
+
 ## 2026-10-17 — CAMF analysis uses camfRate
 
 Details: [`changes/2026-10-17-camf-rate.md`](changes/2026-10-17-camf-rate.md). **No Prisma migration.** The numbers on `POST /api/analysis/perform` for `CAMF` change for any account whose `camfRate` and `debitRate` differ.

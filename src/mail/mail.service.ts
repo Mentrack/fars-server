@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import mailerConfig from './config/mailer.config';
 import { ConfigType } from '@nestjs/config';
+import { sendWithGmailApi } from './gmail-api.transport';
 
 @Injectable()
 export class MailService {
@@ -23,8 +24,37 @@ export class MailService {
     });
   }
 
+  private async deliver(mailOptions: {
+    from: string;
+    to: string;
+    subject: string;
+    html: string;
+  }) {
+    const refreshToken = this.mailerConfiguration.googleRefreshToken?.trim();
+    if (!refreshToken) {
+      await this.transporter.sendMail(mailOptions);
+      return;
+    }
+
+    const clientId = this.mailerConfiguration.googleClientId?.trim();
+    const clientSecret = this.mailerConfiguration.googleClientSecret?.trim();
+    const user = this.mailerConfiguration.user?.trim();
+    if (!clientId || !clientSecret || !user) {
+      throw new Error(
+        'Gmail API mail requires GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and MAIL_USER',
+      );
+    }
+
+    await sendWithGmailApi(
+      { clientId, clientSecret, refreshToken },
+      {
+        ...mailOptions,
+        from: `${mailOptions.from} <${user}>`,
+      },
+    );
+  }
+
   async sendResetPasswordEmail(name: string, to: string, token: string) {
-    const resetPasswordLink = `${this.mailerConfiguration.appUrl}/reset-password?token=${token}`;
     const mailOptions = {
       from: 'RespecTech-HR Service',
       to,
@@ -45,7 +75,7 @@ export class MailService {
       </div>`,
     };
 
-    await this.transporter.sendMail(mailOptions);
+    await this.deliver(mailOptions);
   }
 
   async sendResetPasswordSuccessEmail(name: string, to: string) {
@@ -72,7 +102,7 @@ export class MailService {
       </div>`,
     };
 
-    await this.transporter.sendMail(mailOptions);
+    await this.deliver(mailOptions);
   }
 
   async sendBankAccountAssignmentNotification(
@@ -113,7 +143,7 @@ export class MailService {
       </div>`,
     };
 
-    await this.transporter.sendMail(mailOptions);
+    await this.deliver(mailOptions);
   }
 
   async sendAccountCreationEmail(
@@ -156,6 +186,6 @@ export class MailService {
       </div>`,
     };
 
-    await this.transporter.sendMail(mailOptions);
+    await this.deliver(mailOptions);
   }
 }

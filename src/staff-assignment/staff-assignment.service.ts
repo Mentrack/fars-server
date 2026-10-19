@@ -27,6 +27,7 @@ export class StaffAssignmentService {
           },
         });
       if (existingAssignment) {
+        console.log(existingAssignment);
         throw new ConflictException('User is already assigned to this account');
       }
 
