@@ -400,6 +400,13 @@ export class RateService {
       where: {
         type: DocumentType.CONTRACT,
       },
+      include: {
+        rates: {
+          select: {
+            bank: { select: { name: true } },
+          },
+        },
+      },
     });
 
     // Check if there are any documents
@@ -409,7 +416,15 @@ export class RateService {
 
     const assignDocumentUrl = documents.map(async (document) => {
       const url = await this.signedUrlOrNull(document.url);
-      return { ...document, url };
+      const { rates, ...rest } = document;
+      const bankNames = [
+        ...new Set(rates.map((rate) => rate.bank.name).filter(Boolean)),
+      ];
+      return {
+        ...rest,
+        url,
+        bankName: bankNames.length > 0 ? bankNames.join(', ') : null,
+      };
     });
 
     // Return the list of documents

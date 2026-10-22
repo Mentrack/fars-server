@@ -104,8 +104,25 @@ describe('RateService list endpoints', () => {
 describe('RateService document lists', () => {
   it('returns url: null for a document whose file cannot be signed and signs the rest', async () => {
     const documents = [
-      { id: 'doc-1', url: 'contract-documents/rdc-1.pdf' },
-      { id: 'doc-2', url: 'contract-documents/rdc-2.pdf' },
+      {
+        id: 'doc-1',
+        url: 'contract-documents/rdc-1.pdf',
+        rates: [{ bank: { name: 'Zenith Bank' } }],
+      },
+      {
+        id: 'doc-2',
+        url: 'contract-documents/rdc-2.pdf',
+        rates: [
+          { bank: { name: 'Zenith Bank' } },
+          { bank: { name: 'GTBank' } },
+          { bank: { name: 'Zenith Bank' } },
+        ],
+      },
+      {
+        id: 'doc-3',
+        url: 'contract-documents/rdc-3.pdf',
+        rates: [],
+      },
     ];
     const db = {
       document: { findMany: jest.fn().mockResolvedValue(documents) },
@@ -122,10 +139,16 @@ describe('RateService document lists', () => {
     const service = new RateService(db, storage);
 
     await expect(service.findAllDocuments()).resolves.toEqual([
-      { id: 'doc-1', url: null },
+      { id: 'doc-1', url: null, bankName: 'Zenith Bank' },
       {
         id: 'doc-2',
         url: 'https://signed.example/contract-documents/rdc-2.pdf',
+        bankName: 'Zenith Bank, GTBank',
+      },
+      {
+        id: 'doc-3',
+        url: 'https://signed.example/contract-documents/rdc-3.pdf',
+        bankName: null,
       },
     ]);
   });
