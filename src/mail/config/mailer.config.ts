@@ -7,7 +7,7 @@ export default registerAs('mailer', () => ({
   user: process.env.MAIL_USER,
   pass: process.env.MAIL_PASS,
   appUrl: process.env.APP_URL,
-  appName: process.env.APP_NAME,
+  appName: process.env.APP_NAME || 'FARS',
   googleClientId: process.env.GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
   googleRefreshToken: process.env.GOOGLE_REFRESH_TOKEN,
