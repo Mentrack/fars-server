@@ -16,6 +16,16 @@ describe('corsOptions.origin', () => {
     expect(cb).toHaveBeenCalledWith(null, true);
   });
 
+  it('allows the fars-web-ekr6 frontend as browsers send it (no trailing slash)', () => {
+    const cb = jest.fn();
+    originFn('https://fars-web-ekr6.vercel.app', cb);
+    expect(cb).toHaveBeenCalledWith(null, true);
+  });
+
+  it('lists every origin without a trailing slash, so exact matching works', () => {
+    expect(allowedOrigins.filter((o) => o.endsWith('/'))).toEqual([]);
+  });
+
   it('allows requests with no Origin header (curl, server-to-server)', () => {
     const cb = jest.fn();
     originFn(undefined, cb);
